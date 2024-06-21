@@ -3,37 +3,40 @@ const url = require("url");
 const fs = require("fs");
 const path = require("path");
 
-http
-  .createServer((request, response) => {
-    const parsedUrl = url.parse(request.url, true);
-    const pathname = parsedUrl.pathname;
+const logFilePath = path.join(__dirname, "log.txt");
 
-    if (pathname.includes("documentation")) {
-      fs.readFile(
-        path.join(__dirname, "documentation.html"),
-        "utf-8",
-        (err, data) => {
-          if (err) {
-            response.writeHead(500, { "Content-Type": "text/plain" });
-            response.end("500 - Internal Server Error");
-          } else {
-            response.writeHead(200, { "Content-Type": "text/html" });
-            response.end(data);
-          }
-        }
-      );
+const server = http.createServer((request, response) => {
+  const parsedUrl = url.parse(request.url, true);
+  const visitedUrl = parsedUrl.pathname;
+  const timestamp = new Date().toISOString();
+
+  // Log the visited URL and timestamp to log.txt
+  const logEntry = `${timestamp}: ${visitedUrl}\n`;
+  fs.appendFile(logFilePath, logEntry, (err) => {
+    if (err) console.error("Error writing to log file:", err);
+  });
+
+  // Serve the requested file based on the URL
+  if (visitedUrl.includes("documentation")) {
+    serveFile("documentation.html", "text/html", response);
+  } else {
+    serveFile("index.html", "text/html", response);
+  }
+});
+
+server.listen(8080, () => {
+  console.log("Server is running on http://localhost:8080/");
+});
+
+function serveFile(fileName, contentType, response) {
+  const filePath = path.join(__dirname, fileName);
+  fs.readFile(filePath, "utf-8", (err, data) => {
+    if (err) {
+      response.writeHead(500, { "Content-Type": "text/plain" });
+      response.end("500 - Internal Server Error");
     } else {
-      fs.readFile(path.join(__dirname, "index.html"), "utf-8", (err, data) => {
-        if (err) {
-          response.writeHead(500, { "Content-Type": "text/plain" });
-          response.end("500 - Internal Server Error");
-        } else {
-          response.writeHead(200, { "Content-Type": "text/html" });
-          response.end(data);
-        }
-      });
+      response.writeHead(200, { "Content-Type": contentType });
+      response.end(data);
     }
-  })
-  .listen(8080);
-
-console.log("My first Node test server is running on Port 8080.");
+  });
+}
