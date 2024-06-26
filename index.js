@@ -63,6 +63,24 @@ const movies = [
     director: "Lars von Trier",
     genre: ["Drama", "Sci-Fi"],
   },
+  {
+    title: "The Devil Wears Prada",
+    year: 2006,
+    director: "David Frankel",
+    genre: ["Drama", "Comedy"],
+  },
+  {
+    title: "The Hundred-Foot Journey",
+    year: 2014,
+    director: "Lasse Hallström",
+    genre: ["Drama", "Comedy"],
+  },
+  {
+    title: "Woman in Gold",
+    year: 2015,
+    director: "Simon Curtis",
+    genre: ["Drama", "Biography", "History"],
+  },
 ];
 
 // GET route for /movies
