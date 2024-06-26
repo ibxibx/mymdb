@@ -23,7 +23,7 @@ app.get("/", (req, res) => {
       <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>My Top Movies List</title>
+        <title>My MDB</title>
         <style>
           body {
             font-family: 'Arial', sans-serif;
@@ -51,7 +51,7 @@ app.get("/", (req, res) => {
       </head>
       <body>
         <div class="container">
-          <h1>Welcome to my Top Movies List / API</h1>
+          <h1>Welcome to My-Movie-DataBase</h1>
           <p>The art of film is relatively new, but it has given both the creators and spectators countless possibilities while creating those masterpieces, as well as fantastic experiences for the ones enjoying watching them.</p>
           <p>My Top Movies List includes just the movies I could recall right away. I hope you'd get a taste to watch some of them and enjoy them as much as I did.</p>
         </div>
