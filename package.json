@@ -1,4 +1,12 @@
 {
+  "name": "mymdb",
+  "version": "1.0.0",
+  "description": "MyMDB = My Internet Movie Database is an app that helps you browse movies by genre, actor, director and other filters and create, modify and save lists of favourite movies.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
     "body-parser": "^1.20.2",
     "express": "^4.19.2",
@@ -6,14 +14,6 @@
   },
   "devDependencies": {
     "eslint": "^9.5.0"
-  },
-  "name": "mymdb",
-  "version": "1.0.0",
-  "description": "MyMDB = My Internet Movie Database is an app that helps you browse movies by genre, actor, director and other filters and create, modify and save lists of favourite movies.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
