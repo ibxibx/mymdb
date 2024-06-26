@@ -9,6 +9,12 @@ app.use(morgan("dev"));
 // Serve static files from the 'public' folder
 app.use(express.static("public"));
 
+// Require the index.js file
+const movieApp = require("./index");
+
+// Mount the movieApp for the /movies endpoint
+app.use("/movies", movieApp);
+
 // Define a route for the homepage
 app.get("/", (req, res) => {
   res.send(`
