@@ -1,4 +1,5 @@
 const express = require("express");
+const morgan = require("morgan");
 const app = express();
 const port = 8080;
 
@@ -8,6 +9,9 @@ app.use(express.static("public"));
 // Define a route to serve the documentation.html file
 // Accessible via localhost:8080/documentation.html
 // This route is now handled by express.static middleware
+
+// Use Morgan Middleware to log requests
+app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
   res.send(
