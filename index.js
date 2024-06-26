@@ -83,13 +83,20 @@ const movies = [
   },
 ];
 
+// GET route for /
+app.get("/", (req, res) => {
+  res.send(
+    "Welcome to my Top Movies List / API. The art of film is relatively new, but it had given both the creators and spectators countless possibilities while creating those masterpieces, as well as fantastic experiences for the ones enjoying watching them. My Top Movies List includes just the movies I could recall right away. I hope you'd get a chance to watch some of them, enjoy them as much as I did, and learn something new that deeply makes you happy."
+  );
+});
+
 // GET route for /movies
 app.get("/movies", (req, res) => {
   res.json(movies);
 });
 
 // Start the server
-const port = process.env.PORT || 8080;
+const port = 8080;
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
