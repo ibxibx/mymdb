@@ -83,8 +83,8 @@ const movies = [
   },
 ];
 
-// Define the GET route for the /movies endpoint
-app.get("/movies", (req, res) => {
+// Define the GET route for the / endpoint
+app.get("/", (req, res) => {
   res.json(movies);
 });
 
