@@ -60,6 +60,12 @@ app.get("/", (req, res) => {
   `);
 });
 
+// Error-handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack); // Log the error to the terminal
+  res.status(500).send("Something broke!");
+});
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
