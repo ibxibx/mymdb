@@ -210,12 +210,7 @@ const movies = [
   },
 ];
 
-// Define the GET route for the / endpoint
-app.get("/", (req, res) => {
-  res.json(movies);
-});
-
-// Define a route for the homepage
+// Define the GET route for the / endpoint (homepage)
 app.get("/", (req, res) => {
   res.send(`
     <!DOCTYPE html>
@@ -260,10 +255,9 @@ app.get("/", (req, res) => {
   `);
 });
 
-// Define a route that deliberately throws an error to test the error-handling middleware
-app.get("/error", (req, res, next) => {
-  const err = new Error("This is a deliberate error.");
-  next(err); // Pass the error to the error-handling middleware
+// Define the GET route for the /movies endpoint
+app.get("/movies", (req, res) => {
+  res.json(movies);
 });
 
 // Catch-all route for handling non-existing routes
