@@ -60,6 +60,12 @@ app.get("/", (req, res) => {
   `);
 });
 
+// Route that deliberately throws an error to test the error-handling middleware
+app.get("/error", (req, res, next) => {
+  const err = new Error("This is a deliberate error.");
+  next(err); // Pass the error to the error-handling middleware
+});
+
 // Error-handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack); // Log the error to the terminal
