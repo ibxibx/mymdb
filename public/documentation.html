@@ -106,16 +106,16 @@
       <h3>Users</h3>
       <ul>
         <li><strong>POST /users</strong>: Register a new user.</li>
-        <li><strong>PUT /users/:id</strong>: Update user information.</li>
+        <li><strong>PUT /users/:email</strong>: Update user information.</li>
         <li>
-          <strong>POST /users/:id/movies/:movieId</strong>: Add a movie to a
+          <strong>POST /users/:email/favorites</strong>: Add a movie to a user's
+          list of favorites.
+        </li>
+        <li>
+          <strong>DELETE /users/:email/favorites</strong>: Remove a movie from a
           user's list of favorites.
         </li>
-        <li>
-          <strong>DELETE /users/:id/movies/:movieId</strong>: Remove a movie
-          from a user's list of favorites.
-        </li>
-        <li><strong>DELETE /users/:id</strong>: Deregister a user.</li>
+        <li><strong>DELETE /users/:email</strong>: Deregister a user.</li>
       </ul>
 
       <h2 id="auth">Authentication</h2>
@@ -129,18 +129,18 @@
       <h2 id="usage">Usage Examples</h2>
       <h3>Getting All Movies</h3>
       <pre><code>GET /movies
-      curl -X GET https://mymdb-api.herokuapp.com/movies</code></pre>
+    curl -X GET https://mymdb-api.herokuapp.com/movies</code></pre>
 
       <h3>Registering a New User</h3>
       <pre><code>POST /users
-      curl -X POST https://mymdb-api.herokuapp.com/users \
-      -H "Content-Type: application/json" \
-      -d '{
-        "email": "janedoe@example.com",
-        "username": "janedoe",
-        "password": "password123",
-        "birthday": "1985-01-01"
-      }'</code></pre>
+    curl -X POST https://mymdb-api.herokuapp.com/users \
+    -H "Content-Type: application/json" \
+    -d '{
+      "email": "janedoe@example.com",
+      "username": "janedoe",
+      "password": "password123",
+      "birthday": "1985-01-01"
+    }'</code></pre>
 
       <h2 id="errors">Error Handling</h2>
       <p>
