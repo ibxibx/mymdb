@@ -140,6 +140,19 @@
       "username": "janedoe"
     }'</code></pre>
 
+      <h3>Adding a New Fovourite Movie</h3>
+      <pre><code>POST /users
+    curl -X POST https://mymdb-api.herokuapp.com/:email/favorites \
+    -H "Content-Type: application/json" \
+    -d '{
+      "title": "Woman in Gold",
+      "year": 2015,
+      "director": "Simon Curtis",
+      "genre": ["Drama", "Biography", "History"],
+      "image": "https://upload.wikimedia.org/wikipedia/en/4/41/Woman_in_Gold_poster.jpg",
+      "actors": ["Helen Mirren", "Ryan Reynolds", "Daniel Brühl"]
+  }'</code></pre>
+
       <h2 id="errors">Error Handling</h2>
       <p>
         The API returns standard HTTP status codes to indicate the success or
