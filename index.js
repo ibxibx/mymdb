@@ -6,6 +6,8 @@ const port = 8080;
 // Use Morgan Middleware to log requests
 app.use(morgan("dev"));
 
+app.use(express.json());
+
 // Serve static files from the 'public' folder
 app.use(express.static("public"));
 
@@ -584,6 +586,7 @@ app.post("/users/register", (req, res) => {
   res.status(201).send("User registered successfully");
 });
 
+//Update User's Information
 app.put("/users/:email", (req, res) => {
   const { email } = req.params;
   const { username } = req.body;
