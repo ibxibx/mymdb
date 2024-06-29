@@ -524,6 +524,8 @@ const directors = [
   },
 ];
 
+let users = [];
+
 // Endpoints
 app.get("/movies", (req, res) => {
   res.json(movies);
@@ -583,7 +585,7 @@ app.post("/users/register", (req, res) => {
   }
   const newUser = { email, username, favorites: [] };
   users.push(newUser);
-  res.status(201).send("User registered successfully");
+  res.status(201).json(newUser); //Return newly created User
 });
 
 //Update User's Information
@@ -596,6 +598,11 @@ app.put("/users/:email", (req, res) => {
   }
   user.username = username;
   res.send("Username updated successfully");
+});
+
+//How to get all users
+app.get("/users", (req, res) => {
+  res.json(users); // Return all users
 });
 
 // User - Adding a Movie to Favourites
