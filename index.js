@@ -571,6 +571,75 @@ app.get("/directors/:name", (req, res) => {
   }
 });
 
+// User management endpoints
+
+// User, Register with Email and Username
+app.post("/users/register", (req, res) => {
+  const { email, username } = req.body;
+  if (users.find((user) => user.email === email)) {
+    return res.status(400).send("Email is already registered");
+  }
+  const newUser = { email, username, favorites: [] };
+  users.push(newUser);
+  res.status(201).send("User registered successfully");
+});
+
+app.put("/users/:email", (req, res) => {
+  const { email } = req.params;
+  const { username } = req.body;
+  const user = users.find((user) => user.email === email);
+  if (!user) {
+    return res.status(404).send("User not found");
+  }
+  user.username = username;
+  res.send("Username updated successfully");
+});
+
+// User - Adding a Movie to Favourites
+app.post("/users/:email/favorites", (req, res) => {
+  const { email } = req.params;
+  const { title } = req.body;
+  const user = users.find((user) => user.email === email);
+  const movie = movies.find(
+    (movie) => movie.title.toLowerCase() === title.toLowerCase()
+  );
+  if (!user) {
+    return res.status(404).send("User not found");
+  }
+  if (!movie) {
+    return res.status(404).send("Movie not found");
+  }
+  user.favorites.push(title);
+  res.send("Movie added to favorites");
+});
+
+// Delete Movie from Favourites
+app.delete("/users/:email/favorites", (req, res) => {
+  const { email } = req.params;
+  const { title } = req.body;
+  const user = users.find((user) => user.email === email);
+  if (!user) {
+    return res.status(404).send("User not found");
+  }
+  const index = user.favorites.indexOf(title);
+  if (index === -1) {
+    return res.status(404).send("Movie not found in favorites");
+  }
+  user.favorites.splice(index, 1);
+  res.send("Movie removed from favorites");
+});
+
+// Deregister a User
+app.delete("/users/:email", (req, res) => {
+  const { email } = req.params;
+  const index = users.findIndex((user) => user.email === email);
+  if (index === -1) {
+    return res.status(404).send("User not found");
+  }
+  users.splice(index, 1);
+  res.send("User deregistered successfully");
+});
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
