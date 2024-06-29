@@ -613,7 +613,7 @@ app.post("/users/:email/favorites", (req, res) => {
   res.send("Movie added to favorites");
 });
 
-// Delete Movie from Favourites
+// User - Delete Movie from Favourites
 app.delete("/users/:email/favorites", (req, res) => {
   const { email } = req.params;
   const { title } = req.body;
@@ -629,7 +629,7 @@ app.delete("/users/:email/favorites", (req, res) => {
   res.send("Movie removed from favorites");
 });
 
-// Deregister a User
+// User - Deregister a User
 app.delete("/users/:email", (req, res) => {
   const { email } = req.params;
   const index = users.findIndex((user) => user.email === email);
