@@ -312,6 +312,57 @@ app.get("/movies", (req, res) => {
   res.json(movies);
 });
 
+// Define the GET route for the /movies/:title endpoint
+app.get("/movies/:title", (req, res) => {
+  const movie = movies.find(
+    (m) => m.title.toLowerCase() === req.params.title.toLowerCase()
+  );
+  if (movie) {
+    res.json(movie);
+  } else {
+    res.status(404).send("Movie not found");
+  }
+});
+
+// Define the GET route for the /genre/:genre endpoint
+app.get("/genre/:genre", (req, res) => {
+  const genreMovies = movies.filter((m) =>
+    m.genre.map((g) => g.toLowerCase()).includes(req.params.genre.toLowerCase())
+  );
+  if (genreMovies.length > 0) {
+    res.json(
+      genreMovies.map((m) => ({
+        title: m.title,
+        description: m.genre,
+        director: m.director,
+        imageURL: m.image,
+        featured: m.featured || false,
+      }))
+    );
+  } else {
+    res.status(404).send("Genre not found");
+  }
+});
+
+// Define the GET route for the /director/:name endpoint
+app.get("/director/:name", (req, res) => {
+  const directorMovies = movies.filter(
+    (m) => m.director.toLowerCase() === req.params.name.toLowerCase()
+  );
+  if (directorMovies.length > 0) {
+    res.json(
+      directorMovies.map((m) => ({
+        title: m.title,
+        bio: "Biography not available",
+        birthYear: "N/A",
+        deathYear: "N/A",
+      }))
+    );
+  } else {
+    res.status(404).send("Director not found");
+  }
+});
+
 // Catch-all route for handling non-existing routes
 app.get("*", (req, res) => {
   res.status(404).send(`
