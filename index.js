@@ -16,6 +16,8 @@ const movies = [
     year: 1999,
     director: "Sam Mendes",
     genre: "Drama",
+    image:
+      "https://upload.wikimedia.org/wikipedia/en/a/a0/American_Beauty_poster.jpg",
     actors: ["Kevin Spacey", "Annette Bening", "Thora Birch"],
   },
   {
@@ -23,6 +25,8 @@ const movies = [
     year: 2014,
     director: "Christopher Nolan",
     genre: ["Adventure", "Drama", "Sci-Fi"],
+    image:
+      "https://upload.wikimedia.org/wikipedia/en/b/bc/Interstellar_film_poster.jpg",
     actors: ["Matthew McConaughey", "Anne Hathaway", "Jessica Chastain"],
   },
   {
@@ -30,6 +34,8 @@ const movies = [
     year: 1940,
     director: "Charles Chaplin",
     genre: ["Comedy", "Drama", "War"],
+    image:
+      "https://upload.wikimedia.org/wikipedia/en/1/1c/Great_Dictator_Theatrical_Poster.jpg",
     actors: ["Charles Chaplin", "Paulette Goddard", "Jack Oakie"],
   },
   {
@@ -37,6 +43,8 @@ const movies = [
     year: 1993,
     director: "Steven Spielberg",
     genre: ["Biography", "Drama", "History"],
+    image:
+      "https://upload.wikimedia.org/wikipedia/en/3/38/Schindler%27s_List_movie.jpg",
     actors: ["Liam Neeson", "Ralph Fiennes", "Ben Kingsley"],
   },
   {
@@ -44,6 +52,8 @@ const movies = [
     year: 2003,
     director: "Peter Jackson",
     genre: ["Adventure", "Drama", "Fantasy"],
+    image:
+      "https://upload.wikimedia.org/wikipedia/en/9/9d/LOTR_-_The_Return_of_the_King.jpg",
     actors: ["Elijah Wood", "Viggo Mortensen", "Ian McKellen"],
   },
   {
@@ -51,6 +61,8 @@ const movies = [
     year: 1994,
     director: "Robert Zemeckis",
     genre: ["Drama", "Romance"],
+    image:
+      "https://upload.wikimedia.org/wikipedia/en/6/67/Forrest_Gump_poster.jpg",
     actors: ["Tom Hanks", "Robin Wright", "Gary Sinise"],
   },
   {
@@ -58,6 +70,7 @@ const movies = [
     year: 2010,
     director: "Christopher Nolan",
     genre: ["Action", "Adventure", "Sci-Fi"],
+    image: "https://upload.wikimedia.org/wikipedia/en/7/7f/Inception_ver3.jpg",
     actors: ["Leonardo DiCaprio", "Joseph Gordon-Levitt", "Ellen Page"],
   },
   {
@@ -65,6 +78,8 @@ const movies = [
     year: 2004,
     director: "Oliver Stone",
     genre: ["Drama", "Action", "Biography"],
+    image:
+      "https://upload.wikimedia.org/wikipedia/en/2/20/Alexander_film_poster.jpg",
     actors: ["Colin Farrell", "Angelina Jolie", "Val Kilmer"],
   },
   {
@@ -72,6 +87,8 @@ const movies = [
     year: 1999,
     director: "Lana Wachowski, Lilly Wachowski",
     genre: ["Action", "Sci-Fi"],
+    image:
+      "https://upload.wikimedia.org/wikipedia/en/c/c1/The_Matrix_Poster.jpg",
     actors: ["Keanu Reeves", "Laurence Fishburne", "Carrie-Anne Moss"],
   },
   {
@@ -79,6 +96,8 @@ const movies = [
     year: 2011,
     director: "Lars von Trier",
     genre: ["Drama", "Sci-Fi"],
+    image:
+      "https://upload.wikimedia.org/wikipedia/en/0/03/Melancholia_Poster.jpg",
     actors: ["Kirsten Dunst", "Charlotte Gainsbourg", "Kiefer Sutherland"],
   },
   {
@@ -86,6 +105,8 @@ const movies = [
     year: 2006,
     director: "David Frankel",
     genre: ["Drama", "Comedy"],
+    image:
+      "https://upload.wikimedia.org/wikipedia/en/a/a5/The_Devil_Wears_Prada.jpg",
     actors: ["Meryl Streep", "Anne Hathaway", "Emily Blunt"],
   },
   {
@@ -93,6 +114,8 @@ const movies = [
     year: 2014,
     director: "Lasse Hallström",
     genre: ["Drama", "Comedy"],
+    image:
+      "https://upload.wikimedia.org/wikipedia/en/0/09/The_Hundred-Foot_Journey_%28film%29.jpg",
     actors: ["Helen Mirren", "Om Puri", "Manish Dayal"],
   },
   {
@@ -100,6 +123,8 @@ const movies = [
     year: 2015,
     director: "Simon Curtis",
     genre: ["Drama", "Biography", "History"],
+    image:
+      "https://upload.wikimedia.org/wikipedia/en/4/41/Woman_in_Gold_poster.jpg",
     actors: ["Helen Mirren", "Ryan Reynolds", "Daniel Brühl"],
   },
   {
@@ -107,6 +132,8 @@ const movies = [
     year: 2022,
     director: "Daniel Roher",
     genre: ["Documentary", "Biography"],
+    image:
+      "https://upload.wikimedia.org/wikipedia/en/a/aa/Navalny_2022_film_poster.png",
     actors: ["Alexei Navalny", "Yulia Navalnaya", "Dmitri Muratov"],
   },
   {
@@ -114,6 +141,8 @@ const movies = [
     year: 2018,
     director: "Lars von Trier",
     genre: ["Crime", "Drama", "Horror"],
+    image:
+      "https://upload.wikimedia.org/wikipedia/en/5/5c/The_House_That_Jack_Built_%28film%29.png",
     actors: ["Matt Dillon", "Bruno Ganz", "Uma Thurman"],
   },
   {
@@ -121,6 +150,7 @@ const movies = [
     year: 2003,
     director: "Lars von Trier",
     genre: ["Crime", "Drama"],
+    image: "https://upload.wikimedia.org/wikipedia/en/b/bb/Dogville_poster.jpg",
     actors: ["Nicole Kidman", "Paul Bettany", "Lauren Bacall"],
   },
   {
@@ -128,6 +158,8 @@ const movies = [
     year: 1968,
     director: "Stanley Kubrick",
     genre: ["Adventure", "Sci-Fi"],
+    image:
+      "https://upload.wikimedia.org/wikipedia/en/1/11/2001_A_Space_Odyssey_%281968%29.png",
     actors: ["Keir Dullea", "Gary Lockwood", "William Sylvester"],
   },
   {
@@ -136,6 +168,7 @@ const movies = [
     director:
       "Allison Anders, Alexandre Rockwell, Robert Rodriguez, Quentin Tarantino",
     genre: ["Comedy"],
+    image: "https://upload.wikimedia.org/wikipedia/en/f/f7/Four_rooms_ver1.jpg",
     actors: ["Tim Roth", "Antonio Banderas", "Jennifer Beals"],
   },
   {
@@ -143,6 +176,8 @@ const movies = [
     year: 2003,
     director: "Quentin Tarantino",
     genre: ["Action", "Crime", "Drama"],
+    image:
+      "https://upload.wikimedia.org/wikipedia/en/c/cf/Kill_Bill_Volume_1.png",
     actors: ["Uma Thurman", "David Carradine", "Daryl Hannah"],
   },
   {
@@ -150,6 +185,8 @@ const movies = [
     year: 2004,
     director: "Quentin Tarantino",
     genre: ["Action", "Crime", "Drama"],
+    image:
+      "https://upload.wikimedia.org/wikipedia/en/4/4c/Kill_Bill_Volume_2.png",
     actors: ["Uma Thurman", "David Carradine", "Michael Madsen"],
   },
   {
@@ -157,6 +194,8 @@ const movies = [
     year: 2019,
     director: "Galder Gaztelu-Urrutia",
     genre: ["Horror", "Sci-Fi", "Thriller"],
+    image:
+      "https://upload.wikimedia.org/wikipedia/en/6/69/The_Platform_poster.jpg",
     actors: ["Ivan Massagué", "Zorion Eguileor", "Antonia San Juan"],
   },
   {
@@ -164,6 +203,8 @@ const movies = [
     year: 2019,
     director: "Lorcan Finnegan",
     genre: ["Horror", "Mystery", "Sci-Fi"],
+    image:
+      "https://upload.wikimedia.org/wikipedia/en/1/1e/Vivarium_film_poster.jpg",
     actors: ["Imogen Poots", "Jesse Eisenberg", "Jonathan Aris"],
   },
   {
@@ -171,6 +212,8 @@ const movies = [
     year: 2010,
     director: "David Fincher",
     genre: ["Biography", "Drama"],
+    image:
+      "https://upload.wikimedia.org/wikipedia/en/7/7a/Social_network_film_poster.jpg",
     actors: ["Jesse Eisenberg", "Andrew Garfield", "Justin Timberlake"],
   },
   {
@@ -178,6 +221,8 @@ const movies = [
     year: 2009,
     director: "James Cameron",
     genre: ["Action", "Adventure", "Fantasy"],
+    image:
+      "https://upload.wikimedia.org/wikipedia/en/b/b0/Avatar-Teaser-Poster.jpg",
     actors: ["Sam Worthington", "Zoe Saldana", "Sigourney Weaver"],
   },
   {
@@ -185,6 +230,8 @@ const movies = [
     year: 1999,
     director: "Luc Besson",
     genre: ["Adventure", "Biography", "Drama"],
+    image:
+      "https://upload.wikimedia.org/wikipedia/en/6/61/The_Messenger_poster.jpg",
     actors: ["Milla Jovovich", "John Malkovich", "Rab Affleck"],
   },
   {
@@ -192,6 +239,8 @@ const movies = [
     year: 2019,
     director: "Luc Besson",
     genre: ["Action", "Thriller"],
+    image:
+      "https://upload.wikimedia.org/wikipedia/en/9/97/Anna_2019_poster.jpg",
     actors: ["Sasha Luss", "Helen Mirren", "Luke Evans"],
   },
   {
@@ -199,6 +248,8 @@ const movies = [
     year: 2019,
     director: "Bill Condon",
     genre: ["Crime", "Drama", "Mystery"],
+    image:
+      "https://upload.wikimedia.org/wikipedia/en/f/f6/The_Good_Liar_poster.png",
     actors: ["Helen Mirren", "Ian McKellen", "Russell Tovey"],
   },
   {
@@ -206,6 +257,7 @@ const movies = [
     year: 2010,
     director: "John Madden",
     genre: ["Drama", "Thriller"],
+    image: "https://upload.wikimedia.org/wikipedia/en/5/5c/The_Debt_Poster.jpg",
     actors: ["Helen Mirren", "Sam Worthington", "Tom Wilkinson"],
   },
 ];
