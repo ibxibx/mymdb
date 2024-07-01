@@ -527,12 +527,12 @@ const directors = [
 // Users - Userid Generation with murmurhash
 let users = [];
 
-const murmurhash = require("murmurhash");
+const murmurhash3js = require("murmurhash3js");
 
 // Function to generate userId
 function generateUserId(name, email) {
   const data = name + email;
-  const userId = murmurhash.v3(data);
+  const userId = murmurhash3js.x86.hash32(data);
   return userId;
 }
 

@@ -12,6 +12,8 @@
     "express": "^4.19.2",
     "lodash": "^4.17.21",
     "morgan": "^1.10.0",
+    "murmurhash": "^2.0.1",
+    "murmurhash3js": "^3.0.1",
     "uuid": "^10.0.0"
   },
   "devDependencies": {
