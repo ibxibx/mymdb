@@ -524,7 +524,34 @@ const directors = [
   },
 ];
 
+// Users - Userid Generation with murmurhash
 let users = [];
+
+const murmurhash = require("murmurhash");
+
+// Function to generate userId
+function generateUserId(name, email) {
+  const data = name + email;
+  const userId = murmurhash.v3(data);
+  return userId;
+}
+
+// Example usage
+const name = "John Doe";
+const email = "jahndoe@email.com";
+const userId = generateUserId(name, email);
+
+console.log(`Generated userId for ${name} (${email}): ${userId}`);
+
+// Function to add a new user (example)
+function addUser(name, email) {
+  const userId = generateUserId(name, email);
+  // Here, you can add code to save the user to your database
+  console.log(`New user added: ${name} (${email}), userId: ${userId}`);
+}
+
+// Example of adding a new user
+addUser("John Doe", "jahndoe@email.com");
 
 // Endpoints
 
@@ -652,37 +679,50 @@ app.get("/users", (req, res) => {
 });
 
 // User - Adding a Movie to Favourites
-app.post("/users/:email/favorites", (req, res) => {
-  const { email } = req.params;
-  const { title } = req.body;
-  const user = users.find((user) => user.email === email);
-  const movie = movies.find(
-    (movie) => movie.title.toLowerCase() === title.toLowerCase()
-  );
-  if (!user) {
-    return res.status(404).send("User not found");
-  }
+app.post("/users/:userId/movies/:title", (req, res) => {
+  const { userId, title } = req.params;
+
+  // Find the movie by title
+  const movie = movies.find((m) => m.title === title);
   if (!movie) {
-    return res.status(404).send("Movie not found");
+    return res.status(404).json({ message: "Movie not found" });
   }
-  user.favorites.push(title);
-  res.send("Movie added to favorites");
+
+  // Find the user by userId
+  let user = users.find((u) => u.userId === userId);
+  if (!user) {
+    // If the user doesn't exist, create a new one
+    user = { userId, favorites: [] };
+    users.push(user);
+  }
+
+  // Add the movie to the user's list of favorites if not already added
+  if (!user.favorites.includes(title)) {
+    user.favorites.push(title);
+    return res.status(200).json({ message: "Movie added to favorites" });
+  } else {
+    return res.status(400).json({ message: "Movie is already in favorites" });
+  }
 });
 
 // User - Delete Movie from Favourites
-app.delete("/users/:email/favorites", (req, res) => {
-  const { email } = req.params;
-  const { title } = req.body;
-  const user = users.find((user) => user.email === email);
+app.delete("/users/:userId/movies/:title", (req, res) => {
+  const { userId, title } = req.params;
+
+  // Find the user by userId
+  let user = users.find((u) => u.userId === userId);
   if (!user) {
-    return res.status(404).send("User not found");
+    return res.status(404).json({ message: "User not found" });
   }
-  const index = user.favorites.indexOf(title);
-  if (index === -1) {
-    return res.status(404).send("Movie not found in favorites");
+
+  // Remove the movie from the user's list of favorites if it exists
+  const movieIndex = user.favorites.indexOf(title);
+  if (movieIndex > -1) {
+    user.favorites.splice(movieIndex, 1);
+    return res.status(200).json({ message: "Movie removed from favorites" });
+  } else {
+    return res.status(400).json({ message: "Movie not in favorites" });
   }
-  user.favorites.splice(index, 1);
-  res.send("Movie removed from favorites");
 });
 
 // User - Deregister a User
