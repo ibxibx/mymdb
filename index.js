@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const app = express();
 const port = 8080;
+const bodyParser = require("body-parser");
 
 // Use Morgan Middleware to log requests
 app.use(morgan("dev"));
