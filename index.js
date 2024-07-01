@@ -11,6 +11,9 @@ app.use(express.json());
 // Serve static files from the 'public' folder
 app.use(express.static("public"));
 
+// Middleware to parse JSON bodies
+app.use(bodyParser.json());
+
 // Movie data
 const movies = [
   {
@@ -535,6 +538,32 @@ function generateUserId(name, email) {
   const userId = murmurhash3js.x86.hash32(data);
   return userId;
 }
+
+// Route to handle user registration
+app.post("/users/register", (req, res) => {
+  const { name, email } = req.body;
+
+  if (!name || !email) {
+    return res.status(400).json({ error: "Name and email are required" });
+  }
+
+  const userId = generateUserId(name, email);
+
+  // Save the user data to the in-memory storage
+  const user = { userId, name, email };
+  users.push(user);
+
+  res.status(201).json(user);
+});
+
+// Route to get all users
+app.get("/users", (req, res) => {
+  const userList = users.map((user) => ({
+    userId: user.userId,
+    name: user.name,
+  }));
+  res.json(userList);
+});
 
 // Example usage
 const name = "John Doe";
