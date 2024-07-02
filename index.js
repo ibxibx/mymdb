@@ -693,16 +693,18 @@ app.post("/users/register", (req, res) => {
   res.status(201).json(newUser); //Return newly created User
 });
 
-//Update User's Information
+// Update User's Information
 app.put("/users/:email", (req, res) => {
   const { email } = req.params;
-  const { username } = req.body;
+  const { name } = req.body; // Expecting `name` in the request body
   const user = users.find((user) => user.email === email);
+
   if (!user) {
     return res.status(404).send("User not found");
   }
-  user.username = username;
-  res.send("Username updated successfully");
+
+  user.name = name; // Update the `name` field
+  res.send("Name updated successfully");
 });
 
 //How to get all users
