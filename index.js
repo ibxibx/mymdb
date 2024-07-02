@@ -644,7 +644,7 @@ app.get("/movies/:title", (req, res) => {
   if (movie) {
     res.json(movie);
   } else {
-    res.status(404).send("Movie not found");
+    res.status(404).json({ message: "Movie not found" });
   }
 });
 
@@ -660,7 +660,7 @@ app.get("/genres/:name", (req, res) => {
   if (genre) {
     res.json(genre);
   } else {
-    res.status(404).send("Genre not found");
+    res.status(404).json({ message: "Genre not found" });
   }
 });
 
@@ -676,7 +676,7 @@ app.get("/directors/:name", (req, res) => {
   if (director) {
     res.json(director);
   } else {
-    res.status(404).send("Director not found");
+    res.status(404).json({ message: "Director not found" });
   }
 });
 
@@ -686,7 +686,7 @@ app.get("/directors/:name", (req, res) => {
 app.post("/users/register", (req, res) => {
   const { email, username } = req.body;
   if (users.find((user) => user.email === email)) {
-    return res.status(400).send("Email is already registered");
+    return res.status(400).json({ message: "Email is already registered" });
   }
   const newUser = { email, username, favorites: [] };
   users.push(newUser);
@@ -700,11 +700,11 @@ app.put("/users/:email", (req, res) => {
   const user = users.find((user) => user.email === email);
 
   if (!user) {
-    return res.status(404).send("User not found");
+    return res.status(404).json({ message: "User not found" });
   }
 
   user.name = name; // Update the `name` field
-  res.send("Name updated successfully");
+  res.json({ message: "Name updated successfully" });
 });
 
 //How to get all users
@@ -764,10 +764,10 @@ app.delete("/users/:email", (req, res) => {
   const { email } = req.params;
   const index = users.findIndex((user) => user.email === email);
   if (index === -1) {
-    return res.status(404).send("User not found");
+    return res.status(404).json({ message: "User not found" });
   }
   users.splice(index, 1);
-  res.send("User deregistered successfully");
+  res.json({ message: "User deregistered successfully" });
 });
 
 // Catch-all route for handling non-existing routes
@@ -817,7 +817,7 @@ app.get("*", (req, res) => {
 // Error-handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send("Something went wrong!");
+  res.status(500).json({ message: "Something went wrong!" });
 });
 
 app.listen(port, () => {
