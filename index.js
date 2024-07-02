@@ -589,47 +589,7 @@ addUser("John Doe", "jahndoe@email.com");
 
 // Define the GET route for the / endpoint (homepage)
 app.get("/", (req, res) => {
-  res.send(`
-    <!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>My MDB</title>
-        <style>
-          body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-          }
-          .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-          }
-          h1 {
-            text-align: center;
-            color: #333;
-          }
-          p {
-            line-height: 1.6;
-            color: #666;
-          }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <h1>Welcome to My-Movie-DataBase</h1>
-          <p>The art of film is relatively new, but it has given both the creators and spectators countless possibilities while creating those masterpieces, as well as fantastic experiences for the ones enjoying watching them.</p>
-          <p>My Top Movies List includes just the movies I could recall right away. I hope you'd get a chance to watch some of them and enjoy them as much as I did.</p>
-        </div>
-      </body>
-    </html>
-  `);
+  res.sendFile(path.join(__dirname, "public", "hello.html"));
 });
 
 app.get("/movies", (req, res) => {
@@ -771,49 +731,18 @@ app.delete("/users/:email", (req, res) => {
 });
 
 // Catch-all route for handling non-existing routes
-app.get("*", (req, res) => {
-  res.status(404).send(`
-    <!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Page Not Found</title>
-        <style>
-          body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-            text-align: center;
-          }
-          .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-          }
-          h1 {
-            color: #333;
-          }
-          p {
-            line-height: 1.6;
-            color: #666;
-          }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <h1>404 - Page Not Found</h1>
-          <p>Sorry, the page you are looking for does not exist.</p>
-        </div>
-      </body>
-    </html>
-  `);
+app.use((req, res) => {
+  res.status(404).sendFile(__dirname + "/public/error404.html");
 });
 
+// Middleware for handling 204 error page
+app.use((req, res, next) => {
+  if (res.status === 204) {
+    res.sendFile(__dirname + "/public/error.html");
+  } else {
+    next();
+  }
+});
 // Error-handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
