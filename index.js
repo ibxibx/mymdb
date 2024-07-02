@@ -562,6 +562,7 @@ app.get("/users", (req, res) => {
   const userList = users.map((user) => ({
     userId: user.userId,
     name: user.name,
+    email: user.email,
   }));
   res.json(userList);
 });
