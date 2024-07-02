@@ -1,5 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
+const path = require("path");
 const app = express();
 const port = 8080;
 const bodyParser = require("body-parser");
@@ -589,7 +590,14 @@ addUser("John Doe", "jahndoe@email.com");
 
 // Define the GET route for the / endpoint (homepage)
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "hello.html"));
+  const filePath = path.join(__dirname, "public", "hello.html");
+
+  res.sendFile(filePath, (err) => {
+    if (err) {
+      console.error("Failed to send file:", err);
+      res.status(err.status || 500).send("Something went wrong!");
+    }
+  });
 });
 
 app.get("/movies", (req, res) => {
@@ -749,6 +757,8 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: "Something went wrong!" });
 });
 
+// Start the server
+const PORT = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
