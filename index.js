@@ -563,6 +563,7 @@ app.get("/users", (req, res) => {
     userId: user.userId,
     name: user.name,
     email: user.email,
+    username: user.username,
   }));
   res.json(userList);
 });
