@@ -152,6 +152,14 @@
       "username": "janedoe"
     }'</code></pre>
 
+      <h3>Updating a User's Name</h3>
+      <pre><code>POST /users/userId
+    curl -X POST https://mymdb-api.herokuapp.com/users \
+    -H "Content-Type: application/json" \
+    -d '{
+      "name": "NewfirstName NewsecondName"
+    }'</code></pre>
+
       <h2 id="errors">Error Handling</h2>
       <p>
         The API returns standard HTTP status codes to indicate the success or
