@@ -703,6 +703,8 @@ app.post("/users/register", (req, res) => {
 app.put("/users/:userId", (req, res) => {
   const { userId } = req.params;
   const { name } = req.body; // Expecting `name` in the request body
+
+  // Convert userId to number if necessary
   const user = users.find((user) => user.userId === userId);
 
   if (!user) {
