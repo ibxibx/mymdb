@@ -586,14 +586,26 @@ app.post("/users/register", (req, res) => {
   res.status(201).json(user);
 });
 
-// Route to get all users
+// Route to get all users with their favorite movies
 app.get("/users", (req, res) => {
-  const userList = users.map((user) => ({
-    userId: user.userId,
-    name: user.name,
-    email: user.email,
-    username: user.username,
-  }));
+  const userList = users.map((user) => {
+    // Get the favorite movies details (movieId and title)
+    const favoriteMovies = user.favorites.map((movieId) => {
+      const movie = movies.find((m) => m.movieId == movieId); // Use '==' to compare string and number
+      return {
+        movieId: movie.movieId,
+        title: movie.title,
+      };
+    });
+
+    return {
+      userId: user.userId,
+      name: user.name,
+      email: user.email,
+      username: user.username,
+      favorites: favoriteMovies,
+    };
+  });
   res.json(userList);
 });
 
@@ -699,11 +711,6 @@ app.put("/users/:email", (req, res) => {
 
   user.name = name; // Update the `name` field
   res.json({ message: "Name updated successfully" });
-});
-
-//How to get all users
-app.get("/users", (req, res) => {
-  res.json(users); // Return all users
 });
 
 // User - Adding a Movie to Favourites
