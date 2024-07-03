@@ -700,10 +700,10 @@ app.post("/users/register", (req, res) => {
 });
 
 // Update User's Information
-app.put("/users/:email", (req, res) => {
-  const { email } = req.params;
+app.put("/users/:userId", (req, res) => {
+  const { userId } = req.params;
   const { name } = req.body; // Expecting `name` in the request body
-  const user = users.find((user) => user.email === email);
+  const user = users.find((user) => user.userId === userId);
 
   if (!user) {
     return res.status(404).json({ message: "User not found" });
@@ -766,9 +766,9 @@ app.delete("/users/:userId/movies/:movieId", (req, res) => {
 });
 
 // User - Deregister a User
-app.delete("/users/:email", (req, res) => {
-  const { email } = req.params;
-  const index = users.findIndex((user) => user.email === email);
+app.delete("/users/:userId", (req, res) => {
+  const { userId } = req.params;
+  const index = users.findIndex((user) => user.userId === userId);
   if (index === -1) {
     return res.status(404).json({ message: "User not found" });
   }
