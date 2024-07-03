@@ -26,6 +26,7 @@ const movies = [
     image:
       "https://upload.wikimedia.org/wikipedia/en/a/a0/American_Beauty_poster.jpg",
     actors: ["Kevin Spacey", "Annette Bening", "Thora Birch"],
+    movieId: 1,
   },
   {
     title: "Interstellar",
@@ -35,6 +36,7 @@ const movies = [
     image:
       "https://upload.wikimedia.org/wikipedia/en/b/bc/Interstellar_film_poster.jpg",
     actors: ["Matthew McConaughey", "Anne Hathaway", "Jessica Chastain"],
+    movieId: 2,
   },
   {
     title: "The Great Dictator",
@@ -44,6 +46,7 @@ const movies = [
     image:
       "https://upload.wikimedia.org/wikipedia/en/1/1c/Great_Dictator_Theatrical_Poster.jpg",
     actors: ["Charles Chaplin", "Paulette Goddard", "Jack Oakie"],
+    movieId: 3,
   },
   {
     title: "Schindler's List",
@@ -53,6 +56,7 @@ const movies = [
     image:
       "https://upload.wikimedia.org/wikipedia/en/3/38/Schindler%27s_List_movie.jpg",
     actors: ["Liam Neeson", "Ralph Fiennes", "Ben Kingsley"],
+    movieId: 4,
   },
   {
     title: "The Lord of the Rings: The Return of the King",
@@ -62,6 +66,7 @@ const movies = [
     image:
       "https://upload.wikimedia.org/wikipedia/en/9/9d/LOTR_-_The_Return_of_the_King.jpg",
     actors: ["Elijah Wood", "Viggo Mortensen", "Ian McKellen"],
+    movieId: 5,
   },
   {
     title: "Forrest Gump",
@@ -71,6 +76,7 @@ const movies = [
     image:
       "https://upload.wikimedia.org/wikipedia/en/6/67/Forrest_Gump_poster.jpg",
     actors: ["Tom Hanks", "Robin Wright", "Gary Sinise"],
+    movieId: 6,
   },
   {
     title: "Inception",
@@ -79,6 +85,7 @@ const movies = [
     genre: ["Action", "Adventure", "Sci-Fi"],
     image: "https://upload.wikimedia.org/wikipedia/en/7/7f/Inception_ver3.jpg",
     actors: ["Leonardo DiCaprio", "Joseph Gordon-Levitt", "Ellen Page"],
+    movieId: 7,
   },
   {
     title: "Alexander",
@@ -88,6 +95,7 @@ const movies = [
     image:
       "https://upload.wikimedia.org/wikipedia/en/2/20/Alexander_film_poster.jpg",
     actors: ["Colin Farrell", "Angelina Jolie", "Val Kilmer"],
+    movieId: 8,
   },
   {
     title: "The Matrix",
@@ -97,6 +105,7 @@ const movies = [
     image:
       "https://upload.wikimedia.org/wikipedia/en/c/c1/The_Matrix_Poster.jpg",
     actors: ["Keanu Reeves", "Laurence Fishburne", "Carrie-Anne Moss"],
+    movieId: 9,
   },
   {
     title: "Melancholia",
@@ -106,6 +115,7 @@ const movies = [
     image:
       "https://upload.wikimedia.org/wikipedia/en/0/03/Melancholia_Poster.jpg",
     actors: ["Kirsten Dunst", "Charlotte Gainsbourg", "Kiefer Sutherland"],
+    movieId: 10,
   },
   {
     title: "The Devil Wears Prada",
@@ -115,6 +125,7 @@ const movies = [
     image:
       "https://upload.wikimedia.org/wikipedia/en/a/a5/The_Devil_Wears_Prada.jpg",
     actors: ["Meryl Streep", "Anne Hathaway", "Emily Blunt"],
+    movieId: 11,
   },
   {
     title: "The Hundred-Foot Journey",
@@ -124,6 +135,7 @@ const movies = [
     image:
       "https://upload.wikimedia.org/wikipedia/en/0/09/The_Hundred-Foot_Journey_%28film%29.jpg",
     actors: ["Helen Mirren", "Om Puri", "Manish Dayal"],
+    movieId: 12,
   },
   {
     title: "Woman in Gold",
@@ -133,6 +145,7 @@ const movies = [
     image:
       "https://upload.wikimedia.org/wikipedia/en/4/41/Woman_in_Gold_poster.jpg",
     actors: ["Helen Mirren", "Ryan Reynolds", "Daniel Brühl"],
+    movieId: 13,
   },
   {
     title: "Navalny",
@@ -142,6 +155,7 @@ const movies = [
     image:
       "https://upload.wikimedia.org/wikipedia/en/a/aa/Navalny_2022_film_poster.png",
     actors: ["Alexei Navalny", "Yulia Navalnaya", "Dmitri Muratov"],
+    movieId: 14,
   },
   {
     title: "The House That Jack Built",
@@ -151,6 +165,7 @@ const movies = [
     image:
       "https://upload.wikimedia.org/wikipedia/en/5/5c/The_House_That_Jack_Built_%28film%29.png",
     actors: ["Matt Dillon", "Bruno Ganz", "Uma Thurman"],
+    movieId: 15,
   },
   {
     title: "Dogville",
@@ -159,6 +174,7 @@ const movies = [
     genre: ["Crime", "Drama"],
     image: "https://upload.wikimedia.org/wikipedia/en/b/bb/Dogville_poster.jpg",
     actors: ["Nicole Kidman", "Paul Bettany", "Lauren Bacall"],
+    movieId: 16,
   },
   {
     title: "2001: A Space Odyssey",
@@ -168,6 +184,7 @@ const movies = [
     image:
       "https://upload.wikimedia.org/wikipedia/en/1/11/2001_A_Space_Odyssey_%281968%29.png",
     actors: ["Keir Dullea", "Gary Lockwood", "William Sylvester"],
+    movieId: 17,
   },
   {
     title: "Four Rooms",
@@ -177,6 +194,7 @@ const movies = [
     genre: ["Comedy"],
     image: "https://upload.wikimedia.org/wikipedia/en/f/f7/Four_rooms_ver1.jpg",
     actors: ["Tim Roth", "Antonio Banderas", "Jennifer Beals"],
+    movieId: 18,
   },
   {
     title: "Kill Bill Vol. 1",
@@ -186,6 +204,7 @@ const movies = [
     image:
       "https://upload.wikimedia.org/wikipedia/en/c/cf/Kill_Bill_Volume_1.png",
     actors: ["Uma Thurman", "David Carradine", "Daryl Hannah"],
+    movieId: 19,
   },
   {
     title: "Kill Bill Vol. 2",
@@ -195,6 +214,7 @@ const movies = [
     image:
       "https://upload.wikimedia.org/wikipedia/en/4/4c/Kill_Bill_Volume_2.png",
     actors: ["Uma Thurman", "David Carradine", "Michael Madsen"],
+    movieId: 20,
   },
   {
     title: "The Platform",
@@ -204,6 +224,7 @@ const movies = [
     image:
       "https://upload.wikimedia.org/wikipedia/en/6/69/The_Platform_poster.jpg",
     actors: ["Ivan Massagué", "Zorion Eguileor", "Antonia San Juan"],
+    movieId: 21,
   },
   {
     title: "Vivarium",
@@ -213,6 +234,7 @@ const movies = [
     image:
       "https://upload.wikimedia.org/wikipedia/en/1/1e/Vivarium_film_poster.jpg",
     actors: ["Imogen Poots", "Jesse Eisenberg", "Jonathan Aris"],
+    movieId: 22,
   },
   {
     title: "The Social Network",
@@ -222,6 +244,7 @@ const movies = [
     image:
       "https://upload.wikimedia.org/wikipedia/en/7/7a/Social_network_film_poster.jpg",
     actors: ["Jesse Eisenberg", "Andrew Garfield", "Justin Timberlake"],
+    movieId: 23,
   },
   {
     title: "Avatar",
@@ -231,6 +254,7 @@ const movies = [
     image:
       "https://upload.wikimedia.org/wikipedia/en/b/b0/Avatar-Teaser-Poster.jpg",
     actors: ["Sam Worthington", "Zoe Saldana", "Sigourney Weaver"],
+    movieId: 24,
   },
   {
     title: "The Messenger: The Story of Joan of Arc",
@@ -240,6 +264,7 @@ const movies = [
     image:
       "https://upload.wikimedia.org/wikipedia/en/6/61/The_Messenger_poster.jpg",
     actors: ["Milla Jovovich", "John Malkovich", "Rab Affleck"],
+    movieId: 25,
   },
   {
     title: "Anna",
@@ -249,6 +274,7 @@ const movies = [
     image:
       "https://upload.wikimedia.org/wikipedia/en/9/97/Anna_2019_poster.jpg",
     actors: ["Sasha Luss", "Helen Mirren", "Luke Evans"],
+    movieId: 26,
   },
   {
     title: "The Good Liar",
@@ -258,6 +284,7 @@ const movies = [
     image:
       "https://upload.wikimedia.org/wikipedia/en/f/f6/The_Good_Liar_poster.png",
     actors: ["Helen Mirren", "Ian McKellen", "Russell Tovey"],
+    movieId: 27,
   },
   {
     title: "The Debt",
@@ -266,6 +293,7 @@ const movies = [
     genre: ["Drama", "Thriller"],
     image: "https://upload.wikimedia.org/wikipedia/en/5/5c/The_Debt_Poster.jpg",
     actors: ["Helen Mirren", "Sam Worthington", "Tom Wilkinson"],
+    movieId: 28,
   },
 ];
 
@@ -604,11 +632,9 @@ app.get("/movies", (req, res) => {
   res.json(movies);
 });
 
-app.get("/movies/:title", (req, res) => {
-  const { title } = req.params;
-  const movie = movies.find(
-    (m) => m.title.toLowerCase() === title.toLowerCase()
-  );
+app.get("/movies/:movieId", (req, res) => {
+  const { movieId } = req.params;
+  const movie = movies.find((m) => m.movieId == movieId); // Use '==' to compare string and number
   if (movie) {
     res.json(movie);
   } else {
@@ -681,17 +707,17 @@ app.get("/users", (req, res) => {
 });
 
 // User - Adding a Movie to Favourites
-app.post("/users/:userId/movies/:title", (req, res) => {
-  const { userId, title } = req.params;
+app.post("/users/:userId/movies/:movieId", (req, res) => {
+  const { userId, movieId } = req.params;
 
-  // Find the movie by title
-  const movie = movies.find((m) => m.title === title);
+  // Find the movie by movieId
+  const movie = movies.find((m) => m.movieId == movieId); // Use '==' to compare string and number
   if (!movie) {
     return res.status(404).json({ message: "Movie not found" });
   }
 
   // Find the user by userId
-  let user = users.find((u) => u.userId === userId);
+  let user = users.find((u) => u.userId == userId); // Use '==' to compare string and number
   if (!user) {
     // If the user doesn't exist, create a new one
     user = { userId, favorites: [] };
@@ -699,8 +725,8 @@ app.post("/users/:userId/movies/:title", (req, res) => {
   }
 
   // Add the movie to the user's list of favorites if not already added
-  if (!user.favorites.includes(title)) {
-    user.favorites.push(title);
+  if (!user.favorites.includes(movieId)) {
+    user.favorites.push(movieId);
     return res.status(200).json({ message: "Movie added to favorites" });
   } else {
     return res.status(400).json({ message: "Movie is already in favorites" });
@@ -708,17 +734,17 @@ app.post("/users/:userId/movies/:title", (req, res) => {
 });
 
 // User - Delete Movie from Favourites
-app.delete("/users/:userId/movies/:title", (req, res) => {
-  const { userId, title } = req.params;
+app.delete("/users/:userId/movies/:movieId", (req, res) => {
+  const { userId, movieId } = req.params;
 
   // Find the user by userId
-  let user = users.find((u) => u.userId === userId);
+  let user = users.find((u) => u.userId == userId); // Use '==' to compare string and number
   if (!user) {
     return res.status(404).json({ message: "User not found" });
   }
 
   // Remove the movie from the user's list of favorites if it exists
-  const movieIndex = user.favorites.indexOf(title);
+  const movieIndex = user.favorites.indexOf(movieId);
   if (movieIndex > -1) {
     user.favorites.splice(movieIndex, 1);
     return res.status(200).json({ message: "Movie removed from favorites" });
