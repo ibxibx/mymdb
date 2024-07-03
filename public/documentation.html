@@ -91,12 +91,20 @@
       <ul>
         <li><strong>GET /movies</strong>: Returns a list of all movies.</li>
         <li>
-          <strong>GET /movies/:title</strong>: Returns detailed information
+          <strong>GET /movies/:movieId</strong>: Returns detailed information
           about a movie by title.
+        </li>
+        <li>
+          <strong>GET /genres</strong>: Returns information about all genres and
+          their descriptions.
         </li>
         <li>
           <strong>GET /genres/:name</strong>: Returns information about a genre
           by name.
+        </li>
+        <li>
+          <strong>GET /directors</strong>: Returns information about all
+          directors and their short bio.
         </li>
         <li>
           <strong>GET /directors/:name</strong>: Returns information about a
@@ -106,16 +114,20 @@
       <h3>Users</h3>
       <ul>
         <li><strong>POST /users/register</strong>: Register a new user.</li>
-        <li><strong>PUT /users/:email</strong>: Update user information.</li>
+        <li><strong>PUT /users/:userId</strong>: Update user information.</li>
         <li>
-          <strong>POST /users/:email/favorites</strong>: Add a movie to a user's
-          list of favorites.
+          <strong>GET /users </strong>: Show all users and their favorite
+          movies.
         </li>
         <li>
-          <strong>DELETE /users/:email/favorites</strong>: Remove a movie from a
+          <strong>POST /users/:userId/movies/:movieId</strong>: Add a movie to a
           user's list of favorites.
         </li>
-        <li><strong>DELETE /users/:email</strong>: Deregister a user.</li>
+        <li>
+          <strong>DELETE /users/:userId/movies/:movieId</strong>: Remove a movie
+          from a user's list of favorites.
+        </li>
+        <li><strong>DELETE /users/:userId</strong>: Deregister a user.</li>
       </ul>
 
       <h2 id="auth">Authentication</h2>
@@ -132,26 +144,13 @@
     curl -X GET https://mymdb-api.herokuapp.com/movies</code></pre>
 
       <h3>Registering a New User</h3>
-      <pre><code>POST /users
+      <pre><code>POST /users/register
     curl -X POST https://mymdb-api.herokuapp.com/users \
     -H "Content-Type: application/json" \
     -d '{
       "email": "janedoe@example.com",
       "username": "janedoe"
     }'</code></pre>
-
-      <h3>Adding a New Fovourite Movie</h3>
-      <pre><code>POST /users
-    curl -X POST https://mymdb-api.herokuapp.com/:email/favorites \
-    -H "Content-Type: application/json" \
-    -d '{
-      "title": "Woman in Gold",
-      "year": 2015,
-      "director": "Simon Curtis",
-      "genre": ["Drama", "Biography", "History"],
-      "image": "https://upload.wikimedia.org/wikipedia/en/4/41/Woman_in_Gold_poster.jpg",
-      "actors": ["Helen Mirren", "Ryan Reynolds", "Daniel Brühl"]
-  }'</code></pre>
 
       <h2 id="errors">Error Handling</h2>
       <p>
