@@ -724,6 +724,11 @@ app.post("/users/:userId/movies/:movieId", (req, res) => {
     users.push(user);
   }
 
+  // Ensure the user has a favorites array
+  if (!user.favorites) {
+    user.favorites = [];
+  }
+
   // Add the movie to the user's list of favorites if not already added
   if (!user.favorites.includes(movieId)) {
     user.favorites.push(movieId);
