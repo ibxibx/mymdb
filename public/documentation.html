@@ -129,15 +129,20 @@
         <li><strong>DELETE /users/:userId</strong>: Deregister a user.</li>
       </ul>
 
-      <h3>MongoDB Endpoints</h3>
+      <h3>MongoDB Endpoints / Examples</h3>
       <ul>
+        <li><strong>db.movies.find()</strong>: Query to see all movies.</li>
+        <li>
+          <strong>db.users.find()</strong>: Query to see all users with their
+          data and favourite movies.
+        </li>
         <li>
           <strong>db.movies.find({ genre: "Drama" }).pretty()</strong>: Query to
           find movies with genre Drama.
         </li>
         <li>
           <strong>db.movies.find({ Title: "The Revenant" }).pretty()</strong>:
-          Query to find movies with the title "The Revenant".
+          Query to find movies by the title, example: "The Revenant".
         </li>
         <li>
           <strong>
@@ -150,20 +155,22 @@
           <strong>
             db.movies.updateOne( { Title: "Goodfellas" }, { $set: { Description:
             "This is a temporary update text for the purpose of exercise" } } ) </strong
-          >: Update query to change the description of the movie "Goodfellas".
+          >: Update query to change the description of a movie / for example in
+          "Goodfellas".
         </li>
         <li>
           <strong>
             db.users.insertOne({ Username: "Charlie", Email:
             "charlie@example.com", Password: "password789", Birthday: new
             Date("1978-07-15"), FavoriteMovies: ["Inception"] }) </strong
-          >: Insert query to add a new user "Charlie" with favorite movie
-          "Inception".
+          >: Insert query to add a new favorite movie / example: "Inception" to
+          an existing user with the username "Charlie".
         </li>
         <li>
           <strong>
             db.users.deleteOne({ _id: ObjectId('6699589006c0c8e15ac4e49c') }) </strong
-          >: Delete query to remove the user with ID "6699589006c0c8e15ac4e49c".
+          >: Delete query to remove a user / example with the ID
+          "6699589006c0c8e15ac4e49c".
         </li>
       </ul>
 
