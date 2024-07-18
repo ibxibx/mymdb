@@ -116,8 +116,7 @@
         <li><strong>POST /users/register</strong>: Register a new user.</li>
         <li><strong>PUT /users/:userId</strong>: Update user information.</li>
         <li>
-          <strong>GET /users </strong>: Show all users and their favorite
-          movies.
+          <strong>GET /users</strong>: Show all users and their favorite movies.
         </li>
         <li>
           <strong>POST /users/:userId/movies/:movieId</strong>: Add a movie to a
@@ -128,6 +127,44 @@
           from a user's list of favorites.
         </li>
         <li><strong>DELETE /users/:userId</strong>: Deregister a user.</li>
+      </ul>
+
+      <h3>MongoDB Endpoints</h3>
+      <ul>
+        <li>
+          <strong>db.movies.find({ genre: "Drama" }).pretty()</strong>: Query to
+          find movies with genre Drama.
+        </li>
+        <li>
+          <strong>db.movies.find({ Title: "The Revenant" }).pretty()</strong>:
+          Query to find movies with the title "The Revenant".
+        </li>
+        <li>
+          <strong>
+            db.movies.find({ Director: "Quentin Tarantino", Genre: "Western"
+            }).pretty() </strong
+          >: Query to find movies directed by Quentin Tarantino in the Western
+          genre.
+        </li>
+        <li>
+          <strong>
+            db.movies.updateOne( { Title: "Goodfellas" }, { $set: { Description:
+            "This is a temporary update text for the purpose of exercise" } } ) </strong
+          >: Update query to change the description of the movie "Goodfellas".
+        </li>
+        <li>
+          <strong>
+            db.users.insertOne({ Username: "Charlie", Email:
+            "charlie@example.com", Password: "password789", Birthday: new
+            Date("1978-07-15"), FavoriteMovies: ["Inception"] }) </strong
+          >: Insert query to add a new user "Charlie" with favorite movie
+          "Inception".
+        </li>
+        <li>
+          <strong>
+            db.users.deleteOne({ _id: ObjectId('6699589006c0c8e15ac4e49c') }) </strong
+          >: Delete query to remove the user with ID "6699589006c0c8e15ac4e49c".
+        </li>
       </ul>
 
       <h2 id="auth">Authentication</h2>
@@ -141,24 +178,24 @@
       <h2 id="usage">Usage Examples</h2>
       <h3>Getting All Movies</h3>
       <pre><code>GET /movies
-    curl -X GET https://mymdb-api.herokuapp.com/movies</code></pre>
+  curl -X GET https://mymdb-api.herokuapp.com/movies</code></pre>
 
       <h3>Registering a New User</h3>
       <pre><code>POST /users/register
-    curl -X POST https://mymdb-api.herokuapp.com/users \
-    -H "Content-Type: application/json" \
-    -d '{
-      "email": "janedoe@example.com",
-      "username": "janedoe"
-    }'</code></pre>
+  curl -X POST https://mymdb-api.herokuapp.com/users \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "janedoe@example.com",
+    "username": "janedoe"
+  }'</code></pre>
 
       <h3>Updating a User's Name</h3>
       <pre><code>POST /users/userId
-    curl -X POST https://mymdb-api.herokuapp.com/users \
-    -H "Content-Type: application/json" \
-    -d '{
-      "name": "NewfirstName NewsecondName"
-    }'</code></pre>
+  curl -X POST https://mymdb-api.herokuapp.com/users \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "NewfirstName NewsecondName"
+  }'</code></pre>
 
       <h2 id="errors">Error Handling</h2>
       <p>
