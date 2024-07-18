@@ -153,16 +153,22 @@
         </li>
         <li>
           <strong>
+            db.movies.updateMany( { 'Director.Name': 'Christopher Nolan' }, {
+            $set: { 'Director.Bio': 'This is a replacement text' } } ); </strong
+          >: Update the bio of a certain Director in all Movie Documents /
+          Records with his Name: for example in all Christopher Nolan's Movies.
+        </li>
+        <li>
+          <strong>
             db.movies.updateOne( { Title: "Goodfellas" }, { $set: { Description:
-            "This is a temporary update text for the purpose of exercise" } } ) </strong
+            "This is a replacement text" } } ) </strong
           >: Update query to change the description of a movie / for example in
           "Goodfellas".
         </li>
         <li>
           <strong>
-            db.users.insertOne({ Username: "Charlie", Email:
-            "charlie@example.com", Password: "password789", Birthday: new
-            Date("1978-07-15"), FavoriteMovies: ["Inception"] }) </strong
+            db.users.updateOne({ Username: "Charlie" }, { $addToSet: {
+            FavoriteMovies: "Inception" } }); </strong
           >: Insert query to add a new favorite movie / example: "Inception" to
           an existing user with the username "Charlie".
         </li>
