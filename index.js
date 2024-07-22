@@ -4,6 +4,18 @@ const path = require("path");
 const app = express();
 const port = 8080;
 const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+const mongoose = require("mongoose");
+const Models = require("./models.js");
+const Movies = Models.Movie;
+const Users = Models.User;
+
+mongoose.connect("mongodb://localhost:27017/myMDB", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 // Use Morgan Middleware to log requests
 app.use(morgan("dev"));
