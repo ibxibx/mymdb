@@ -597,7 +597,7 @@ app.post("/users/register", (req, res) => {
   res.status(201).json(user);
 });
 
-// Get all users
+// Get all users / mongoose
 app.get('/users', async (req, res) => {
   await Users.find()
     .then((users) => {
@@ -609,6 +609,17 @@ app.get('/users', async (req, res) => {
     });
 });
 
+// Get a user by username / mongoose
+app.get('/users/:Username', async (req, res) => {
+  await Users.findOne({ Username: req.params.Username })
+    .then((user) => {
+      res.json(user);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
+});
 // Route to get all users with their favorite movies
 app.get("/users", (req, res) => {
   const userList = users.map((user) => {
@@ -720,6 +731,38 @@ app.post("/users/register", (req, res) => {
   const newUser = { email, username, favorites: [] };
   users.push(newUser);
   res.status(201).json(newUser); //Return newly created User
+});
+
+
+// Update a user's info, by username / mongoose
+/* We’ll expect JSON in this format
+{
+  Username: String,
+  (required)
+  Password: String,
+  (required)
+  Email: String,
+  (required)
+  Birthday: Date
+}*/
+app.put('/users/:Username', async (req, res) => {
+  await Users.findOneAndUpdate({ Username: req.params.Username }, { $set:
+    {
+      Username: req.body.Username,
+      Password: req.body.Password,
+      Email: req.body.Email,
+      Birthday: req.body.Birthday
+    }
+  },
+  { new: true }) // This line makes sure that the updated document is returned
+  .then((updatedUser) => {
+    res.json(updatedUser);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send(‘Error: ’ + err);
+  })
+
 });
 
 // Update User's Information
