@@ -733,7 +733,6 @@ app.post("/users/register", (req, res) => {
   res.status(201).json(newUser); //Return newly created User
 });
 
-
 // Update a user's info, by username / mongoose
 /* We’ll expect JSON in this format
 {
@@ -838,6 +837,22 @@ app.post('/users', async (req, res) => {
     user.favorites = [];
   }
 
+
+  // Add a movie to a user's list of favorites / mongoose
+app.post('/users/:Username/movies/:MovieID', async (req, res) => {
+  await Users.findOneAndUpdate({ Username: req.params.Username }, {
+     $push: { FavoriteMovies: req.params.MovieID }
+   },
+   { new: true }) // This line makes sure that the updated document is returned
+  .then((updatedUser) => {
+    res.json(updatedUser);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send(‘Error: ’ + err);
+  });
+});
+
   // Add the movie to the user's list of favorites if not already added
   if (!user.favorites.includes(movieId)) {
     user.favorites.push(movieId);
@@ -845,7 +860,6 @@ app.post('/users', async (req, res) => {
   } else {
     return res.status(400).json({ message: "Movie is already in favorites" });
   }
-});
 
 // User - Delete Movie from Favourites
 app.delete("/users/:userId/movies/:movieId", (req, res) => {
@@ -865,6 +879,22 @@ app.delete("/users/:userId/movies/:movieId", (req, res) => {
   } else {
     return res.status(400).json({ message: "Movie not in favorites" });
   }
+});
+
+// Delete a user by username / mongoose
+app.delete('/users/:Username', async (req, res) => {
+  await Users.findOneAndRemove({ Username: req.params.Username })
+    .then((user) => {
+      if (!user) {
+        res.status(400).send(req.params.Username + ' was not found');
+      } else {
+        res.status(200).send(req.params.Username + ' was deleted.');
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
 });
 
 // User - Deregister a User
