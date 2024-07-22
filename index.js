@@ -2,10 +2,11 @@ const express = require("express");
 const morgan = require("morgan");
 const path = require("path");
 const app = express();
+app.use(bodyParser.json()); // Middleware to parse JSON bodies
+app.use(bodyParser.urlencoded({ extended: true }));
+
 const port = 8080;
 const bodyParser = require("body-parser");
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 const mongoose = require("mongoose");
 const Models = require("./models.js");
@@ -25,8 +26,6 @@ app.use(express.json());
 // Serve static files from the 'public' folder
 app.use(express.static("public"));
 
-// Middleware to parse JSON bodies
-app.use(bodyParser.json());
 
 // Movie data
 const movies = [
@@ -726,9 +725,44 @@ app.put("/users/:userId", (req, res) => {
   res.json({ message: "Name updated successfully" });
 });
 
-// User - Adding a Movie to Favourites
-app.post("/users/:userId/movies/:movieId", (req, res) => {
-  const { userId, movieId } = req.params;
+// Old user.post code. User - Adding a Movie to Favourites
+//app.post("/users/:userId/movies/:movieId", (req, res) => {
+//  const { userId, movieId } = req.params;
+
+//Add a user
+/* We’ll expect JSON in this format
+{
+  ID: Integer,
+  Username: String,
+  Password: String,
+  Email: String,
+  Birthday: Date
+}*/
+app.post('/users', async (req, res) => {
+  await Users.findOne({ Username: req.body.Username })
+    .then((user) => {
+      if (user) {
+        return res.status(400).send(req.body.Username + 'already exists');
+      } else {
+        Users
+          .create({
+            Username: req.body.Username,
+            Password: req.body.Password,
+            Email: req.body.Email,
+            Birthday: req.body.Birthday
+          })
+          .then((user) =>{res.status(201).json(user) })
+        .catch((error) => {
+          console.error(error);
+          res.status(500).send('Error: ' + error);
+        })
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send('Error: ' + error);
+    });
+});
 
   // Find the movie by movieId
   const movie = movies.find((m) => m.movieId == movieId); // Use '==' to compare string and number
