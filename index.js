@@ -597,6 +597,18 @@ app.post("/users/register", (req, res) => {
   res.status(201).json(user);
 });
 
+// Get all users
+app.get('/users', async (req, res) => {
+  await Users.find()
+    .then((users) => {
+      res.status(201).json(users);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
+});
+
 // Route to get all users with their favorite movies
 app.get("/users", (req, res) => {
   const userList = users.map((user) => {
