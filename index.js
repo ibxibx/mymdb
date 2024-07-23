@@ -676,12 +676,14 @@ app.get("/movies", (req, res) => {
 });
 
 app.get("/movies/:movieId", (req, res) => {
-  const movieId = parseInt(req.params.movieId, 10);
+  const movieId = parseInt(req.params.movieId, 10); // Convert movieId to a number
+
   const movie = movies.find((m) => m.movieId === movieId);
+
   if (movie) {
-    res.json(movie);
+    res.status(200).json(movie);
   } else {
-    res.status(404).json({ message: "Movie not found" });
+    res.status(404).send("Movie not found");
   }
 });
 
