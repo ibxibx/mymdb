@@ -634,7 +634,7 @@ app.get("/users", (req, res) => {
       userId: user.userId,
       name: user.name,
       email: user.email,
-      username: user.username,
+      userId: user.userId,
       favorites: favoriteMovies,
     };
   });
@@ -727,21 +727,21 @@ app.get("/directors/:name", (req, res) => {
 
 // User management endpoints
 
-// User, Register with Email and Username
+// User, Register with Email and userId
 app.post("/users/register", (req, res) => {
-  const { email, username } = req.body;
+  const { email, userId } = req.body;
   if (users.find((user) => user.email === email)) {
     return res.status(400).json({ message: "Email is already registered" });
   }
-  const newUser = { email, username, favorites: [] };
+  const newUser = { email, userId, favorites: [] };
   users.push(newUser);
   res.status(201).json(newUser); //Return newly created User
 });
 
-// Update a user's info, by username mongoose
+// Update a user's info, by userId mongoose
 /* We’ll expect JSON in this format
 {
-  Username: String,
+  userId: String,
   (required)
   Password: String,
   (required)
@@ -749,19 +749,20 @@ app.post("/users/register", (req, res) => {
   (required)
   Birthday: Date
 }*/
-app.put("/users/:Username", async (req, res) => {
-  await Users.findOneAndUpdate(
-    { Username: req.params.Username },
-    {
-      $set: {
-        Username: req.body.Username,
-        Password: req.body.Password,
-        Email: req.body.Email,
-        Birthday: req.body.Birthday,
+app.put("/users/:userId", async (req, res) => {
+  await users
+    .findOneAndUpdate(
+      { userId: req.params.userId },
+      {
+        $set: {
+          userId: req.body.userId,
+          Password: req.body.Password,
+          Email: req.body.Email,
+          Birthday: req.body.Birthday,
+        },
       },
-    },
-    { new: true }
-  ) // This line makes sure that the updated document is returned
+      { new: true }
+    ) // This line makes sure that the updated document is returned
     .then((updatedUser) => {
       res.json(updatedUser);
     })
@@ -790,19 +791,19 @@ app.put("/users/:userId", (req, res) => {
 /* We’ll expect JSON in this format
 {
   ID: Integer,
-  Username: String,
+  userId: String,
   Password: String,
   Email: String,
   Birthday: Date
 }*/
 app.post("/users", async (req, res) => {
-  await Users.findOne({ Username: req.body.Username })
+  await Users.findOne({ userId: req.body.userId })
     .then((user) => {
       if (user) {
-        return res.status(400).send(req.body.Username + " already exists");
+        return res.status(400).send(req.body.userId + " already exists");
       } else {
         Users.create({
-          Username: req.body.Username,
+          userId: req.body.userId,
           Password: req.body.Password,
           Email: req.body.Email,
           Birthday: req.body.Birthday,
@@ -842,9 +843,9 @@ if (!user.favorites) {
 }
 
 // Add a movie to a user's list of favorites mongoose
-app.post("/users/:Username/movies/:movieId", async (req, res) => {
+app.post("/users/:userId/movies/:movieId", async (req, res) => {
   await Users.findOneAndUpdate(
-    { Username: req.params.Username },
+    { userId: req.params.userId },
     {
       $push: { FavoriteMovies: req.params.movieId },
     },
@@ -887,14 +888,14 @@ app.delete("/users/:userId/movies/:movieId", (req, res) => {
   }
 });
 
-// Delete a user by username mongoose
-app.delete("/users/:Username", async (req, res) => {
-  await Users.findOneAndRemove({ Username: req.params.Username })
+// Delete a user by userId mongoose
+app.delete("/users/:userId", async (req, res) => {
+  await Users.findOneAndRemove({ userId: req.params.userId })
     .then((user) => {
       if (!user) {
-        res.status(400).send(req.params.Username + " was not found");
+        res.status(400).send(req.params.userId + " was not found");
       } else {
-        res.status(200).send(req.params.Username + " was deleted.");
+        res.status(200).send(req.params.userId + " was deleted.");
       }
     })
     .catch((err) => {
