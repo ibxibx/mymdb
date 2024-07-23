@@ -1,15 +1,13 @@
 const express = require("express");
 const morgan = require("morgan");
 const path = require("path");
-const app = express();
-app.use(bodyParser.json()); // Middleware to parse JSON bodies
-app.use(bodyParser.urlencoded({ extended: true }));
-
-const port = 8080;
 const bodyParser = require("body-parser");
-
 const mongoose = require("mongoose");
 const Models = require("./models.js");
+
+const app = express();
+const port = 8080;
+
 const Movies = Models.Movie;
 const Users = Models.User;
 
@@ -18,13 +16,11 @@ mongoose.connect("mongodb://localhost:27017/myMDB", {
   useUnifiedTopology: true,
 });
 
-// Use Morgan Middleware to log requests
-app.use(morgan("dev"));
-
-app.use(express.json());
-
-// Serve static files from the 'public' folder
-app.use(express.static("public"));
+app.use(bodyParser.json()); // Middleware to parse JSON bodies
+app.use(bodyParser.urlencoded({ extended: true })); // Middleware to parse URL-encoded bodies
+app.use(morgan("dev")); // Use Morgan Middleware to log requests
+app.use(express.json()); // Middleware to parse JSON bodies
+app.use(express.static("public")); // Serve static files from the 'public' folder
 
 // Movie data
 const movies = [
