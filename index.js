@@ -675,8 +675,9 @@ app.get("/movies", (req, res) => {
 });
 
 app.get("/movies/:movieId", (req, res) => {
-  const movieId = parseInt(req.params.movieId, 10); // Corrected parameter key
-  const movie = movies.find((m) => m.movieId == movieId); // Use '==' to compare string and number
+  const movieId = parseInt(req.params.movieId, 10); // Extract movieId from params
+  console.log(`Received movieId: ${movieId}`); // Debugging line
+  const movie = movies.find((m) => m.movieId == movieId); // Find movie by movieId
   if (movie) {
     res.json(movie);
   } else {
