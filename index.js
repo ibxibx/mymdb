@@ -675,7 +675,7 @@ app.get("/movies", (req, res) => {
 });
 
 app.get("/movies/:movieId", (req, res) => {
-  const { movieId } = req.params;
+  const movieId = parseInt(req.params.id, 10);
   const movie = movies.find((m) => m.movieId == movieId); // Use '==' to compare string and number
   if (movie) {
     res.json(movie);
