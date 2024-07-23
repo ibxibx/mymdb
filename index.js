@@ -26,7 +26,6 @@ app.use(express.json());
 // Serve static files from the 'public' folder
 app.use(express.static("public"));
 
-
 // Movie data
 const movies = [
   {
@@ -597,29 +596,30 @@ app.post("/users/register", (req, res) => {
   res.status(201).json(user);
 });
 
-// Get all users / mongoose
-app.get('/users', async (req, res) => {
+// Get all users mongoose
+app.get("/users", async (req, res) => {
   await Users.find()
     .then((users) => {
       res.status(201).json(users);
     })
     .catch((err) => {
       console.error(err);
-      res.status(500).send('Error: ' + err);
+      res.status(500).send("Error: " + err);
     });
 });
 
-// Get a user by username / mongoose
-app.get('/users/:Username', async (req, res) => {
+// Get a user by username mongoose
+app.get("/users/:Username", async (req, res) => {
   await Users.findOne({ Username: req.params.Username })
     .then((user) => {
       res.json(user);
     })
     .catch((err) => {
       console.error(err);
-      res.status(500).send('Error: ' + err);
+      res.status(500).send("Error: " + err);
     });
 });
+
 // Route to get all users with their favorite movies
 app.get("/users", (req, res) => {
   const userList = users.map((user) => {
@@ -733,7 +733,7 @@ app.post("/users/register", (req, res) => {
   res.status(201).json(newUser); //Return newly created User
 });
 
-// Update a user's info, by username / mongoose
+// Update a user's info, by username mongoose
 /* We’ll expect JSON in this format
 {
   Username: String,
@@ -744,24 +744,26 @@ app.post("/users/register", (req, res) => {
   (required)
   Birthday: Date
 }*/
-app.put('/users/:Username', async (req, res) => {
-  await Users.findOneAndUpdate({ Username: req.params.Username }, { $set:
+app.put("/users/:Username", async (req, res) => {
+  await Users.findOneAndUpdate(
+    { Username: req.params.Username },
     {
-      Username: req.body.Username,
-      Password: req.body.Password,
-      Email: req.body.Email,
-      Birthday: req.body.Birthday
-    }
-  },
-  { new: true }) // This line makes sure that the updated document is returned
-  .then((updatedUser) => {
-    res.json(updatedUser);
-  })
-  .catch((err) => {
-    console.error(err);
-    res.status(500).send(‘Error: ’ + err);
-  })
-
+      $set: {
+        Username: req.body.Username,
+        Password: req.body.Password,
+        Email: req.body.Email,
+        Birthday: req.body.Birthday,
+      },
+    },
+    { new: true }
+  ) // This line makes sure that the updated document is returned
+    .then((updatedUser) => {
+      res.json(updatedUser);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
 // Update User's Information
@@ -779,11 +781,7 @@ app.put("/users/:userId", (req, res) => {
   res.json({ message: "Name updated successfully" });
 });
 
-// Old user.post code. User - Adding a Movie to Favourites
-//app.post("/users/:userId/movies/:movieId", (req, res) => {
-//  const { userId, movieId } = req.params;
-
-//Add a user
+// Add a user mongoose
 /* We’ll expect JSON in this format
 {
   ID: Integer,
@@ -792,74 +790,77 @@ app.put("/users/:userId", (req, res) => {
   Email: String,
   Birthday: Date
 }*/
-app.post('/users', async (req, res) => {
+app.post("/users", async (req, res) => {
   await Users.findOne({ Username: req.body.Username })
     .then((user) => {
       if (user) {
-        return res.status(400).send(req.body.Username + 'already exists');
+        return res.status(400).send(req.body.Username + " already exists");
       } else {
-        Users
-          .create({
-            Username: req.body.Username,
-            Password: req.body.Password,
-            Email: req.body.Email,
-            Birthday: req.body.Birthday
-          })
-          .then((user) =>{res.status(201).json(user) })
-        .catch((error) => {
-          console.error(error);
-          res.status(500).send('Error: ' + error);
+        Users.create({
+          Username: req.body.Username,
+          Password: req.body.Password,
+          Email: req.body.Email,
+          Birthday: req.body.Birthday,
         })
+          .then((user) => {
+            res.status(201).json(user);
+          })
+          .catch((error) => {
+            console.error(error);
+            res.status(500).send("Error: " + error);
+          });
       }
     })
     .catch((error) => {
       console.error(error);
-      res.status(500).send('Error: ' + error);
+      res.status(500).send("Error: " + error);
     });
 });
 
-  // Find the movie by movieId
-  const movie = movies.find((m) => m.movieId == movieId); // Use '==' to compare string and number
-  if (!movie) {
-    return res.status(404).json({ message: "Movie not found" });
-  }
+// Find the movie by movieId
+const movie = movies.find((m) => m.movieId == movieId); // Use '==' to compare string and number
+if (!movie) {
+  return res.status(404).json({ message: "Movie not found" });
+}
 
-  // Find the user by userId
-  let user = users.find((u) => u.userId == userId); // Use '==' to compare string and number
-  if (!user) {
-    // If the user doesn't exist, create a new one
-    user = { userId, favorites: [] };
-    users.push(user);
-  }
+// Find the user by userId
+let user = users.find((u) => u.userId == userId); // Use '==' to compare string and number
+if (!user) {
+  // If the user doesn't exist, create a new one
+  user = { userId, favorites: [] };
+  users.push(user);
+}
 
-  // Ensure the user has a favorites array
-  if (!user.favorites) {
-    user.favorites = [];
-  }
+// Ensure the user has a favorites array
+if (!user.favorites) {
+  user.favorites = [];
+}
 
-
-  // Add a movie to a user's list of favorites / mongoose
-app.post('/users/:Username/movies/:MovieID', async (req, res) => {
-  await Users.findOneAndUpdate({ Username: req.params.Username }, {
-     $push: { FavoriteMovies: req.params.MovieID }
-   },
-   { new: true }) // This line makes sure that the updated document is returned
-  .then((updatedUser) => {
-    res.json(updatedUser);
-  })
-  .catch((err) => {
-    console.error(err);
-    res.status(500).send(‘Error: ’ + err);
-  });
+// Add a movie to a user's list of favorites mongoose
+app.post("/users/:Username/movies/:MovieID", async (req, res) => {
+  await Users.findOneAndUpdate(
+    { Username: req.params.Username },
+    {
+      $push: { FavoriteMovies: req.params.MovieID },
+    },
+    { new: true }
+  ) // This line makes sure that the updated document is returned
+    .then((updatedUser) => {
+      res.json(updatedUser);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
-  // Add the movie to the user's list of favorites if not already added
-  if (!user.favorites.includes(movieId)) {
-    user.favorites.push(movieId);
-    return res.status(200).json({ message: "Movie added to favorites" });
-  } else {
-    return res.status(400).json({ message: "Movie is already in favorites" });
-  }
+// Add the movie to the user's list of favorites if not already added
+if (!user.favorites.includes(movieId)) {
+  user.favorites.push(movieId);
+  return res.status(200).json({ message: "Movie added to favorites" });
+} else {
+  return res.status(400).json({ message: "Movie is already in favorites" });
+}
 
 // User - Delete Movie from Favourites
 app.delete("/users/:userId/movies/:movieId", (req, res) => {
@@ -881,19 +882,19 @@ app.delete("/users/:userId/movies/:movieId", (req, res) => {
   }
 });
 
-// Delete a user by username / mongoose
-app.delete('/users/:Username', async (req, res) => {
+// Delete a user by username mongoose
+app.delete("/users/:Username", async (req, res) => {
   await Users.findOneAndRemove({ Username: req.params.Username })
     .then((user) => {
       if (!user) {
-        res.status(400).send(req.params.Username + ' was not found');
+        res.status(400).send(req.params.Username + " was not found");
       } else {
-        res.status(200).send(req.params.Username + ' was deleted.');
+        res.status(200).send(req.params.Username + " was deleted.");
       }
     })
     .catch((err) => {
       console.error(err);
-      res.status(500).send('Error: ' + err);
+      res.status(500).send("Error: " + err);
     });
 });
 
