@@ -9,7 +9,6 @@ const app = express();
 const port = 8080;
 
 // Import the model
-const Models = require("./models");
 const MoviesModel = Models.Movie;
 const Users = Models.User;
 
