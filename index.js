@@ -14,7 +14,7 @@ const MoviesModel = Models.Movie;
 const Users = Models.User;
 
 mongoose
-  .connect("mongodb://localhost:27017/mymdb", {
+  .connect("mongodb://localhost:27017/test", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
