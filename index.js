@@ -4,7 +4,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const Models = require("./models.js");
-const { Movie } = require("./models");
+const { Genre, Director } = Models;
 
 const app = express();
 
@@ -102,7 +102,7 @@ app.get("/movies/:movieId", async (req, res) => {
 
 app.get("/genres", async (req, res) => {
   try {
-    const genres = await Movie.distinct("Genre.Name");
+    const genres = await Genre.find();
     res.json(genres);
   } catch (error) {
     res
@@ -127,7 +127,7 @@ app.get("/genres/:name", async (req, res) => {
 
 app.get("/directors", async (req, res) => {
   try {
-    const directors = await Movie.distinct("Director.Name");
+    const directors = await Director.find();
     res.json(directors);
   } catch (error) {
     res
@@ -156,7 +156,7 @@ app.get("/directors/:name", async (req, res) => {
 app.post("/users/register", async (req, res) => {
   try {
     const { name, email, password, birthday } = req.body;
-    if (!name || !email || !password) {
+    if (!userId || !email || !password) {
       return res
         .status(400)
         .json({ error: "Name, email, and password are required" });
@@ -201,7 +201,6 @@ app.put("/users/:userId", async (req, res) => {
 // Add a user mongoose
 /* We’ll expect JSON in this format
 {
-  ID: Integer,
   userId: String,
   Password: String,
   Email: String,
