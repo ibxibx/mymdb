@@ -11,11 +11,11 @@ let movieSchema = mongoose.Schema({
     Description: String,
   },
   Director: {
-    name: String,
+    Name: String,
     Bio: String,
   },
   Actors: [String],
-  Imagepath: String,
+  ImagePath: String,
   Featured: Boolean,
 });
 
@@ -26,6 +26,9 @@ let userSchema = mongoose.Schema({
   Birthday: Date,
   FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: "Movie" }],
 });
+
+let Movie = mongoose.model("Movie", movieSchema);
+let User = mongoose.model("User", userSchema);
 
 module.exports.Movie = Movie;
 module.exports.User = User;
