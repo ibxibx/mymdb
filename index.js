@@ -8,7 +8,7 @@ const Models = require("./models.js");
 const app = express();
 const port = 8080;
 
-const Movies = Models.Movie;
+const movies = Models.Movie;
 const Users = Models.User;
 
 mongoose.connect("mongodb://localhost:27017/mymdb", {
