@@ -605,9 +605,10 @@ app.get("/users", async (req, res) => {
     });
 });
 
-// Get a user by username mongoose
-app.get("/users/:Username", async (req, res) => {
-  await Users.findOne({ Username: req.params.Username })
+// Get a user by userId mongoose
+app.get("/users/:userId", async (req, res) => {
+  await users
+    .findOne({ userId: req.params.userId })
     .then((user) => {
       res.json(user);
     })
@@ -675,15 +676,20 @@ app.get("/movies", (req, res) => {
   res.json(movies);
 });
 
-app.get("/movies/:movieId", (req, res) => {
-  const movieId = parseInt(req.params.movieId, 10); // Convert movieId to a number
+// Find a movie by ID
+app.get("/movies/:movieId", async (req, res) => {
+  const movieId = req.params.movieId;
 
-  const movie = movies.find((m) => m.movieId === movieId);
+  try {
+    const movie = await MoviesModel.findById(movieId).exec(); // Using `findById` for ObjectId
 
-  if (movie) {
-    res.status(200).json(movie);
-  } else {
-    res.status(404).send("Movie not found");
+    if (!movie) {
+      return res.status(404).json({ message: "Movie not found" });
+    }
+
+    res.json(movie);
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
