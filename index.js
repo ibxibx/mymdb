@@ -675,9 +675,13 @@ app.get("/movies", (req, res) => {
 });
 
 app.get("/movies/:movieId", (req, res) => {
-  const movieId = parseInt(req.params.movieId, 10); // Extract movieId from params
+  // Correctly extract the movieId from the request parameters
+  const movieId = parseInt(req.params.movieId, 10); // Note: use 'movieId' as it matches the route parameter
   console.log(`Received movieId: ${movieId}`); // Debugging line
-  const movie = movies.find((m) => m.movieId == movieId); // Find movie by movieId
+
+  // Ensure 'movies' is an array and 'movieId' is being used correctly
+  const movie = movies.find((m) => m.movieId === movieId); // Use '===' for strict equality comparison
+
   if (movie) {
     res.json(movie);
   } else {
