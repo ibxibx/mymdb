@@ -11,7 +11,7 @@ const port = 8080;
 const Movies = Models.Movie;
 const Users = Models.User;
 
-mongoose.connect("mongodb://localhost:27017/myMDB", {
+mongoose.connect("mongodb://localhost:27017/mymdb", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
