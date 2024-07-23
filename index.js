@@ -13,10 +13,17 @@ const port = 8080;
 const MoviesModel = Models.Movie;
 const Users = Models.User;
 
-mongoose.connect("mongodb://localhost:27017/mymdb", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose
+  .connect("mongodb://localhost:27017/mymdb", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("Connected to the database");
+  })
+  .catch((error) => {
+    console.error("Error connecting to the database", error);
+  });
 
 app.use(bodyParser.json()); // Middleware to parse JSON bodies
 app.use(bodyParser.urlencoded({ extended: true })); // Middleware to parse URL-encoded bodies
