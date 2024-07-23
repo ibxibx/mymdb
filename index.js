@@ -688,21 +688,20 @@ app.get("/movies", (req, res) => {
   res.json(movies);
 });
 
-// Route handler for fetching a movie by ID
-app.get("/movies/:movieId", async (req, res) => {
-  try {
-    const movieId = req.params.movieId; // Extract movieId from URL parameters
-    const movie = await Movie.findById(movieId); // Use Mongoose to find the movie by ID
+// Route to get a movie by movieId
+app.get("/movies/:movieId", (req, res) => {
+  const movieId = parseInt(req.params.movieId, 10); // Convert movieId to an integer
 
-    if (!movie) {
-      return res.status(404).json({ message: "Movie not found" });
-    }
+  console.log(`Fetching movie with ID: ${movieId}`); // Debug log
 
-    res.json(movie);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+  // Find the movie by movieId
+  const movie = movies.find((m) => m.movieId === movieId); // Use '===' to compare integers
+
+  if (!movie) {
+    return res.status(404).json({ message: "Movie not found" });
   }
+
+  res.status(200).json(movie);
 });
 
 app.get("/genres", (req, res) => {
