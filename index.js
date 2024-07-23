@@ -8,7 +8,9 @@ const Models = require("./models.js");
 const app = express();
 const port = 8080;
 
-const movies = Models.Movie;
+// Import the model
+const Models = require("./models");
+const MoviesModel = Models.Movie;
 const Users = Models.User;
 
 mongoose.connect("mongodb://localhost:27017/mymdb", {
@@ -675,7 +677,6 @@ app.get("/movies", (req, res) => {
 });
 
 app.get("/movies/:movieId", (req, res) => {
-  // Correctly extract the movieId from the request parameters
   const movieId = parseInt(req.params.movieId, 10); // Note: use 'movieId' as it matches the route parameter
   console.log(`Received movieId: ${movieId}`); // Debugging line
 
