@@ -833,11 +833,11 @@ if (!user.favorites) {
 }
 
 // Add a movie to a user's list of favorites mongoose
-app.post("/users/:Username/movies/:MovieID", async (req, res) => {
+app.post("/users/:Username/movies/:movieId", async (req, res) => {
   await Users.findOneAndUpdate(
     { Username: req.params.Username },
     {
-      $push: { FavoriteMovies: req.params.MovieID },
+      $push: { FavoriteMovies: req.params.movieId },
     },
     { new: true }
   ) // This line makes sure that the updated document is returned
