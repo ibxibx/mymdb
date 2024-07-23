@@ -4,6 +4,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const Models = require("./models.js");
+const { Movie } = require("./models");
 
 const app = express();
 const port = 8080;
@@ -680,12 +681,11 @@ app.get("/movies", (req, res) => {
   res.json(movies);
 });
 
-// Find a movie by ID
+// Route handler for fetching a movie by ID
 app.get("/movies/:movieId", async (req, res) => {
-  const movieId = req.params.movieId;
-
   try {
-    const movie = await MoviesModel.findById(movieId).exec(); // Using `findById` for ObjectId
+    const movieId = req.params.movieId; // Extract movieId from URL parameters
+    const movie = await Movie.findById(movieId); // Use Mongoose to find the movie by ID
 
     if (!movie) {
       return res.status(404).json({ message: "Movie not found" });
@@ -693,7 +693,8 @@ app.get("/movies/:movieId", async (req, res) => {
 
     res.json(movie);
   } catch (error) {
-    res.status(500).json({ message: "Internal Server Error" });
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
