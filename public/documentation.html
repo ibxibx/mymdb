@@ -129,54 +129,72 @@
         <li><strong>DELETE /users/:userId</strong>: Deregister a user.</li>
       </ul>
 
-      <h3>MongoDB Endpoints / Examples</h3>
+      <h3>Mongoose Commands for API Endpoints</h3>
       <ul>
-        <li><strong>db.movies.find()</strong>: Query to see all movies.</li>
         <li>
-          <strong>db.users.find()</strong>: Query to see all users with their
-          data and favourite movies.
+          <strong>Users.findById(userId).select('-password')</strong>: Get a
+          user by userId (GET /user/:userId)
         </li>
         <li>
-          <strong>db.movies.find({ genre: "Drama" }).pretty()</strong>: Query to
-          find movies with genre Drama.
+          <strong>Users.find().select('-password')</strong>: Get all users (GET
+          /users)
+        </li>
+        <li><strong>Movie.find()</strong>: Get all movies (GET /movies)</li>
+        <li>
+          <strong>Movie.findOne({ movieId: movieId })</strong>: Get a movie by
+          movieId (GET /movies/:movieId)
+        </li>
+        <li><strong>Genre.find()</strong>: Get all genres (GET /genres)</li>
+        <li>
+          <strong>Movie.find({ 'Genre.Name': genreName })</strong>: Get movies
+          by genre name (GET /genres/:name)
         </li>
         <li>
-          <strong>db.movies.find({ Title: "The Revenant" }).pretty()</strong>:
-          Query to find movies by the title, example: "The Revenant".
+          <strong>Director.find()</strong>: Get all directors (GET /directors)
         </li>
         <li>
-          <strong>
-            db.movies.find({ Director: "Quentin Tarantino", Genre: "Western"
-            }).pretty() </strong
-          >: Query to find movies directed by Quentin Tarantino in the Western
-          genre.
+          <strong>Movie.find({ 'Director.Name': directorName })</strong>: Get
+          movies by director name (GET /directors/:name)
         </li>
         <li>
-          <strong>
-            db.movies.updateMany( { 'Director.Name': 'Christopher Nolan' }, {
-            $set: { 'Director.Bio': 'This is a replacement text' } } ); </strong
-          >: Update the bio of a certain Director in all Movie Documents /
-          Records with his Name: for example in all Christopher Nolan's Movies.
+          <strong>Users.findOne({ email: email })</strong>: Check if user exists
+          during registration (POST /users/register)
         </li>
         <li>
-          <strong>
-            db.movies.updateOne( { Title: "Goodfellas" }, { $set: { Description:
-            "This is a replacement text" } } ) </strong
-          >: Update query to change the description of a movie / for example in
-          "Goodfellas".
-        </li>
-        <li>
-          <strong>
-            db.users.updateOne({ Username: "Charlie" }, { $addToSet: {
-            FavoriteMovies: "Inception" } }); </strong
-          >: Insert query to add a new favorite movie / example: "Inception" to
-          an existing user with the username "Charlie".
+          <strong>Users.create({ name, email, password, birthday })</strong>:
+          Create a new user (POST /users/register)
         </li>
         <li>
           <strong>
-            db.users.deleteOne({ _id: ObjectId('6699589006c0c8e15ac4e49c') }) </strong
-          >: Delete query to remove a user / example with the ID
-          "6699589006c0c8e15ac4e49c".
+            Users.findByIdAndUpdate(userId, { $set: updates }, { new: true
+            }).select('-password') </strong
+          >: Update a user's info (PUT /users/:userId)
+        </li>
+        <li>
+          <strong>Users.findOne({ Email: email })</strong>: Check if user exists
+          before creation (POST /users)
+        </li>
+        <li>
+          <strong>Users.create({ userId, Password, Email, Birthday })</strong>:
+          Create a new user (POST /users)
+        </li>
+        <li>
+          <strong>
+            Users.findByIdAndUpdate(userId, { $addToSet: { FavoriteMovies:
+            movieId } }, { new: true }).select('-password') </strong
+          >: Add a movie to user's favorites (POST
+          /users/:userId/movies/:movieId)
+        </li>
+        <li>
+          <strong>
+            Users.findByIdAndUpdate(userId, { $pull: { FavoriteMovies: movieId }
+            }, { new: true }).select('-password') </strong
+          >: Remove a movie from user's favorites (DELETE
+          /users/:userId/movies/:movieId)
+        </li>
+        <li>
+          <strong>Users.findByIdAndRemove(userId)</strong>: Delete a user
+          (DELETE /users/:userId)
         </li>
       </ul>
 
