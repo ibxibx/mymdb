@@ -179,17 +179,27 @@ app.get("/directors/:name", async (req, res) => {
 // User, Register with Email and userId
 app.post("/users/register", async (req, res) => {
   try {
-    const { userId, Email, Password, Birthday } = req.body;
-    if (!userId || !Email || !Password) {
-      return res
-        .status(400)
-        .json({ error: "UserId, Email, and Password are required" });
+    const { Email, Password, Birthday } = req.body;
+
+    if (!Email || !Password) {
+      return res.status(400).json({ error: "Email and Password are required" });
     }
+
     const existingUser = await Users.findOne({ Email });
     if (existingUser) {
       return res.status(400).json({ message: "Email is already registered" });
     }
-    const newUser = await Users.create({ userId, Email, Password, Birthday });
+
+    // Create a new user without userId
+    const newUser = new Users({ Email, Password, Birthday });
+
+    // Save the user to generate the _id
+    await newUser.save();
+
+    // Update the user with the generated _id as userId
+    newUser.userId = newUser._id.toString();
+    await newUser.save();
+
     res.status(201).json({
       userId: newUser.userId,
       Email: newUser.Email,
