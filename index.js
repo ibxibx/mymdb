@@ -179,21 +179,20 @@ app.get("/directors/:name", async (req, res) => {
 // User, Register with Email and userId
 app.post("/users/register", async (req, res) => {
   try {
-    const { name, email, password, birthday } = req.body;
-    if (!name || !email || !password) {
+    const { userId, Email, Password, Birthday } = req.body;
+    if (!userId || !Email || !Password) {
       return res
         .status(400)
-        .json({ error: "Name, email, and password are required" });
+        .json({ error: "UserId, Email, and Password are required" });
     }
-    const existingUser = await Users.findOne({ email });
+    const existingUser = await Users.findOne({ Email });
     if (existingUser) {
       return res.status(400).json({ message: "Email is already registered" });
     }
-    const newUser = await Users.create({ name, email, password, birthday });
+    const newUser = await Users.create({ userId, Email, Password, Birthday });
     res.status(201).json({
-      userId: newUser._id,
-      name: newUser.name,
-      email: newUser.email,
+      userId: newUser.userId,
+      Email: newUser.Email,
     });
   } catch (error) {
     res
