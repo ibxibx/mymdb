@@ -180,7 +180,7 @@ app.get("/directors/:name", async (req, res) => {
 app.post("/users/register", async (req, res) => {
   try {
     const { name, email, password, birthday } = req.body;
-    if (!userId || !email || !password) {
+    if (!name || !email || !password) {
       return res
         .status(400)
         .json({ error: "Name, email, and password are required" });
