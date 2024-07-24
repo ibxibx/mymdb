@@ -282,7 +282,7 @@ app.delete("/users/:userId/movies/:movieId", async (req, res) => {
 // Delete a user by userId mongoose
 app.delete("/users/:userId", async (req, res) => {
   try {
-    const deletedUser = await Users.findByIdAndRemove(req.params.userId);
+    const deletedUser = await Users.findByIdAndDelete(req.params.userId);
     if (!deletedUser) {
       return res.status(404).json({ message: "User not found" });
     }
