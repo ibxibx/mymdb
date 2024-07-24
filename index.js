@@ -228,21 +228,6 @@ app.put("/users/:userId", async (req, res) => {
   Email: String,
   Birthday: Date
 }*/
-app.post("/users", async (req, res) => {
-  try {
-    const { userId, Password, Email, Birthday } = req.body;
-    const existingUser = await Users.findOne({ Email });
-    if (existingUser) {
-      return res.status(400).json({ message: "Email already exists" });
-    }
-    const newUser = await Users.create({ userId, Password, Email, Birthday });
-    res.status(201).json(newUser);
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error creating user", error: error.message });
-  }
-});
 
 // Add a movie to a user's list of favorites mongoose
 app.post("/users/:userId/movies/:movieId", async (req, res) => {
