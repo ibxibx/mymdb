@@ -86,7 +86,7 @@ app.get("/movies", async (req, res) => {
 // Route to get a movie by movieId
 app.get("/movies/:movieId", async (req, res) => {
   try {
-    const movie = await Movie.findOne({ movieId: req.params.movieId });
+    const movie = await Movie.findById(req.params.movieId);
 
     if (!movie) {
       return res.status(404).json({ message: "Movie not found" });
