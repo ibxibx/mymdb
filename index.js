@@ -31,6 +31,7 @@ app.use(express.json()); // Middleware to parse JSON bodies
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public")); // Serve static files from the 'public' folder
 
+//Endpoints
 // Get a user by userId mongoose
 app.get("/user/:userId", async (req, res) => {
   try {
@@ -58,8 +59,6 @@ app.get("/users", async (req, res) => {
   }
 });
 
-// Endpoints
-
 // Define the GET route for the / endpoint (homepage)
 app.get("/", (req, res) => {
   const filePath = path.join(__dirname, "public", "hello.html");
@@ -72,6 +71,7 @@ app.get("/", (req, res) => {
   });
 });
 
+// Return all movies
 app.get("/movies", async (req, res) => {
   try {
     const movies = await Movie.find();
@@ -100,6 +100,22 @@ app.get("/movies/:movieId", async (req, res) => {
   }
 });
 
+// Return data about a single movie by title
+app.get("/movies/title/:title", async (req, res) => {
+  try {
+    const movie = await Movie.findOne({ Title: req.params.title });
+    if (!movie) {
+      return res.status(404).json({ message: "Movie not found" });
+    }
+    res.json(movie);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error retrieving movie", error: error.message });
+  }
+});
+
+//Return all Genres
 app.get("/genres", async (req, res) => {
   try {
     const genres = await Genre.find();
@@ -111,13 +127,14 @@ app.get("/genres", async (req, res) => {
   }
 });
 
+// Return data about a genre (description) by name/title
 app.get("/genres/:name", async (req, res) => {
   try {
-    const movies = await Movie.find({ "Genre.Name": req.params.name });
-    if (movies.length === 0) {
+    const genre = await Genre.findOne({ Name: req.params.name });
+    if (!genre) {
       return res.status(404).json({ message: "Genre not found" });
     }
-    res.json(movies);
+    res.json({ Name: genre.Name, Description: genre.Description });
   } catch (error) {
     res
       .status(500)
@@ -125,6 +142,7 @@ app.get("/genres/:name", async (req, res) => {
   }
 });
 
+//Return all Directors' List
 app.get("/directors", async (req, res) => {
   try {
     const directors = await Director.find();
@@ -136,13 +154,19 @@ app.get("/directors", async (req, res) => {
   }
 });
 
+//Return data about a director (bio, birth year, death year) by name
 app.get("/directors/:name", async (req, res) => {
   try {
-    const movies = await Movie.find({ "Director.Name": req.params.name });
-    if (movies.length === 0) {
+    const director = await Director.findOne({ Name: req.params.name });
+    if (!director) {
       return res.status(404).json({ message: "Director not found" });
     }
-    res.json(movies);
+    res.json({
+      Name: director.Name,
+      Bio: director.Bio,
+      Birth: director.Birth,
+      Death: director.Death,
+    });
   } catch (error) {
     res
       .status(500)
@@ -179,7 +203,6 @@ app.post("/users/register", async (req, res) => {
 });
 
 // Update a user's info, by userId mongoose
-
 app.put("/users/:userId", async (req, res) => {
   try {
     const updatedUser = await Users.findByIdAndUpdate(
