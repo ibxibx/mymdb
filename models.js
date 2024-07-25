@@ -13,7 +13,6 @@ let movieSchema = new Schema({
 
 let userSchema = new Schema({
   Username: { type: String, required: true },
-  userId: { type: String, required: true, unique: true },
   Password: { type: String, required: true },
   Email: { type: String, required: true, unique: true },
   Birthday: Date,
@@ -26,7 +25,6 @@ let genreSchema = new Schema({
 });
 
 let directorSchema = new Schema({
-  directorId: { type: Number, required: true, unique: true },
   Name: { type: String, required: true },
   Bio: String,
   Birth: Date,
