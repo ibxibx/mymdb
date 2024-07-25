@@ -35,6 +35,23 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public")); // Serve static files from the 'public' folder
 
 //Endpoints
+
+//JWT Authentication Endpoint
+app.get(
+  "/movies",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    await Movies.find()
+      .then((movies) => {
+        res.status(201).json(movies);
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).send("Error: " + error);
+      });
+  }
+);
+
 // Get a user by userId mongoose
 app.get("/user/:userId", async (req, res) => {
   try {
