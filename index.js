@@ -1,16 +1,15 @@
 const express = require("express");
+const app = express();
+let auth = require("./auth")(app);
+const passport = require("passport");
+require("./passport");
+
 const morgan = require("morgan");
 const path = require("path");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const Models = require("./models.js");
 const { Genre, Director } = Models;
-
-const app = express();
-let auth = require("./auth")(app);
-
-const passport = require("passport");
-require("./passport");
 
 // Import the model
 const Movie = Models.Movie;

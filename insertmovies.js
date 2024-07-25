@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { Movie } = require('./models');  // Adjust the path if necessary
+const { Movie, Genre, Director } = require('./models');  // Adjust the path if necessary
 
 // Your MongoDB connection string
 const mongoURI = 'mongodb://localhost:27017/test';  // Replace with your actual database name
@@ -10,8 +10,7 @@ mongoose.connect(mongoURI, {
 }).then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('Error connecting to MongoDB:', err));
 
-const movies = [
-  {
+const movies = [{
     title: "American Beauty",
     year: 1999,
     director: "Sam Mendes",
@@ -295,23 +294,31 @@ async function insertMovies() {
     console.log(`Attempting to insert ${movies.length} movies`);
     for (let movie of movies) {
       console.log(`Processing movie: ${movie.title}`);
+      
+      // Find the corresponding genre
+      let genreDoc = await Genre.findOne({ Name: Array.isArray(movie.genre) ? movie.genre[0] : movie.genre });
+      if (!genreDoc) {
+        console.log(`Genre not found for ${movie.title}, skipping...`);
+        continue;
+      }
+
+      // Find the corresponding director
+      let directorDoc = await Director.findOne({ Name: movie.director });
+      if (!directorDoc) {
+        console.log(`Director not found for ${movie.title}, skipping...`);
+        continue;
+      }
+
       const newMovie = new Movie({
         Title: movie.title,
-        Year: movie.year,
         Description: `A ${movie.year} ${Array.isArray(movie.genre) ? movie.genre.join(', ') : movie.genre} film directed by ${movie.director}.`,
-        Genre: {
-          Name: Array.isArray(movie.genre) ? movie.genre[0] : movie.genre,
-          Description: `A ${Array.isArray(movie.genre) ? movie.genre.join(', ') : movie.genre} movie.`
-        },
-        Director: {
-          Name: movie.director,
-          Bio: `Director of ${movie.title}.`  // You might want to add more detailed bios
-        },
+        GenreId: genreDoc._id,
+        DirectorId: directorDoc._id,
         ImagePath: movie.image,
         Featured: false,  // You can set this as needed
         Actors: movie.actors,
-        MovieId: movie.movieId
       });
+
       console.log(`Saving movie: ${movie.title}`);
       await newMovie.save();
       console.log(`Successfully inserted: ${movie.title}`);
@@ -326,3 +333,5 @@ async function insertMovies() {
 }
 
 insertMovies();
+
+
