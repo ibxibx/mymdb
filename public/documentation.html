@@ -167,7 +167,7 @@
           user by ID.
         </li>
         <li><strong>POST /users/register</strong>: Register a new user.</li>
-        <li><strong>PUT /users/:userId</strong>: Update user information.</li>
+        <li><strong>PUT /users/:_Id</strong>: Update user information.</li>
         <li>
           <strong>POST /users/:_Id/movies/:movieId</strong>: Add a movie to a
           user's list of favorites.
@@ -212,23 +212,6 @@
     "Password": "totallynewPassword123"
   }'</code></pre>
 
-      <h3>Adding a Movie into User's Favorites</h3>
-      <pre><code>POST /users/:_Id/movies/movieId
-  curl -X POST https://mymdb-api.herokuapp.com/users 
-  \ -H "Content-Type: application/json" \
-  -d ''</code></pre>
-
-      <h3>Deleting a User's favorite Movie</h3>
-      <pre><code>DELETE /users/:_Id/movies/movieId
-  curl -X POST https://mymdb-api.herokuapp.com/users 
-  \ -H "Content-Type: application/json" \
-  -d ''</code></pre>
-
-      <h3>Deregistering a User</h3>
-      <pre><code>DELETE /users/:_Id
-curl -X POST https://mymdb-api.herokuapp.com/users 
- \ -H "Content-Type: application/json" \
--d ''</code></pre>
       <h2 id="errors">Error Handling</h2>
       <p>
         The API returns standard HTTP status codes to indicate the success or
