@@ -34,6 +34,8 @@ app.use(express.json()); // Middleware to parse JSON bodies
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public")); // Serve static files from the 'public' folder
 
+// Passport configuration
+require("./passport");
 //Endpoints
 
 //JWT Authentication Endpoint
@@ -43,7 +45,7 @@ app.get(
   async (req, res) => {
     await Movies.find()
       .then((movies) => {
-        res.status(201).json(movies);
+        res.status(200).json(movies);
       })
       .catch((error) => {
         console.error(error);
