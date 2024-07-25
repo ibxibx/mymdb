@@ -17,6 +17,7 @@ let movieSchema = mongoose.Schema({
 });
 
 let userSchema = mongoose.Schema({
+  Username: { type: String }
   userId: { type: String, required: true, unique: true },
   Password: { type: String, required: true },
   Email: { type: String, required: true, unique: true },
@@ -38,6 +39,7 @@ let directorSchema = mongoose.Schema({
 
 let Movie = mongoose.model("Movie", movieSchema);
 let User = mongoose.model("User", userSchema);
+let Users = mongoose.model("Users", userSchema);
 let Genre = mongoose.model("Genre", genreSchema);
 let Director = mongoose.model("Director", directorSchema);
 

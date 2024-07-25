@@ -197,6 +197,12 @@ app.get("/directors/:name", async (req, res) => {
 
 // User management endpoints
 
+const generateUsername = (email) => {
+  const emailPrefix = email.split("@")[0];
+  const randomSuffix = Math.floor(Math.random() * 10000);
+  return `${emailPrefix}${randomSuffix}`;
+};
+
 // User, Register with Email and userId
 app.post("/users/register", async (req, res) => {
   try {
@@ -211,19 +217,22 @@ app.post("/users/register", async (req, res) => {
       return res.status(400).json({ message: "Email is already registered" });
     }
 
+    // Generate Username
+    const Username = generateUsername(Email);
+
     // Create a new user without userId
-    const newUser = new Users({ Email, Password, Birthday });
+    const newUser = new Users({ Email, Password, Birthday, Username });
 
-    // Save the user to generate the _id
-    await newUser.save();
-
-    // Update the user with the generated _id as userId
+    // Generate userId based on _id
     newUser.userId = newUser._id.toString();
+
+    // Save the user with the generated userId and Username
     await newUser.save();
 
     res.status(201).json({
       userId: newUser.userId,
       Email: newUser.Email,
+      Username: newUser.Username,
     });
   } catch (error) {
     res
