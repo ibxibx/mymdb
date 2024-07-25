@@ -11,9 +11,11 @@ const mongoose = require("mongoose");
 const Models = require("./models.js");
 const { Genre, Director } = Models;
 
-// Import the model
+// Import models
 const Movie = Models.Movie;
 const Users = Models.User;
+const Genre = Models.Genre;
+const Director = Models.Director;
 
 mongoose
   .connect("mongodb://localhost:27017/test", {
@@ -38,14 +40,14 @@ app.use(express.static("public")); // Serve static files from the 'public' folde
 require("./passport");
 //Endpoints
 
-//JWT Authentication Endpoint
+// JWT Authentication Endpoint
 app.get(
   "/movies",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
-    await Movies.find()
+    await Movie.find()
       .then((movies) => {
-        res.status(200).json(movies);
+        res.status(201).json(movies);
       })
       .catch((error) => {
         console.error(error);
