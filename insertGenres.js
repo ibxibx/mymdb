@@ -83,12 +83,15 @@ const genres = [
 
 async function insertGenres() {
   try {
+    let genreId = 1;
     for (let genre of genres) {
       await Genre.create({
+        genreId: genreId,
         Name: genre.genre,
         Description: genre.description,
       });
-      console.log(`Inserted genre: ${genre.genre}`);
+      console.log(`Inserted genre: ${genre.genre} with ID: ${genreId}`);
+      genreId++;
     }
     console.log("All genres have been inserted.");
   } catch (error) {
@@ -99,3 +102,19 @@ async function insertGenres() {
 }
 
 insertGenres();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
