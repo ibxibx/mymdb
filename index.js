@@ -5,11 +5,12 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const Models = require("./models.js");
 const { Genre, Director } = Models;
+
+const app = express();
 let auth = require("./auth")(app);
 
 const passport = require("passport");
 require("./passport");
-const app = express();
 
 // Import the model
 const Movie = Models.Movie;
