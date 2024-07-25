@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-let movieSchema = mongoose.Schema({
+let movieSchema = new Schema({
   Title: { type: String, required: true },
   Description: { type: String, required: true },
   GenreId: { type: mongoose.Schema.Types.ObjectId, ref: "Genre" },
@@ -11,8 +11,8 @@ let movieSchema = mongoose.Schema({
   Featured: Boolean,
 });
 
-let userSchema = mongoose.Schema({
-  Username: { type: String },
+let userSchema = new Schema({
+  Username: { type: String, required: true },
   userId: { type: String, required: true, unique: true },
   Password: { type: String, required: true },
   Email: { type: String, required: true, unique: true },
@@ -20,18 +20,17 @@ let userSchema = mongoose.Schema({
   FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: "Movie" }],
 });
 
-let genreSchema = mongoose.Schema({
-  genreId: { type: Number, required: true, unique: true },
-  Name: String,
+let genreSchema = new Schema({
+  Name: { type: String, required: true },
   Description: String,
 });
 
-let directorSchema = mongoose.Schema({
+let directorSchema = new Schema({
   directorId: { type: Number, required: true, unique: true },
-  Name: String,
+  Name: { type: String, required: true },
   Bio: String,
   Birth: Date,
-  Death: Date,
+  Death: { type: Date, default: null }, // Allowing null values for Death
 });
 
 let Movie = mongoose.model("Movie", movieSchema);
