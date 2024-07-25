@@ -194,14 +194,17 @@ const directors = [
 
 async function insertDirectors() {
   try {
+    let directorId = 1;
     for (let director of directors) {
       await Director.create({
+        directorId: directorId,
         Name: director.name,
         Bio: director.bio,
         Birth: director.birth,
         Death: director.death,
       });
-      console.log(`Inserted director: ${director.name}`);
+      console.log(`Inserted director: ${director.name} with ID: ${directorId}`);
+      directorId++;
     }
     console.log("All directors have been inserted.");
   } catch (error) {
@@ -212,3 +215,6 @@ async function insertDirectors() {
 }
 
 insertDirectors();
+
+
+ 

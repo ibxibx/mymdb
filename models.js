@@ -1,16 +1,11 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
 let movieSchema = mongoose.Schema({
   Title: { type: String, required: true },
   Description: { type: String, required: true },
-  Genre: {
-    Name: String,
-    Description: String,
-  },
-  Director: {
-    Name: String,
-    Bio: String,
-  },
+  GenreId: { type: mongoose.Schema.Types.ObjectId, ref: "Genre" },
+  DirectorId: { type: mongoose.Schema.Types.ObjectId, ref: "Director" },
   Actors: [String],
   ImagePath: String,
   Featured: Boolean,
@@ -22,15 +17,17 @@ let userSchema = mongoose.Schema({
   Password: { type: String, required: true },
   Email: { type: String, required: true, unique: true },
   Birthday: Date,
-  FavoriteMovies: [String],
+  FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: "Movie" }],
 });
 
 let genreSchema = mongoose.Schema({
+  genreId: { type: Number, required: true, unique: true },
   Name: String,
   Description: String,
 });
 
 let directorSchema = mongoose.Schema({
+  directorId: { type: Number, required: true, unique: true },
   Name: String,
   Bio: String,
   Birth: Date,
@@ -39,11 +36,7 @@ let directorSchema = mongoose.Schema({
 
 let Movie = mongoose.model("Movie", movieSchema);
 let User = mongoose.model("User", userSchema);
-let Users = mongoose.model("Users", userSchema);
 let Genre = mongoose.model("Genre", genreSchema);
 let Director = mongoose.model("Director", directorSchema);
 
-module.exports.Movie = Movie;
-module.exports.User = User;
-module.exports.Genre = Genre;
-module.exports.Director = Director;
+module.exports = { Movie, User, Genre, Director };
