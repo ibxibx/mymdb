@@ -14,8 +14,6 @@ const { Genre, Director } = Models;
 // Import models
 const Movie = Models.Movie;
 const Users = Models.User;
-const Genre = Models.Genre;
-const Director = Models.Director;
 
 mongoose
   .connect("mongodb://localhost:27017/test", {
@@ -262,6 +260,37 @@ app.put("/users/:userId", async (req, res) => {
       .json({ message: "Error updating user", error: error.message });
   }
 });
+
+app.put(
+  "/users/:Username",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    // CONDITION TO CHECK ADDED HERE
+    if (req.user.Username !== req.params.Username) {
+      return res.status(400).send("Permission denied");
+    }
+    // CONDITION ENDS
+    await Users.findOneAndUpdate(
+      { Username: req.params.Username },
+      {
+        $set: {
+          Username: req.body.Username,
+          Password: req.body.Password,
+          Email: req.body.Email,
+          Birthday: req.body.Birthday,
+        },
+      },
+      { new: true }
+    ) // This line makes sure that the updated document is returned
+      .then((updatedUser) => {
+        res.json(updatedUser);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 
 // Add a user mongoose
 /* We’ll expect JSON in this format
