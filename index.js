@@ -296,16 +296,38 @@ app.post(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
+      console.log(
+        `Attempting to add movie ${req.params.movieId} to favorites for user ${req.params.userId}`
+      );
+
+      // Check if the user exists
+      const user = await Users.findById(req.params.userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Check if the movie exists (assuming you have a Movie model)
+      const movie = await Movie.findById(req.params.movieId);
+      if (!movie) {
+        return res.status(404).json({ message: "Movie not found" });
+      }
+
+      // Check if the movie is already in favorites
+      if (user.FavoriteMovies.includes(req.params.movieId)) {
+        return res.status(400).json({ message: "Movie already in favorites" });
+      }
+
       const updatedUser = await Users.findByIdAndUpdate(
         req.params.userId,
         { $addToSet: { FavoriteMovies: req.params.movieId } },
         { new: true }
       ).select("-password");
-      if (!updatedUser) {
-        return res.status(404).json({ message: "User not found" });
-      }
+
+      console.log("Updated user:", updatedUser);
+
       res.json(updatedUser);
     } catch (error) {
+      console.error("Error adding movie to favorites:", error);
       res.status(500).json({
         message: "Error adding movie to favorites",
         error: error.message,
