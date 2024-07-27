@@ -5,6 +5,7 @@ app.use(cors());
 let auth = require("./auth")(app);
 const passport = require("passport");
 require("./passport");
+const bcrypt = require("bcrypt");
 
 const morgan = require("morgan");
 const path = require("path");
