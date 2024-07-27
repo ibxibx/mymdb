@@ -19,10 +19,13 @@ const { Genre, Director } = Models;
 const Movie = Models.Movie;
 const Users = Models.User;
 
-mongoose.connect("mongodb://localhost:27017/mymdb", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(
+  "mongodb+srv://magnyt:sC9qc3JHCnHxKnGJ@mymdb.z2qogep.mongodb.net/?retryWrites=true&w=majority&appName=mymdb",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 
 mongoose
   .connect("mongodb://localhost:27017/test", {
