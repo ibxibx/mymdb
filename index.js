@@ -24,14 +24,6 @@ mongoose.connect(process.env.CONNECTION_URI, {
   useUnifiedTopology: true,
 });
 
-mongoose.connect(
-  "mongodb+srv://magnyt:sC9qc3JHCnHxKnGJ@mymdb.z2qogep.mongodb.net/?retryWrites=true&w=majority&appName=mymdb",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-);
-
 mongoose
   .connect("mongodb://localhost:27017/test", {
     useNewUrlParser: true,
