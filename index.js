@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
+app.use(cors());
 let auth = require("./auth")(app);
 const passport = require("passport");
 require("./passport");
