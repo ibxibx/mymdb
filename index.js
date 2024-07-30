@@ -192,7 +192,7 @@ app.get(
       console.log(`Searching for director: ${directorName}`);
 
       const director = await Director.findOne({
-        name: new RegExp(`^${directorName}$`, "i"),
+        name: { $regex: new RegExp(`^${directorName}$`, "i") },
       });
       console.log(`Director found:`, director);
 
@@ -204,11 +204,13 @@ app.get(
       const response = {
         Name: director.name,
         Bio: director.bio,
-        Birth: director.birth,
+        Birth: director.birth || director.birthYear,
         Death: director.death,
-        BirthYear:
-          director.birthYear ||
-          (director.birth ? new Date(director.birth).getFullYear() : undefined),
+        BirthYear: director.birthYear
+          ? new Date(director.birthYear).getFullYear()
+          : director.birth
+          ? new Date(director.birth).getFullYear()
+          : undefined,
         BirthPlace: director.birthPlace,
         MoviesCount: director.moviesCount,
       };
