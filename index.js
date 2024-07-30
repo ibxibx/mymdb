@@ -188,29 +188,33 @@ app.get(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      // Decode the URI component to handle spaces and special characters
       const directorName = decodeURIComponent(req.params.name);
       console.log(`Searching for director: ${directorName}`);
 
-      // Case-insensitive search using a regular expression
       const director = await Director.findOne({
         name: new RegExp(`^${directorName}$`, "i"),
       });
+      console.log(`Director found:`, director);
 
       if (!director) {
+        console.log("Director not found");
         return res.status(404).json({ message: "Director not found" });
       }
 
-      res.json({
+      const response = {
         Name: director.name,
         Bio: director.bio,
         Birth: director.birth,
         Death: director.death,
-        BirthYear: director.birthYear, // Additional fields based on your example
+        BirthYear: director.birthYear,
         BirthPlace: director.birthPlace,
         MoviesCount: director.moviesCount,
-      });
+      };
+      console.log("Sending response:", response);
+
+      res.json(response);
     } catch (error) {
+      console.error("Error:", error);
       res
         .status(500)
         .json({ message: "Error retrieving director", error: error.message });
