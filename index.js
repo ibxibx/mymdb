@@ -191,7 +191,9 @@ app.get(
       const directorName = decodeURIComponent(req.params.name);
       console.log(`Searching for director: ${directorName}`);
 
-      const director = await Director.findOne({ name: directorName });
+      const director = await Director.findOne({
+        name: { $regex: new RegExp(`^${directorName}$`, "i") },
+      });
       console.log(`Director found:`, director);
 
       if (!director) {
