@@ -14,6 +14,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const Models = require("./models.js");
 const { Genre, Director } = Models;
+const newUser = new Users({ Email, Password, Birthday, Username });
 
 // Import models
 const Movie = Models.Movie;
@@ -237,65 +238,46 @@ app.post(
       return res.status(422).json({ errors: errors.array() });
     }
 
-    let hashedPassword = Users.hashPassword(req.body.Password);
-    await Users.findOne({ Username: req.body.Username }) // Search to see if a user with the requested username already exists
-      .then((user) => {
-        if (user) {
-          //If the user is found, send a response that it already exists
-          return res.status(400).send(req.body.Username + " already exists");
-        } else {
-          Users.create({
-            Username: req.body.Username,
-            Password: hashedPassword,
-            Email: req.body.Email,
-            Birthday: req.body.Birthday,
-          })
-            .then((user) => {
-              res.status(201).json(user);
-            })
-            .catch((error) => {
-              console.error(error);
-              res.status(500).send("Error: " + error);
-            });
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        res.status(500).send("Error: " + error);
+    try {
+      const { Email, Password, Birthday, Username } = req.body;
+
+      // Check if the email or username already exists
+      const existingUser = await Users.findOne({ Email });
+      if (existingUser) {
+        return res.status(400).json({ message: "Email is already registered" });
+      }
+
+      const usernameExists = await Users.findOne({ Username });
+      if (usernameExists) {
+        return res.status(400).json({ message: "Username already exists" });
+      }
+
+      // Hash the password
+      const hashedPassword = await bcrypt.hash(Password, 10);
+
+      // Create a new user
+      const newUser = new Users({
+        Username,
+        Email,
+        Password: hashedPassword,
+        Birthday,
       });
+      newUser.userId = newUser._id.toString();
+      await newUser.save();
+
+      res.status(201).json({
+        userId: newUser.userId,
+        Email: newUser.Email,
+        Username: newUser.Username,
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: "Error registering user",
+        error: error.message,
+      });
+    }
   }
 );
-
-// User registration route (no authentication required)
-app.post("/users/register", async (req, res) => {
-  try {
-    const { Email, Password, Birthday } = req.body;
-
-    if (!Email || !Password) {
-      return res.status(400).json({ error: "Email and Password are required" });
-    }
-
-    const existingUser = await Users.findOne({ Email });
-    if (existingUser) {
-      return res.status(400).json({ message: "Email is already registered" });
-    }
-
-    const Username = generateUsername(Email);
-    const newUser = new Users({ Email, Password, Birthday, Username });
-    newUser.userId = newUser._id.toString();
-    await newUser.save();
-
-    res.status(201).json({
-      userId: newUser.userId,
-      Email: newUser.Email,
-      Username: newUser.Username,
-    });
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error registering user", error: error.message });
-  }
-});
 
 app.put(
   "/users/:userId",
