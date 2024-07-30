@@ -188,15 +188,18 @@ app.get(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      const director = await Director.findOne({ Name: req.params.name });
+      // Case-insensitive search
+      const director = await Director.findOne({
+        name: new RegExp(`^${req.params.name}$`, "i"),
+      });
       if (!director) {
         return res.status(404).json({ message: "Director not found" });
       }
       res.json({
-        Name: director.Name,
-        Bio: director.Bio,
-        Birth: director.Birth,
-        Death: director.Death,
+        Name: director.name, // Ensure consistency with field names
+        Bio: director.bio,
+        Birth: director.birth,
+        Death: director.death,
       });
     } catch (error) {
       res
