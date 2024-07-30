@@ -23,7 +23,10 @@
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
-    "uuid": "^10.0.0"
+    "uuid": "^10.0.0",
+    "@aws-sdk/core": "^3.539.0",
+    "@aws-sdk/client-cognito-identity": "^3.539.0",
+    "@aws-sdk/client-sso": "^3.539.0"
   },
   "devDependencies": {
     "eslint": "^9.5.0"
