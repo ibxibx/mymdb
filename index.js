@@ -188,22 +188,12 @@ app.get(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      const directorName = decodeURIComponent(req.params.name);
-      console.log(`Searching for director: ${directorName}`);
-
-      const director = await Director.findOne({
-        name: { $regex: new RegExp(`^${directorName}$`, "i") },
-      });
-      console.log(`Director found:`, director);
-
+      const director = await Director.findOne({ name: req.params.name });
       if (!director) {
-        console.log("Director not found");
         return res.status(404).json({ message: "Director not found" });
       }
-
       res.json(director);
     } catch (error) {
-      console.error("Error:", error);
       res
         .status(500)
         .json({ message: "Error retrieving director", error: error.message });
