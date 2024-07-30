@@ -188,6 +188,8 @@ app.get(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
+      console.log("All directors:", await Director.find({}));
+
       const directorName = decodeURIComponent(req.params.name);
       console.log(`Searching for director: ${directorName}`);
 
