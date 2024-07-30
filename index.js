@@ -206,7 +206,9 @@ app.get(
         Bio: director.bio,
         Birth: director.birth,
         Death: director.death,
-        BirthYear: director.birthYear,
+        BirthYear:
+          director.birthYear ||
+          (director.birth ? new Date(director.birth).getFullYear() : undefined),
         BirthPlace: director.birthPlace,
         MoviesCount: director.moviesCount,
       };
