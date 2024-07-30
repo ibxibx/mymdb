@@ -188,14 +188,10 @@ app.get(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      console.log("All directors:", await Director.find({}));
-
       const directorName = decodeURIComponent(req.params.name);
       console.log(`Searching for director: ${directorName}`);
 
-      const director = await Director.findOne({
-        name: { $regex: new RegExp(`^${directorName}$`, "i") },
-      });
+      const director = await Director.findOne({ name: directorName });
       console.log(`Director found:`, director);
 
       if (!director) {
@@ -203,22 +199,7 @@ app.get(
         return res.status(404).json({ message: "Director not found" });
       }
 
-      const response = {
-        Name: director.name,
-        Bio: director.bio,
-        Birth: director.birth || director.birthYear,
-        Death: director.death,
-        BirthYear: director.birthYear
-          ? new Date(director.birthYear).getFullYear()
-          : director.birth
-          ? new Date(director.birth).getFullYear()
-          : undefined,
-        BirthPlace: director.birthPlace,
-        MoviesCount: director.moviesCount,
-      };
-      console.log("Sending response:", response);
-
-      res.json(response);
+      res.json(director);
     } catch (error) {
       console.error("Error:", error);
       res
