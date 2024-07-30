@@ -206,6 +206,9 @@ app.get(
         Bio: director.bio,
         Birth: director.birth,
         Death: director.death,
+        BirthYear: director.birthYear, // Additional fields based on your example
+        BirthPlace: director.birthPlace,
+        MoviesCount: director.moviesCount,
       });
     } catch (error) {
       res
