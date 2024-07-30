@@ -2,6 +2,9 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 app.use(cors());
+const Models = require("./models.js");
+const Movie = Models.Movie;
+const Users = Models.User;
 let auth = require("./auth")(app);
 const passport = require("passport");
 require("./passport");
@@ -12,13 +15,8 @@ const morgan = require("morgan");
 const path = require("path");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const Models = require("./models.js");
-const { Genre, Director } = Models;
-const newUser = new Users({ Email, Password, Birthday, Username });
 
-// Import models
-const Movie = Models.Movie;
-const Users = Models.User;
+const { Genre, Director } = Models;
 
 mongoose
   .connect(process.env.CONNECTION_URI, {
