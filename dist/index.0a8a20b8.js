@@ -588,9 +588,9 @@ var _client = require("react-dom/client");
 // Import statement to indicate that you need to bundle `./index.scss`
 var _indexScss = require("./index.scss");
 // Main component (will eventually use all the others)
-const MyMDBApplication = ()=>{
+const MyFlixApplication = ()=>{
     return /*#__PURE__*/ React.createElement("div", {
-        className: "my-mdb",
+        className: "my-flix",
         __source: {
             fileName: "Desktop/mymdb-client/src/index.jsx",
             lineNumber: 9,
@@ -610,7 +610,7 @@ const MyMDBApplication = ()=>{
 const container = document.querySelector("#root");
 const root = (0, _client.createRoot)(container);
 // Tells React to render your app in the root DOM element
-root.render(/*#__PURE__*/ React.createElement(MyMDBApplication, {
+root.render(/*#__PURE__*/ React.createElement(MyFlixApplication, {
     __source: {
         fileName: "Desktop/mymdb-client/src/index.jsx",
         lineNumber: 20,

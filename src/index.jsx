@@ -4,9 +4,9 @@ import { createRoot } from "react-dom/client";
 import "./index.scss";
 
 // Main component (will eventually use all the others)
-const MyMDBApplication = () => {
+const MyFlixApplication = () => {
   return (
-    <div className="my-mdb">
+    <div className="my-flix">
       <div>Good morning</div>
     </div>
   );
@@ -17,4 +17,4 @@ const container = document.querySelector("#root");
 const root = createRoot(container);
 
 // Tells React to render your app in the root DOM element
-root.render(<MyMDBApplication />);
+root.render(<MyFlixApplication />);
