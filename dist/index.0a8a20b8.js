@@ -590,7 +590,7 @@ var _indexScss = require("./index.scss");
 // Main component (will eventually use all the others)
 const MyMDBApplication = ()=>{
     return /*#__PURE__*/ React.createElement("div", {
-        className: "my-flix",
+        className: "my-mdb",
         __source: {
             fileName: "Desktop/mymdb-client/src/index.jsx",
             lineNumber: 9,

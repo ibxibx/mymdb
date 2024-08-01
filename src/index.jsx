@@ -6,7 +6,7 @@ import "./index.scss";
 // Main component (will eventually use all the others)
 const MyMDBApplication = () => {
   return (
-    <div className="my-flix">
+    <div className="my-mdb">
       <div>Good morning</div>
     </div>
   );
