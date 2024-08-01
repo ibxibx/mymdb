@@ -588,7 +588,7 @@ var _client = require("react-dom/client");
 // Import statement to indicate that you need to bundle `./index.scss`
 var _indexScss = require("./index.scss");
 // Main component (will eventually use all the others)
-const MyFlixApplication = ()=>{
+const MyMDBApplication = ()=>{
     return /*#__PURE__*/ React.createElement("div", {
         className: "my-flix",
         __source: {
