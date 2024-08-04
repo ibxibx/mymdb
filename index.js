@@ -193,7 +193,7 @@ app.get(
 
       // Perform a case-insensitive search for the director
       const director = await Director.findOne({
-        "Director.Name": { $regex: new RegExp(`^${directorName}$`, "i") },
+        "director.name": { $regex: new RegExp(`^${directorName}$`, "i") },
       });
 
       // Log the director found (or not found) from the database
