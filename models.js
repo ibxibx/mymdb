@@ -44,7 +44,7 @@ let genreSchema = new Schema(
 
 let directorSchema = new Schema(
   {
-    Name: { type: String, required: true },
+    name: { type: String, required: true },
     Bio: String,
     Birth: Date,
     Death: { type: Date, default: null }, // Allowing null values for Death
