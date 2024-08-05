@@ -148,11 +148,11 @@
       <h2 id="usage">Usage Examples</h2>
       <h3>Getting All Movies</h3>
       <pre><code>GET /movies
-  curl -X GET https://mymdb-api.herokuapp.com/movies</code></pre>
+  curl -X GET https://mymdb-c295923140ec.herokuapp.com/movies</code></pre>
 
       <h3>Registering a New User</h3>
       <pre><code>POST /users/register
-  curl -X POST https://mymdb-api.herokuapp.com/users 
+  curl -X POST https://mymdb-c295923140ec.herokuapp.com/users 
   \  -H "Content-Type: application/json" \
   -d '{
     "Email": "david@example.com",
@@ -162,7 +162,7 @@
 
       <h3>Updating a User's Information: for ex: Name or Password</h3>
       <pre><code>PUT /users/:_Id
-  curl -X PUT https://mymdb-api.herokuapp.com/users 
+  curl -X PUT https://mymdb-c295923140ec.herokuapp.com/users 
   \ -H "Content-Type: application/json" \
   -d '{
     "name": "NewfirstName NewsecondName",
@@ -201,9 +201,9 @@
       <h2 id="deploy">Deployment</h2>
       <p>
         The MyMDB API is deployed on Heroku. The base URL for accessing the API
-        is: <code>https://mymdb-api.herokuapp.com</code>. Ensure to replace
-        <code>localhost:8080</code> with this URL when making requests to the
-        deployed API.
+        is: <code>https://mymdb-c295923140ec.herokuapp.com</code>. Ensure to
+        replace <code>localhost:8080</code> with this URL when making requests
+        to the deployed API.
       </p>
     </div>
   </body>
