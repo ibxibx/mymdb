@@ -1,0 +1,1 @@
+{"mappings":"AAEA","sources":["Desktop/mymdb-client/src/index.scss"],"sourcesContent":["$color: steelblue;\r\n\r\n.my-flix {\r\n  color: $color;\r\n}\r\n"],"names":[],"version":3,"file":"index.5bd58dd9.css.map","sourceRoot":"/__parcel_source_root/"}
