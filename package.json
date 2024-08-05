@@ -8,6 +8,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@aws-sdk/client-cognito-identity": "^3.539.0",
+    "@aws-sdk/client-sso": "^3.539.0",
+    "@aws-sdk/core": "^3.539.0",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
@@ -23,10 +26,9 @@
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
-    "uuid": "^10.0.0",
-    "@aws-sdk/core": "^3.539.0",
-    "@aws-sdk/client-cognito-identity": "^3.539.0",
-    "@aws-sdk/client-sso": "^3.539.0"
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "eslint": "^9.5.0"
