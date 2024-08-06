@@ -57,8 +57,8 @@ export const MainView = () => {
         <BookCard
           key={book.id}
           book={book}
-          onClick={() => {
-            setSelectedBook(book);
+          onBookClick={(newSelectedBook) => {
+            setSelectedBook(newSelectedBook);
           }}
         />
       ))}
