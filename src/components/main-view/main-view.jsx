@@ -9,7 +9,7 @@ export const MainView = () => {
       title: "American Beauty",
       genre: "Drama",
       image:
-        "https://upload.wikimedia.org/wikipedia/en/a/a0/American_Beauty_poster.jpg",
+        "https://upload.wikimedia.org/wikipedia/sco/b/b6/American_Beauty_poster.jpg",
       director: "Sam Mendes",
       actors: "Kevin Spacey, Annette Bening, Thora Birch",
       description:
@@ -31,7 +31,7 @@ export const MainView = () => {
       title: "Inception",
       genre: "Drama",
       image:
-        "https://upload.wikimedia.org/wikipedia/en/7/7f/Inception_ver3.jpg",
+        "https://upload.wikimedia.org/wikipedia/en/2/2e/Inception_%282010%29_theatrical_poster.jpg",
       director: "Christopher Nolan",
       actors: "Leonardo DiCaprio, Joseph Gordon-Levitt, Elliot Page",
       description:
