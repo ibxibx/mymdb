@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import { BookCard } from "../book-card/book-card";
 
 export const MainView = () => {
@@ -18,7 +17,7 @@ export const MainView = () => {
   return (
     <div>
       {books.map((book) => {
-        return <div>{book.title}</div>;
+        <BookCard book={book} />;
       })}
     </div>
   );
