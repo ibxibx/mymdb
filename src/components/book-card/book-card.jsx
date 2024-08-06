@@ -1,3 +1,3 @@
-export const BookCard = ({ bookData }) => {
-  return <div>{bookData.title}</div>;
+export const BookCard = ({ book }) => {
+  return <div>{book.title}</div>;
 };
