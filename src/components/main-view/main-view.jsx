@@ -16,9 +16,9 @@ export const MainView = () => {
 
   return (
     <div>
-      {books.map((book) => {
-        <BookCard book={book} />;
-      })}
+      {books.map((book) => (
+        <BookCard />
+      ))}
     </div>
   );
 };
