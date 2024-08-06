@@ -1,8 +1,8 @@
-export const BookCard = ({ book }) => {
+export const BookCard = ({ book, onBookClick }) => {
   return (
     <div
       onClick={() => {
-        setSelectedBook(book);
+        onBookClick(book);
       }}
     >
       {book.title}
