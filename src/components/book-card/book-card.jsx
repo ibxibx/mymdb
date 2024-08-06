@@ -1,3 +1,3 @@
-export const BookCard = (props) => {
-  return <div>{props.book.title}</div>;
+export const BookCard = ({ bookData }) => {
+  return <div>{bookData.title}</div>;
 };
