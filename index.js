@@ -57,9 +57,10 @@ const options = {
 const specs = swaggerJsdoc(options);
 
 mongoose
-  .connect("mongodb://localhost:27017/test", {
+  .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 30000, // Increase timeout to 30 seconds
   })
   .then(() => {
     console.log("Connected to the database");
