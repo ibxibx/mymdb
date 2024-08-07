@@ -15,6 +15,33 @@ const { Genre, Director } = Models;
 const Movie = Models.Movie;
 const Users = Models.User;
 
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
+
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "MyMDB API",
+      version: "1.0.0",
+      description: "A simple Express Movie API",
+    },
+    servers: [
+      {
+        url: "https://mymdb-c295923140ec.herokuapp.com",
+        description: "Production server",
+      },
+      {
+        url: "http://localhost:8080",
+        description: "Development server",
+      },
+    ],
+  },
+  apis: ["./index.js"], // Path to the API docs
+};
+
+const specs = swaggerJsdoc(options);
+
 mongoose
   .connect("mongodb://localhost:27017/test", {
     useNewUrlParser: true,
@@ -38,6 +65,29 @@ require("./passport");
 
 // Endpoints
 
+/**
+ * @swagger
+ * /movies:
+ *   get:
+ *     summary: Retrieve a list of all movies
+ *     description: Retrieve a list of movies from the MyMDB database
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: A list of movies
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Movie'
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */
+
 app.get(
   "/movies",
   passport.authenticate("jwt", { session: false }),
@@ -52,6 +102,35 @@ app.get(
       });
   }
 );
+
+/**
+ * @swagger
+ * /user/{userId}:
+ *   get:
+ *     summary: Get user information
+ *     description: Retrieve information about a specific user
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: User information
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error
+ */
 
 app.get(
   "/user/:userId",
@@ -70,6 +149,29 @@ app.get(
     }
   }
 );
+
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     summary: Get all users
+ *     description: Retrieve a list of all users
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: A list of users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */
 
 app.get(
   "/users",
@@ -96,6 +198,35 @@ app.get("/", (req, res) => {
   });
 });
 
+/**
+ * @swagger
+ * /movies/{movieId}:
+ *   get:
+ *     summary: Get a movie by ID
+ *     description: Retrieve detailed information about a specific movie
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: movieId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Movie details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Movie'
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Movie not found
+ *       500:
+ *         description: Internal server error
+ */
+
 app.get(
   "/movies/:movieId",
   passport.authenticate("jwt", { session: false }),
@@ -113,6 +244,35 @@ app.get(
     }
   }
 );
+
+/**
+ * @swagger
+ * /movies/title/{title}:
+ *   get:
+ *     summary: Get a movie by title
+ *     description: Retrieve detailed information about a specific movie by its title
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: title
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Movie details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Movie'
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Movie not found
+ *       500:
+ *         description: Internal server error
+ */
 
 app.get(
   "/movies/title/:title",
@@ -132,6 +292,28 @@ app.get(
   }
 );
 
+/**
+ * @swagger
+ * /genres:
+ *   get:
+ *     summary: Get all genres
+ *     description: Retrieve a list of all movie genres
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: A list of genres
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Genre'
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */
 app.get(
   "/genres",
   passport.authenticate("jwt", { session: false }),
@@ -146,6 +328,35 @@ app.get(
     }
   }
 );
+
+/**
+ * @swagger
+ * /genres/{name}:
+ *   get:
+ *     summary: Get a genre by name
+ *     description: Retrieve information about a specific genre
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: name
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Genre details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Genre'
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Genre not found
+ *       500:
+ *         description: Internal server error
+ */
 
 app.get(
   "/genres/:name",
@@ -165,6 +376,29 @@ app.get(
   }
 );
 
+/**
+ * @swagger
+ * /directors:
+ *   get:
+ *     summary: Get all directors
+ *     description: Retrieve a list of all movie directors
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: A list of directors
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Director'
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */
+
 app.get(
   "/directors",
   passport.authenticate("jwt", { session: false }),
@@ -179,6 +413,35 @@ app.get(
     }
   }
 );
+
+/**
+ * @swagger
+ * /directors/{name}:
+ *   get:
+ *     summary: Get a director by name
+ *     description: Retrieve information about a specific director
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: name
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Director details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Director'
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Director not found
+ *       500:
+ *         description: Internal server error
+ */
 
 app.get(
   "/directors/:name",
@@ -208,6 +471,33 @@ const generateUsername = (email) => {
   const randomSuffix = Math.floor(Math.random() * 10000);
   return `${emailPrefix}${randomSuffix}`;
 };
+
+/**
+ * @swagger
+ * /users/register:
+ *   post:
+ *     summary: Register a new user
+ *     description: Create a new user account
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/NewUser'
+ *     responses:
+ *       201:
+ *         description: User created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       400:
+ *         description: Bad request
+ *       422:
+ *         description: Validation error
+ *       500:
+ *         description: Internal server error
+ */
 
 // User registration route (no authentication required)
 app.post("/users/register", async (req, res) => {
@@ -239,6 +529,41 @@ app.post("/users/register", async (req, res) => {
       .json({ message: "Error registering user", error: error.message });
   }
 });
+
+/**
+ * @swagger
+ * /users/{userId}:
+ *   put:
+ *     summary: Update user information
+ *     description: Update information for a specific user
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UpdateUser'
+ *     responses:
+ *       200:
+ *         description: User updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error
+ */
 
 app.put(
   "/users/:userId",
@@ -291,6 +616,42 @@ app.put(
   }
 );
 
+/**
+ * @swagger
+ * /users/{userId}/movies/{movieId}:
+ *   post:
+ *     summary: Add a movie to favorites
+ *     description: Add a movie to a user's list of favorite movies
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: movieId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Movie added to favorites successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       400:
+ *         description: Movie already in favorites
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: User or movie not found
+ *       500:
+ *         description: Internal server error
+ */
+
 app.post(
   "/users/:userId/movies/:movieId",
   passport.authenticate("jwt", { session: false }),
@@ -336,6 +697,40 @@ app.post(
   }
 );
 
+/**
+ * @swagger
+ * /users/{userId}/movies/{movieId}:
+ *   delete:
+ *     summary: Remove a movie from favorites
+ *     description: Remove a movie from a user's list of favorite movies
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: movieId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Movie removed from favorites successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error
+ */
+
 app.delete(
   "/users/:userId/movies/:movieId",
   passport.authenticate("jwt", { session: false }),
@@ -359,6 +754,31 @@ app.delete(
   }
 );
 
+/**
+ * @swagger
+ * /users/{userId}:
+ *   delete:
+ *     summary: Delete a user
+ *     description: Delete a user account
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: User deleted successfully
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error
+ */
+
 app.delete(
   "/users/:userId",
   passport.authenticate("jwt", { session: false }),
@@ -376,6 +796,87 @@ app.delete(
     }
   }
 );
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Movie:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *         Title:
+ *           type: string
+ *         Description:
+ *           type: string
+ *         Genre:
+ *           $ref: '#/components/schemas/Genre'
+ *         Director:
+ *           $ref: '#/components/schemas/Director'
+ *         ImagePath:
+ *           type: string
+ *         Featured:
+ *           type: boolean
+ *     Genre:
+ *       type: object
+ *       properties:
+ *         Name:
+ *           type: string
+ *         Description:
+ *           type: string
+ *     Director:
+ *       type: object
+ *       properties:
+ *         Name:
+ *           type: string
+ *         Bio:
+ *           type: string
+ *     User:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *         Username:
+ *           type: string
+ *         Email:
+ *           type: string
+ *         Birthday:
+ *           type: string
+ *           format: date
+ *         FavoriteMovies:
+ *           type: array
+ *           items:
+ *             type: string
+ *     NewUser:
+ *       type: object
+ *       required:
+ *         - Username
+ *         - Password
+ *         - Email
+ *       properties:
+ *         Username:
+ *           type: string
+ *         Password:
+ *           type: string
+ *         Email:
+ *           type: string
+ *         Birthday:
+ *           type: string
+ *           format: date
+ *     UpdateUser:
+ *       type: object
+ *       properties:
+ *         Username:
+ *           type: string
+ *         Password:
+ *           type: string
+ *         Email:
+ *           type: string
+ *         Birthday:
+ *           type: string
+ *           format: date
+ */
 
 app.use((req, res) => {
   res.status(404).sendFile(__dirname + "/public/error404.html");
