@@ -8,6 +8,12 @@ const morgan = require("morgan");
 const path = require("path");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const mongoUri = process.env.MONGODB_URI;
+if (!mongoUri) {
+  console.error('MONGODB_URI environment variable is not set.');
+  process.exit(1);
+}
+
 const Models = require("./models.js");
 const { Genre, Director } = Models;
 
@@ -56,12 +62,12 @@ const options = {
 
 const specs = swaggerJsdoc(options);
 
-mongoose
-  .connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    serverSelectionTimeoutMS: 30000, // 30 seconds timeout
-  })
+mongoose.connect(mongoUri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 30000,
+  connectTimeoutMS: 30000,
+})
   .then(() => {
     console.log("Connected to the database");
   })
