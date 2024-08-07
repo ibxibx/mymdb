@@ -102,10 +102,10 @@ require("./passport");
  *       500:
  *         description: Internal server error
  */
+// passport.authenticate("jwt", { session: false }),
 
 app.get(
   "/movies",
-  passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     await Movie.find()
       .then((movies) => {
