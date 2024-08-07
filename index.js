@@ -105,7 +105,6 @@ require("./passport");
 
 app.get(
   "/movies",
-  passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     await Movie.find()
       .then((movies) => {
