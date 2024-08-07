@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const cors = require('cors');
 let auth = require("./auth")(app);
 const passport = require("passport");
 require("./passport");
@@ -75,6 +76,7 @@ mongoose.connect(mongoUri, {
     console.error("Error connecting to the database", error);
   });
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev"));
