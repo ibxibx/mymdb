@@ -4,6 +4,7 @@ let auth = require("./auth")(app);
 const passport = require("passport");
 require("./passport");
 
+const cors = require('cors');
 const morgan = require("morgan");
 const path = require("path");
 const bodyParser = require("body-parser");
@@ -75,6 +76,7 @@ mongoose.connect(mongoUri, {
     console.error("Error connecting to the database", error);
   });
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev"));
