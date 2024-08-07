@@ -105,19 +105,15 @@ require("./passport");
  */
 // passport.authenticate("jwt", { session: false }),
 
-app.get(
-  "/movies",
-  async (req, res) => {
-    await Movie.find()
-      .then((movies) => {
-        res.status(201).json(movies);
-      })
-      .catch((error) => {
-        console.error(error);
-        res.status(500).send("Error: " + error);
-      });
+app.get('/movies', async (req, res) => {
+  try {
+    const movies = await Movie.find();
+    res.status(200).json(movies);
+  } catch (error) {
+    console.error("Error fetching movies:", error);
+    res.status(500).send("Error: " + error.message);
   }
-);
+});
 
 /**
  * @swagger
