@@ -77,8 +77,10 @@ mongoose.connect(mongoUri, {
     console.error("Error connecting to the database", error);
   });
 
+// Allow all origins
+
 app.use(cors({
-  origin: '*', // Allow all origins
+  origin: '*'
 }));
 
 app.use(bodyParser.json());
