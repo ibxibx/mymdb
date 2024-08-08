@@ -46,6 +46,28 @@ export const MainView = () => {
     return <div>Error: {error}</div>;
   }
 
+  useEffect(() => {
+    fetch("https://mymdb-api.herokuapp.com/movies")
+      .then((response) => response.json())
+      .then((data) => {
+        const moviesFromApi = data.map((movie) => {
+          return {
+            id: movie._id,
+            title: movie.Title,
+            description: movie.Description,
+            genre: movie.Genre.Name,
+            director: movie.Director.Name,
+            image: movie.ImagePath,
+          };
+        });
+
+        setMovies(moviesFromApi);
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
+      });
+  }, []);
+
   if (selectedMovie) {
     return (
       <MovieView
