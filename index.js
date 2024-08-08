@@ -5,7 +5,7 @@ const passport = require("passport");
 require("./passport");
 
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234'];
 const morgan = require("morgan");
 const path = require("path");
 const bodyParser = require("body-parser");
