@@ -1,57 +1,67 @@
-import { useState } from "react";
-import { MovieCard } from "../movie-card/movie-card";
-import { MovieView } from "../movie-view/movie-view";
+import React, { useState, useEffect } from "react";
+import MovieCard from "./MovieCard";
+import MovieView from "./MovieView";
 
 export const MainView = () => {
-  const [movies, setMovies] = useState([
-    {
-      id: 1,
-      title: "American Beauty",
-      genre: "Drama",
-      image:
-        "https://upload.wikimedia.org/wikipedia/sco/b/b6/American_Beauty_poster.jpg",
-      director: "Sam Mendes",
-      actors: "Kevin Spacey, Annette Bening, Thora Birch",
-      description:
-        "A sexually frustrated suburban father has a mid-life crisis after becoming infatuated with his daughter's best friend.",
-    },
-    {
-      id: 2,
-      title: "Interstellar",
-      genre: "Drama, Adventure, Sci-Fi",
-      image:
-        "https://upload.wikimedia.org/wikipedia/en/b/bc/Interstellar_film_poster.jpg",
-      director: "Christopher Nolan",
-      actors: "Anne Hathaway, Matt Damon, Matthew McConaughey",
-      description:
-        "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-    },
-    {
-      id: 3,
-      title: "Inception",
-      genre: "Drama",
-      image:
-        "https://upload.wikimedia.org/wikipedia/en/2/2e/Inception_%282010%29_theatrical_poster.jpg",
-      director: "Christopher Nolan",
-      actors: "Leonardo DiCaprio, Joseph Gordon-Levitt, Elliot Page",
-      description:
-        "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O. ",
-    },
-  ]);
-
+  const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    fetch("https://mymdb-c295923140ec.herokuapp.com/movies")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (isMounted) {
+          const moviesFromApi = data.map((movie) => ({
+            id: movie._id,
+            title: movie.Title,
+            description: movie.Description,
+            genre: movie.GenreId,
+            director: movie.DirectorId,
+            actors: movie.Actors,
+            image: movie.ImagePath,
+          }));
+          setMovies(moviesFromApi);
+        }
+      })
+      .catch((error) => {
+        if (isMounted) {
+          setError(error.message);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   if (selectedMovie) {
     return (
       <MovieView
-        movie={selectedMovie}
+        movie={{
+          ...selectedMovie,
+          genre: movies.find((m) => m.id === selectedMovie.id)?.genre || "",
+          director:
+            movies.find((m) => m.id === selectedMovie.id)?.director || "",
+        }}
         onBackClick={() => setSelectedMovie(null)}
       />
     );
   }
 
   if (movies.length === 0) {
-    return <div>The list is empty!</div>;
+    return <div>Loading...</div>;
   }
 
   return (
@@ -60,9 +70,9 @@ export const MainView = () => {
         <MovieCard
           key={movie.id}
           movie={movie}
-          onMovieClick={(newSelectedMovie) => {
-            setSelectedMovie(newSelectedMovie);
-          }}
+          onMovieClick={(newSelectedMovie) =>
+            setSelectedMovie(newSelectedMovie)
+          }
         />
       ))}
     </div>
