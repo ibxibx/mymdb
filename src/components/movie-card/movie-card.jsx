@@ -1,7 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import MovieCard from "./movie-card";
-import MovieView from "../movie-view";
 
 const MovieCard = ({ movie, onMovieClick }) => {
   console.log("Movie object:", movie);

@@ -1,6 +1,4 @@
 import PropTypes from "prop-types";
-import MovieCard from "../movie-card";
-import MovieView from "./movie-view";
 
 export const MovieView = ({ movie, onBackClick }) => {
   console.log("MovieView component rendered with movie:", movie);
