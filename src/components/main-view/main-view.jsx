@@ -10,14 +10,15 @@ export const MainView = () => {
   useEffect(() => {
     let isMounted = true;
 
-    fetch("https://mymdb-c295923140ec.herokuapp.com/movies")
-      .then((response) => {
+    const fetchMovies = async () => {
+      try {
+        const response = await fetch(
+          "https://mymdb-c295923140ec.herokuapp.com/movies"
+        );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response.json();
-      })
-      .then((data) => {
+        const data = await response.json();
         if (isMounted) {
           const moviesFromApi = data.map((movie) => ({
             id: movie._id,
@@ -30,12 +31,14 @@ export const MainView = () => {
           }));
           setMovies(moviesFromApi);
         }
-      })
-      .catch((error) => {
+      } catch (error) {
         if (isMounted) {
           setError(error.message);
         }
-      });
+      }
+    };
+
+    fetchMovies();
 
     return () => {
       isMounted = false;
@@ -65,7 +68,13 @@ export const MainView = () => {
   }
 
   return (
-    <div>
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+        gap: "1rem",
+      }}
+    >
       {movies.map((movie) => (
         <MovieCard
           key={movie.id}

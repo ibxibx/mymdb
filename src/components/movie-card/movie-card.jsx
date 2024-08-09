@@ -5,22 +5,22 @@ const MovieCard = ({ movie, onMovieClick }) => {
   console.log("Movie object:", movie);
   return (
     <div onClick={() => onMovieClick(movie)}>
-      <img src={movie.image} alt={movie.title} />
-      <h3>{movie.title}</h3>
-      <p>{movie.genre}</p>
-      <p>{movie.director}</p>
+      <img src={movie.imagePath} alt={movie.Title} />
+      <h3>{movie.Title}</h3>
+      <p>{movie.GenreId}</p>
+      <p>{movie.DirectorId}</p>
     </div>
   );
 };
 
 MovieCard.propTypes = {
   movie: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
-    director: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
+    Title: PropTypes.string.isRequired,
+    Description: PropTypes.string.isRequired,
+    GenreId: PropTypes.string.isRequired,
+    DirectorId: PropTypes.string.isRequired,
+    ImagePath: PropTypes.string.isRequired,
   }).isRequired,
   onMovieClick: PropTypes.func.isRequired,
 };

@@ -5,28 +5,28 @@ export const MovieView = ({ movie, onBackClick }) => {
   return (
     <div className="movie-view">
       <div className="movie-poster">
-        <img src={movie.image} alt={movie.title} />
+        <img src={movie.ImagePath} alt={movie.Title} />
       </div>
       <div className="movie-details">
         <div className="movie-title">
           <span>Title: </span>
-          <span>{movie.title}</span>
+          <span>{movie.Title}</span>
         </div>
         <div className="movie-genre">
           <span>Genre: </span>
-          <span>{movie.genre}</span>
+          <span>{movie.GenreId}</span>
         </div>
         <div className="movie-director">
           <span>Director: </span>
-          <span>{movie.director}</span>
+          <span>{movie.DirectorId}</span>
         </div>
         <div className="movie-actors">
           <span>Actors: </span>
-          <span>{movie.actors.join(", ")}</span>
+          <span>{movie.Actors.join(", ")}</span>
         </div>
         <div className="movie-description">
           <span>Description: </span>
-          <span>{movie.description}</span>
+          <span>{movie.Description}</span>
         </div>
       </div>
       <p>
@@ -38,13 +38,13 @@ export const MovieView = ({ movie, onBackClick }) => {
 
 MovieView.propTypes = {
   movie: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
-    director: PropTypes.string.isRequired,
-    actors: PropTypes.arrayOf(PropTypes.string).isRequired,
-    description: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
+    Title: PropTypes.string.isRequired,
+    ImagePath: PropTypes.string.isRequired,
+    GenreId: PropTypes.string.isRequired,
+    DirectorId: PropTypes.string.isRequired,
+    Actors: PropTypes.arrayOf(PropTypes.string).isRequired,
+    Description: PropTypes.string.isRequired,
   }).isRequired,
   onBackClick: PropTypes.func.isRequired,
 };
