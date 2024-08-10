@@ -1,10 +1,17 @@
-Client Side MyMDB (myFlix working name) repository:
+Client Side MyMDB repository:
 The project structure:
 
-myFlix-client
+clean-mymdb-client
 ├── .gitignore
 ├── package.json
+├── index.html
+├── index.jsx
+├── index.scss
 ├── src
-│ ├── index.html
-│ ├── index.scss
-│ └── index.jsx
+│ ├── components
+│ │ ├─ main-view
+│ │ │ └─main-view.jsx
+│ │ ├─ movie-card  
+│ │ │ └─main-card.jsx
+│ │ └─ movie-view 
+│ │   └─main-card.jsx
