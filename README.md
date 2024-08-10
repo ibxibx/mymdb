@@ -2,12 +2,12 @@ Client Side MyMDB repository:
 The project structure:
 
 clean-mymdb-client
-├── .gitignore
-├── package.json
-├── index.html
-├── index.jsx
-├── index.scss
-├── src
+├─ .gitignore
+├─ package.json
+├─ src
+│ ├── index.html
+│ ├── index.jsx
+│ ├── index.scss
 │ ├── components
 │ │ ├─ main-view
 │ │ │ └─main-view.jsx
