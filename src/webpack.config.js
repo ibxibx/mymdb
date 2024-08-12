@@ -1,4 +1,5 @@
 const path = require("path");
+const webpack = require('webpack');
 
 module.exports = {
   entry: "./src/index.jsx",
@@ -33,5 +34,17 @@ module.exports = {
     },
     compress: true,
     port: 8080,
+    proxy: {
+      '/api': {
+        target: 'https://mymdb-c295923140ec.herokuapp.com',
+        changeOrigin: true,
+        pathRewrite: { '^/api': '' },
+      },
+    },
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.API_URL': JSON.stringify(process.env.API_URL || 'https://mymdb-c295923140ec.herokuapp.com'),
+    }),
+  ],
 };

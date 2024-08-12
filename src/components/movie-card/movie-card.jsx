@@ -1,13 +1,13 @@
-import React from "react";
 import PropTypes from "prop-types";
 
 export const MovieCard = ({ movie, onMovieClick }) => {
   return (
-    <div onClick={() => onMovieClick(movie)}>
-      <img src={movie.ImagePath} alt={movie.Title} />
-      <h3>{movie.Title}</h3>
-      <p>{movie.GenreId}</p>
-      <p>{movie.DirectorId}</p>
+    <div
+      onClick={() => {
+        onMovieClick(movie);
+      }}
+    >
+      {movie.Title}
     </div>
   );
 };
