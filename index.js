@@ -80,7 +80,9 @@ mongoose.connect(mongoUri, {
 // Allow all origins
 
 app.use(cors({
-  origin: '*'
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(bodyParser.json());
