@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 
 export const MovieView = ({ movie, onBackClick }) => {
-  console.log("MovieView component rendered with movie:", movie);
   return (
     <div className="movie-view">
       <div className="movie-poster">
@@ -13,7 +12,7 @@ export const MovieView = ({ movie, onBackClick }) => {
           <span>{movie.Title}</span>
         </div>
         <div className="movie-genre">
-          <span>Genre: </span>
+          <span>Genre ID: </span>
           <span>{movie.GenreId}</span>
         </div>
         <div className="movie-director">
@@ -40,13 +39,12 @@ MovieView.propTypes = {
   movie: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     Title: PropTypes.string.isRequired,
-    ImagePath: PropTypes.string.isRequired,
+    Description: PropTypes.string.isRequired,
     GenreId: PropTypes.string.isRequired,
     DirectorId: PropTypes.string.isRequired,
     Actors: PropTypes.arrayOf(PropTypes.string).isRequired,
-    Description: PropTypes.string.isRequired,
+    ImagePath: PropTypes.string.isRequired,
+    Featured: PropTypes.bool,
   }).isRequired,
   onBackClick: PropTypes.func.isRequired,
 };
-
-export default MovieView;

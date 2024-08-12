@@ -20,16 +20,8 @@ export const MainView = () => {
         }
         const data = await response.json();
         if (isMounted) {
-          const moviesFromApi = data.map((movie) => ({
-            id: movie._id,
-            title: movie.Title,
-            description: movie.Description,
-            genre: movie.GenreId,
-            director: movie.DirectorId,
-            actors: movie.Actors,
-            image: movie.ImagePath,
-          }));
-          setMovies(moviesFromApi);
+          console.log("Fetched data: ", data); // Log the fetched data
+          setMovies(data);
         }
       } catch (error) {
         if (isMounted) {
@@ -52,12 +44,7 @@ export const MainView = () => {
   if (selectedMovie) {
     return (
       <MovieView
-        movie={{
-          ...selectedMovie,
-          genre: movies.find((m) => m.id === selectedMovie.id)?.genre || "",
-          director:
-            movies.find((m) => m.id === selectedMovie.id)?.director || "",
-        }}
+        movie={selectedMovie}
         onBackClick={() => setSelectedMovie(null)}
       />
     );
@@ -87,5 +74,3 @@ export const MainView = () => {
     </div>
   );
 };
-
-export default MainView;
