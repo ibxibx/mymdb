@@ -14,15 +14,14 @@ mongoose
 
 async function checkReferences() {
   try {
-    // Fetch movies and populate Genre and Director fields
     const movies = await Movie.find()
-      .populate('GenreId', 'Name Description')  // Populating GenreId field
-      .populate('DirectorId', 'Name Bio Birth Death');  // Populating DirectorId field
+      .populate("GenreId", "Name Description") // Populate GenreId with the Name and Description fields from Genre
+      .populate("DirectorId", "Name Bio"); // Populate DirectorId with the Name and Bio fields from Director
 
     for (let movie of movies) {
       console.log(`Movie: ${movie.Title}`);
-      console.log(`Genre: ${movie.GenreId ? movie.GenreId.Name : 'Not populated'}`);
-      console.log(`Director: ${movie.DirectorId ? movie.DirectorId.Name : 'Not populated'}`);
+      console.log(`Genre: ${movie.GenreId ? movie.GenreId.Name : "N/A"}`);
+      console.log(`Director: ${movie.DirectorId ? movie.DirectorId.Name : "N/A"}`);
       console.log('---');
     }
   } catch (error) {

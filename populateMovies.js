@@ -1,39 +1,35 @@
-const mongoose = require("mongoose");
-const { Movie, Genre, Director } = require("./models");
+const mongoose = require('mongoose');
+const { Movie, Genre, Director } = require('./models'); // Adjust the path as needed
 
-const mongoURI =
-  "mongodb+srv://magnyt:sC9qc3JHCnHxKnGJ@mymdb.z2qogep.mongodb.net/test?retryWrites=true&w=majority&appName=mymdb";
+const mongoURI = 'mongodb+srv://magnyt:sC9qc3JHCnHxKnGJ@mymdb.z2qogep.mongodb.net/test?retryWrites=true&w=majority&appName=mymdb';
 
-mongoose
-  .connect(mongoURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("Error connecting to MongoDB:", err));
+mongoose.connect(mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log('Connected to MongoDB'))
+.catch(err => console.error('Error connecting to MongoDB:', err));
 
 async function populateMovies() {
   try {
-    const movies = await Movie.find();
+    const movies = await Movie.find()
+      .populate({
+        path: 'GenreId', // Ensure this field name matches your schema
+        select: 'Name Description', // Use capitalized field names from Genre schema
+      })
+      .populate({
+        path: 'DirectorId', // Ensure this field name matches your schema
+        select: 'Name Bio Birth Death', // Use capitalized field names from Director schema
+      });
 
-    for (let movie of movies) {
-      const genre = await Genre.findOne({ _id: movie.Genre });
-      const director = await Director.findOne({ _id: movie.Director });
-
-      if (genre) {
-        movie.Genre = genre._id;
-      }
-
-      if (director) {
-        movie.Director = director._id;
-      }
-
-      await movie.save();
-    }
-
-    console.log("Movies populated successfully");
+    movies.forEach(movie => {
+      console.log(`Movie: ${movie.Title}`);
+      console.log(`Genre: ${movie.GenreId ? movie.GenreId.Name : 'N/A'}`); // Adjust based on your Genre schema
+      console.log(`Director: ${movie.DirectorId ? movie.DirectorId.Name : 'N/A'}`); // Adjust based on your Director schema
+      console.log('---');
+    });
   } catch (error) {
-    console.error("Error populating movies:", error);
+    console.error('Error populating movies:', error);
   } finally {
     mongoose.disconnect();
   }
