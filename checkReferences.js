@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
-const { Movie, Genre, Director } = require("./models");
-const mongoURI = "mongodb://localhost:27017/test";
+const { Movie } = require("./models");
+
+const mongoURI =
+  "mongodb+srv://magnyt:sC9qc3JHCnHxKnGJ@mymdb.z2qogep.mongodb.net/test?retryWrites=true&w=majority&appName=mymdb";
 
 mongoose
   .connect(mongoURI, {
@@ -12,25 +14,19 @@ mongoose
 
 async function checkReferences() {
   try {
-    const movies = await Movie.find();
+    // Fetch movies and populate Genre and Director fields
+    const movies = await Movie.find()
+      .populate('GenreId', 'Name Description')  // Populating GenreId field
+      .populate('DirectorId', 'Name Bio Birth Death');  // Populating DirectorId field
+
     for (let movie of movies) {
       console.log(`Movie: ${movie.Title}`);
-      if (movie.Genre) {
-        const genre = await Genre.findById(movie.Genre);
-        console.log(`Genre: ${genre ? genre.Name : "Not found"}`);
-      } else {
-        console.log("Genre: Not set");
-      }
-      if (movie.Director) {
-        const director = await Director.findById(movie.Director);
-        console.log(`Director: ${director ? director.Name : "Not found"}`);
-      } else {
-        console.log("Director: Not set");
-      }
-      console.log("---");
+      console.log(`Genre: ${movie.GenreId ? movie.GenreId.Name : 'Not populated'}`);
+      console.log(`Director: ${movie.DirectorId ? movie.DirectorId.Name : 'Not populated'}`);
+      console.log('---');
     }
   } catch (error) {
-    console.error("Error checking references:", error);
+    console.error('Error checking references:', error);
   } finally {
     mongoose.disconnect();
   }
