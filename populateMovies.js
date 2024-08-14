@@ -1,7 +1,8 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
-const { Movie, Genre, Director } = require('./models'); // Adjust the path as needed
+const { Movie, Genre, Director } = require('./models'); // Import models
 
-const mongoURI = 'mongodb+srv://magnyt:sC9qc3JHCnHxKnGJ@mymdb.z2qogep.mongodb.net/test?retryWrites=true&w=majority&appName=mymdb';
+const mongoURI = process.env.MONGO_URI || 'mongodb+srv://magnyt:sC9qc3JHCnHxKnGJ@mymdb.z2qogep.mongodb.net/test?retryWrites=true&w=majority&appName=mymdb';  
 
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,
@@ -13,19 +14,18 @@ mongoose.connect(mongoURI, {
 async function populateMovies() {
   try {
     const movies = await Movie.find()
-      .populate({
-        path: 'GenreId', // Ensure this field name matches your schema
-        select: 'Name Description', // Use capitalized field names from Genre schema
-      })
-      .populate({
-        path: 'DirectorId', // Ensure this field name matches your schema
-        select: 'Name Bio Birth Death', // Use capitalized field names from Director schema
-      });
+      .populate('Director') // Populate Director field
+      .populate('Genres'); // Populate Genres field
 
     movies.forEach(movie => {
-      console.log(`Movie: ${movie.Title}`);
-      console.log(`Genre: ${movie.GenreId ? movie.GenreId.Name : 'N/A'}`); // Adjust based on your Genre schema
-      console.log(`Director: ${movie.DirectorId ? movie.DirectorId.Name : 'N/A'}`); // Adjust based on your Director schema
+      console.log(`Title: ${movie.Title}`);
+      console.log(`Description: ${movie.Description}`);
+      console.log(`Featured: ${movie.Featured}`);
+      console.log(`Director: ${movie.Director ? movie.Director.Name : 'N/A'}`);
+      console.log('Genres:');
+      movie.Genres.forEach(genre => {
+        console.log(` - ${genre.Name}`);
+      });
       console.log('---');
     });
   } catch (error) {
