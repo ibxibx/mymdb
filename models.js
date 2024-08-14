@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-let movieSchema = mongoose.Schema({
+let movieSchema = new Schema({
   Title: { type: String, required: true },
   Description: { type: String, required: true },
   Director: { type: mongoose.Schema.Types.ObjectId, ref: "Director" },
