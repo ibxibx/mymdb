@@ -1,17 +1,17 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-let movieSchema = new Schema({
+const movieSchema = new Schema({
   Title: { type: String, required: true },
   Description: { type: String, required: true },
-  Director: { type: mongoose.Schema.Types.ObjectId, ref: "Director" },
-  Genres: [{ type: mongoose.Schema.Types.ObjectId, ref: "Genre" }],
+  DirectorId: { type: Schema.Types.ObjectId, ref: "Director" }, // Reference to Director
+  Genres: [{ type: Schema.Types.ObjectId, ref: "Genre" }],
   Actors: [String],
   ImagePath: String,
   Featured: Boolean,
 });
 
-let userSchema = new Schema({
+const userSchema = new Schema({
   Username: { type: String, required: true },
   Password: { type: String, required: true },
   Email: { type: String, required: true, unique: true },
@@ -19,12 +19,12 @@ let userSchema = new Schema({
   FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: "Movie" }],
 });
 
-let genreSchema = new Schema({
+const genreSchema = new Schema({
   Name: { type: String, required: true },
   Description: String,
 });
 
-let directorSchema = new Schema({
+const directorSchema = new Schema({
   Name: { type: String, required: true },
   Bio: String,
   Birth: Date,
