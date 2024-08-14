@@ -12,18 +12,16 @@ mongoose
 async function populateMovies() {
   try {
     // Fetch all movies
-    const movies = await Movie.find({})
-      .populate("Genres") // Populate genres to make sure we have genre names
-      .exec();
+    const movies = await Movie.find({});
 
     for (let movie of movies) {
       console.log(`Processing movie: ${movie.Title}`);
 
-      // Fetch and set the director
+      // Handle DirectorId and update Director field
       if (movie.DirectorId) {
         const director = await Director.findById(movie.DirectorId);
         if (director) {
-          movie.Director = director._id; // Set only the reference
+          movie.Director = director._id; // Update to director's ObjectId
           console.log(
             `Found director: ${director.name} for movie: ${movie.Title}`
           );
@@ -36,11 +34,11 @@ async function populateMovies() {
         console.error(`DirectorId not found for movie: ${movie.Title}`);
       }
 
-      // Ensure all genres are valid and update genres
+      // Handle genres
       if (movie.Genres && movie.Genres.length > 0) {
         const genres = await Genre.find({ _id: { $in: movie.Genres } });
         if (genres.length === movie.Genres.length) {
-          movie.Genres = genres.map((genre) => genre._id); // Store only the references
+          movie.Genres = genres.map((genre) => genre._id); // Ensure genres are updated correctly
           console.log(`Found and updated genres for movie: ${movie.Title}`);
         } else {
           console.error(`Some genres not found for movie: ${movie.Title}`);
