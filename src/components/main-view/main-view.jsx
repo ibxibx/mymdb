@@ -15,12 +15,16 @@ export const MainView = () => {
             id: movie._id,
             title: movie.Title,
             image: movie.ImagePath,
-            director: movie.Director.Name,
+            director: movie.Director.name, // Note: changed from Name to name
+            description: movie.Description,
+            genres: movie.Genres.map((g) => g.genre),
+            actors: movie.Actors,
           };
         });
 
         setMovies(moviesFromApi);
-      });
+      })
+      .catch((error) => console.error("Error fetching movies:", error));
   }, []);
 
   if (selectedMovie) {
