@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { Movie, Genre, Director } = require("./models"); // Adjust the path if needed
+const { Movie, Genre, Director } = require("./models");
 
 const mongoURI =
   "mongodb+srv://magnyt:sC9qc3JHCnHxKnGJ@mymdb.z2qogep.mongodb.net/test?retryWrites=true&w=majority&appName=mymdb";
@@ -12,39 +12,25 @@ mongoose
 async function populateMovies() {
   try {
     // Fetch all movies
-    const movies = await Movie.find({});
+    const movies = await Movie.find({}).populate("Director").populate("Genres");
 
     for (let movie of movies) {
       console.log(`Processing movie: ${movie.Title}`);
 
-      // Handle DirectorId and update Director field
-      if (movie.DirectorId) {
-        const director = await Director.findById(movie.DirectorId);
-        if (director) {
-          movie.Director = director._id; // Update to director's ObjectId
-          console.log(
-            `Found director: ${director.name} for movie: ${movie.Title}`
-          );
-        } else {
-          console.error(`Director not found for movie: ${movie.Title}`);
-        }
-        // Remove the DirectorId field
-        delete movie.DirectorId;
+      // Log the director and genres for debugging
+      if (movie.Director) {
+        console.log(
+          `Found director: ${movie.Director.Name} for movie: ${movie.Title}`
+        );
       } else {
-        console.error(`DirectorId not found for movie: ${movie.Title}`);
+        console.error(`Director not found for movie: ${movie.Title}`);
       }
 
-      // Handle genres
       if (movie.Genres && movie.Genres.length > 0) {
-        const genres = await Genre.find({ _id: { $in: movie.Genres } });
-        if (genres.length === movie.Genres.length) {
-          movie.Genres = genres.map((genre) => genre._id); // Ensure genres are updated correctly
-          console.log(`Found and updated genres for movie: ${movie.Title}`);
-        } else {
-          console.error(`Some genres not found for movie: ${movie.Title}`);
-        }
+        console.log(`Found genres for movie: ${movie.Title}`);
+        movie.Genres.forEach((genre) => console.log(`Genre: ${genre.Name}`));
       } else {
-        console.error(`No genres found for movie: ${movie.Title}`);
+        console.error(`Genres not found for movie: ${movie.Title}`);
       }
 
       // Save the updated movie document

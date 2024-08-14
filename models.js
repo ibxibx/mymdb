@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { Schema } = mongoose;
+const Schema = mongoose.Schema;
 
 const movieSchema = new Schema({
   Title: { type: String, required: true },
@@ -20,15 +20,14 @@ const userSchema = new Schema({
 });
 
 const genreSchema = new Schema({
-  Name: { type: String, required: true },
+  Name: String,
   Description: String,
 });
 
 const directorSchema = new Schema({
-  Name: { type: String, required: true },
+  Name: String,
   Bio: String,
-  Birth: Date,
-  Death: { type: Date, default: null },
+  BirthYear: Number,
 });
 
 let Movie = mongoose.model("Movie", movieSchema);
