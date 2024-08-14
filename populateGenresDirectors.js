@@ -1,49 +1,66 @@
-const mongoose = require("mongoose");
-const { Movie, Genre, Director } = require("./models");
+const { MongoClient, ObjectId } = require("mongodb");
 
-const mongoURI =
-  "mongodb+srv://magnyt:sC9qc3JHCnHxKnGJ@mymdb.z2qogep.mongodb.net/test?retryWrites=true&w=majority&appName=mymdb";
+async function main() {
+  const url =
+    "mongodb+srv://magnyt:sC9qc3JHCnHxKnGJ@mymdb.z2qogep.mongodb.net/test";
+  const client = new MongoClient(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
 
-mongoose
-  .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("Error connecting to MongoDB:", err));
-
-async function populateMovies() {
   try {
+    await client.connect();
+    console.log("Connected to MongoDB");
+
+    const db = client.db("test");
+    const moviesCollection = db.collection("movies");
+    const directorsCollection = db.collection("directors");
+    const genresCollection = db.collection("genres");
+
     // Fetch all movies
-    const movies = await Movie.find({}).populate("Director").populate("Genres");
+    const movies = await moviesCollection.find().toArray();
 
     for (let movie of movies) {
-      console.log(`Processing movie: ${movie.Title}`);
+      try {
+        // Convert DirectorId to ObjectId if it's a string
+        const directorId =
+          movie.DirectorId instanceof ObjectId
+            ? movie.DirectorId
+            : new ObjectId(movie.DirectorId);
 
-      // Log the director and genres for debugging
-      if (movie.Director) {
-        console.log(
-          `Found director: ${movie.Director.Name} for movie: ${movie.Title}`
-        );
-      } else {
-        console.error(`Director not found for movie: ${movie.Title}`);
+        // Find the director
+        const director = await directorsCollection.findOne({ _id: directorId });
+
+        // Find the genres
+        const genreIds = movie.Genres.map((genreId) => new ObjectId(genreId));
+        const genres = await genresCollection
+          .find({ _id: { $in: genreIds } })
+          .toArray();
+
+        if (director) {
+          // Update movie document with full director details and genres
+          await moviesCollection.updateOne(
+            { _id: movie._id },
+            {
+              $set: {
+                Director: director,
+                Genres: genres,
+              },
+            }
+          );
+          console.log(`Updated movie: ${movie.Title}`);
+        } else {
+          console.log(`Director not found for movie: ${movie.Title}`);
+        }
+      } catch (updateError) {
+        console.error(`Error updating movie ${movie.Title}:`, updateError);
       }
-
-      if (movie.Genres && movie.Genres.length > 0) {
-        console.log(`Found genres for movie: ${movie.Title}`);
-        movie.Genres.forEach((genre) => console.log(`Genre: ${genre.Name}`));
-      } else {
-        console.error(`Genres not found for movie: ${movie.Title}`);
-      }
-
-      // Save the updated movie document
-      await movie.save();
-      console.log(`Updated movie: ${movie.Title}`);
     }
-
-    console.log("Movies have been populated with genres and director.");
-  } catch (err) {
-    console.error("Error populating movies:", err);
+  } catch (error) {
+    console.error("An error occurred:", error);
   } finally {
-    mongoose.connection.close();
+    await client.close();
   }
 }
 
-populateMovies();
+main().catch(console.error);

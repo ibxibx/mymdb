@@ -2,13 +2,19 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const movieSchema = new Schema({
-  Title: { type: String, required: true },
-  Description: { type: String, required: true },
-  Director: { type: Schema.Types.ObjectId, ref: "Director" }, // Reference to Director
-  Genres: [{ type: Schema.Types.ObjectId, ref: "Genre" }],
+ Title: String,
+  Description: String,
   Actors: [String],
   ImagePath: String,
   Featured: Boolean,
+  Genres: [{ genre: String, description: String }],
+  Director: {
+    name: String,
+    bio: String,
+    birthYear: Number,
+    birthPlace: String,
+    moviesCount: Number
+  }
 });
 
 const userSchema = new Schema({
