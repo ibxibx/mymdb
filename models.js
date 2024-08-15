@@ -11,7 +11,6 @@ const movieSchema = new Schema({
   Director: {
     name: String,
     bio: String,
-    birthYear: Number,
     birthPlace: String,
     moviesCount: Number
   }
@@ -31,9 +30,10 @@ const genreSchema = new Schema({
 });
 
 const directorSchema = new Schema({
-  Name: String,
-  Bio: String,
-  BirthYear: Number,
+  name: String,
+  bio: String,
+  birthPlace: String,
+  moviesCount: Number
 });
 
 let Movie = mongoose.model("Movie", movieSchema);
