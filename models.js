@@ -2,18 +2,25 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const movieSchema = new Schema({
- Title: String,
+  Title: String,
   Description: String,
   Actors: [String],
   ImagePath: String,
   Featured: Boolean,
-  Genres: [{ genre: String, description: String }],
+  Genres: [
+    {
+      _id: Schema.Types.ObjectId,
+      genre: String,
+      description: String,
+    },
+  ],
   Director: {
+    _id: Schema.Types.ObjectId,
     name: String,
     bio: String,
     birthPlace: String,
-    moviesCount: Number
-  }
+    moviesCount: Number,
+  },
 });
 
 const userSchema = new Schema({
@@ -25,15 +32,15 @@ const userSchema = new Schema({
 });
 
 const genreSchema = new Schema({
-  Name: String,
-  Description: String,
+  genre: String,
+  description: String,
 });
 
 const directorSchema = new Schema({
   name: String,
   bio: String,
   birthPlace: String,
-  moviesCount: Number
+  moviesCount: Number,
 });
 
 let Movie = mongoose.model("Movie", movieSchema);
