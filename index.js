@@ -43,6 +43,10 @@ const options = {
         url: "http://localhost:8080",
         description: "Development server",
       },
+      {
+        url: "http://localhost:1234",
+        description: "Local server",
+      },
     ],
     components: {
       securitySchemes: {
@@ -119,9 +123,10 @@ require("./passport");
  *       500:
  *         description: Internal server error
  */
-// passport.authenticate("jwt", { session: false }),
+
 
 app.get('/movies', async (req, res) => {
+passport.authenticate("jwt", { session: false }),
   try {
     const movies = await Movie.find();
     res.status(200).json(movies);
