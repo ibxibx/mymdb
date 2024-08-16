@@ -101,6 +101,38 @@ require("./passport");
 
 // Endpoints
 
+
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+
+    try {
+        // Find the user by username
+        const user = await User.findOne({ username });
+        if (!user) {
+            return res.status(400).json({ message: 'Invalid username or password' });
+        }
+
+        // Compare the password with the stored hash
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(400).json({ message: 'Invalid username or password' });
+        }
+
+        // Generate JWT token
+        const token = jwt.sign(
+            { id: user._id, username: user.username },
+            JWT_SECRET,
+            { expiresIn: '1h' }
+        );
+
+        // Respond with the token
+        res.json({ token, message: 'Login successful' });
+    } catch (err) {
+        console.error('Error during login:', err);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
 /**
  * @swagger
  * /movies:
@@ -534,26 +566,31 @@ const generateUsername = (email) => {
 // User registration route (no authentication required)
 app.post("/users/register", async (req, res) => {
   try {
-    const { Username, Password, Email, Birthday } = req.body;
+    const { Email, Password, Birthday } = req.body;
 
-    if (!Username || !Password || !Email) {
-      return res.status(400).json({ error: "Username, Password, and Email are required" });
+    if (!Email || !Password) {
+      return res.status(400).json({ error: "Email and Password are required" });
     }
 
-    const existingUser = await Users.findOne({ Username });
+    const existingUser = await Users.findOne({ Email });
     if (existingUser) {
-      return res.status(400).json({ message: "Username is already taken" });
+      return res.status(400).json({ message: "Email is already registered" });
     }
 
-    const newUser = new Users({ Username, Password, Email, Birthday });
+    const Username = generateUsername(Email);
+    const newUser = new Users({ Email, Password, Birthday, Username });
+    newUser.userId = newUser._id.toString();
     await newUser.save();
 
     res.status(201).json({
-      Username: newUser.Username,
+      userId: newUser.userId,
       Email: newUser.Email,
+      Username: newUser.Username,
     });
   } catch (error) {
-    res.status(500).json({ message: "Error registering user", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error registering user", error: error.message });
   }
 });
 
