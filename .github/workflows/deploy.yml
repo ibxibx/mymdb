@@ -3,25 +3,25 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - clean-mymdb-client
+      - clean-mymdb-client  # Replace with your branch name
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout the repository
       uses: actions/checkout@v3
 
-    - name: Set up Node.js
+    - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '16'
+        node-version: '20'
 
     - name: Install dependencies
       run: npm install
 
-    - name: Build the project
+    - name: Build the app
       run: npm run build
 
     - name: Deploy to GitHub Pages
