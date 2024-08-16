@@ -118,11 +118,10 @@ app.post('/login', async (req, res) => {
             return res.status(400).json({ message: 'Invalid username or password' });
         }
 
-        // Generate JWT token
+        // Generate JWT token without expiration
         const token = jwt.sign(
             { id: user._id, username: user.username },
-            JWT_SECRET,
-            { expiresIn: '1h' }
+            JWT_SECRET
         );
 
         // Respond with the token
