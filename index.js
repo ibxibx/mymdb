@@ -91,7 +91,6 @@ app.use(
     origin: [
       "http://localhost:1234",
       "https://mymdb-c295923140ec.herokuapp.com",
-      "*",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -566,6 +565,7 @@ app.post("/users/register", async (req, res) => {
       Email: newUser.Email,
     });
   } catch (error) {
+    console.error("Registration error:", error);
     res
       .status(500)
       .json({ message: "Error registering user", error: error.message });
