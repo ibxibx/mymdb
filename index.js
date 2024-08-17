@@ -2,8 +2,6 @@ const express = require("express");
 const app = express();
 const authRoutes = require("./auth");
 const cors = require("cors");
-let allowedOrigins = ["http://localhost:1234", "https://codesandbox.io", "*"];
-let auth = require("./auth")(app);
 const passport = require("passport");
 require("./passport");
 require("dotenv").config();
@@ -13,6 +11,8 @@ const jwt = require("jsonwebtoken");
 const morgan = require("morgan");
 const path = require("path");
 const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 const mongoose = require("mongoose");
 const mongoUri = process.env.MONGODB_URI;
 
@@ -23,13 +23,12 @@ if (!mongoUri) {
 
 const Models = require("./models.js");
 const { Genre, Director } = Models;
-
-// Import models
 const Movie = Models.Movie;
 const Users = Models.User;
 
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
+const specs = swaggerJsdoc(options);
 
 const options = {
   definition: {
@@ -71,8 +70,6 @@ const options = {
   apis: ["./index.js"], // Path to the API docs
 };
 
-const specs = swaggerJsdoc(options);
-
 mongoose
   .connect(mongoUri, {
     useNewUrlParser: true,
@@ -92,17 +89,16 @@ mongoose
 app.use(
   cors({
     origin: [
-      "*",
       "http://localhost:1234",
       "https://mymdb-c295923140ec.herokuapp.com",
+      "*",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   })
 );
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
