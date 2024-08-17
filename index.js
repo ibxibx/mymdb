@@ -96,7 +96,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
-
+app.use(passport.initialize());
 require("./passport");
 
 // Endpoints
@@ -118,7 +118,7 @@ app.post('/login', async (req, res) => {
             return res.status(400).json({ message: 'Invalid username or password' });
         }
 
-        // Generate JWT token without expiration
+        // Generate JWT token
         const token = jwt.sign(
             { id: user._id, username: user.username },
             JWT_SECRET
@@ -565,31 +565,26 @@ const generateUsername = (email) => {
 // User registration route (no authentication required)
 app.post("/users/register", async (req, res) => {
   try {
-    const { Email, Password, Birthday } = req.body;
+    const { Username, Password, Email, Birthday } = req.body;
 
-    if (!Email || !Password) {
-      return res.status(400).json({ error: "Email and Password are required" });
+    if (!Username || !Password || !Email) {
+      return res.status(400).json({ error: "Username, Password, and Email are required" });
     }
 
-    const existingUser = await Users.findOne({ Email });
+    const existingUser = await Users.findOne({ Username });
     if (existingUser) {
-      return res.status(400).json({ message: "Email is already registered" });
+      return res.status(400).json({ message: "Username is already taken" });
     }
 
-    const Username = generateUsername(Email);
-    const newUser = new Users({ Email, Password, Birthday, Username });
-    newUser.userId = newUser._id.toString();
+    const newUser = new Users({ Username, Password, Email, Birthday });
     await newUser.save();
 
     res.status(201).json({
-      userId: newUser.userId,
-      Email: newUser.Email,
       Username: newUser.Username,
+      Email: newUser.Email,
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error registering user", error: error.message });
+    res.status(500).json({ message: "Error registering user", error: error.message });
   }
 });
 
