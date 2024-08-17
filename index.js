@@ -1,13 +1,13 @@
 const express = require("express");
 const app = express();
-const cors = require('cors');
-let allowedOrigins = ['http://localhost:1234', 'https://codesandbox.io', '*'];
+const cors = require("cors");
+let allowedOrigins = ["http://localhost:1234", "https://codesandbox.io", "*"];
 let auth = require("./auth")(app);
 const passport = require("passport");
 require("./passport");
-require('dotenv').config();
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+require("dotenv").config();
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const morgan = require("morgan");
 const path = require("path");
@@ -15,7 +15,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const mongoUri = process.env.MONGODB_URI;
 if (!mongoUri) {
-  console.error('MONGODB_URI environment variable is not set.');
+  console.error("MONGODB_URI environment variable is not set.");
   process.exit(1);
 }
 
@@ -71,12 +71,13 @@ const options = {
 
 const specs = swaggerJsdoc(options);
 
-mongoose.connect(mongoUri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 30000,
-  connectTimeoutMS: 30000,
-})
+mongoose
+  .connect(mongoUri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 30000,
+    connectTimeoutMS: 30000,
+  })
   .then(() => {
     console.log("Connected to the database");
   })
@@ -86,11 +87,17 @@ mongoose.connect(mongoUri, {
 
 // Allow all origins
 
-app.use(cors({
-  origin: ['*', 'http://localhost:1234'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+app.use(
+  cors({
+    origin: [
+      "*",
+      "http://localhost:1234",
+      "https://mymdb-c295923140ec.herokuapp.com",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -104,31 +111,52 @@ require("./passport");
 
 // Endpoints
 
+app.post("/login", async (req, res) => {
+  console.log("Login attempt received:", req.body);
+  const { Username, Password } = req.body;
 
-app.post('/login', async (req, res) => {
-    const { Username, Password } = req.body;
-    try {
-        // Find the user by username
-        const user = await Users.findOne({ Username });
-        if (!user) {
-            return res.status(400).json({ message: 'Invalid username or password' });
-        }
-        // Compare the password with the stored hash
-        const isPasswordValid = await bcrypt.compare(Password, user.Password);
-        if (!isPasswordValid) {
-            return res.status(400).json({ message: 'Invalid username or password' });
-        }
-        // Generate JWT token
-        const token = jwt.sign(
-            { id: user._id, Username: user.Username },
-            process.env.JWT_SECRET
-        );
-        // Respond with the token and user
-        res.json({ user, token, message: 'Login successful' });
-    } catch (err) {
-        console.error('Error during login:', err);
-        res.status(500).json({ message: 'Server error' });
+  if (!Username || !Password) {
+    return res
+      .status(400)
+      .json({ message: "Username and password are required" });
+  }
+
+  try {
+    // Find the user by username
+    const user = await Users.findOne({ Username });
+    if (!user) {
+      console.log("User not found:", Username);
+      return res.status(400).json({ message: "Invalid username or password" });
     }
+
+    // Compare the password with the stored hash
+    const isPasswordValid = await bcrypt.compare(Password, user.Password);
+    if (!isPasswordValid) {
+      console.log("Invalid password for user:", Username);
+      return res.status(400).json({ message: "Invalid username or password" });
+    }
+
+    if (!process.env.JWT_SECRET) {
+      console.error("JWT_SECRET environment variable is not set.");
+      return res.status(500).json({ message: "Server configuration error" });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { id: user._id, Username: user.Username },
+      process.env.JWT_SECRET,
+      { expiresIn: "24h" } // Token expires in 24 hours
+    );
+
+    console.log("Login successful for user:", Username);
+    // Respond with the token and user (excluding the password)
+    const userResponse = user.toObject();
+    delete userResponse.Password;
+    res.json({ user: userResponse, token, message: "Login successful" });
+  } catch (err) {
+    console.error("Error during login:", err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
 });
 
 /**
@@ -154,16 +182,19 @@ app.post('/login', async (req, res) => {
  *         description: Internal server error
  */
 
-
-app.get('/movies', passport.authenticate("jwt", { session: false }), async (req, res) => {
-  try {
-    const movies = await Movie.find();
-    res.status(200).json(movies);
-  } catch (error) {
-    console.error("Error fetching movies:", error);
-    res.status(500).send("Error: " + error.message);
+app.get(
+  "/movies",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      const movies = await Movie.find();
+      res.status(200).json(movies);
+    } catch (error) {
+      console.error("Error fetching movies:", error);
+      res.status(500).send("Error: " + error.message);
+    }
   }
-});
+);
 
 /**
  * @swagger
@@ -567,7 +598,9 @@ app.post("/users/register", async (req, res) => {
     const { Username, Password, Email, Birthday } = req.body;
 
     if (!Username || !Password || !Email) {
-      return res.status(400).json({ error: "Username, Password, and Email are required" });
+      return res
+        .status(400)
+        .json({ error: "Username, Password, and Email are required" });
     }
 
     const existingUser = await Users.findOne({ Username });
@@ -583,7 +616,9 @@ app.post("/users/register", async (req, res) => {
       Email: newUser.Email,
     });
   } catch (error) {
-    res.status(500).json({ message: "Error registering user", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error registering user", error: error.message });
   }
 });
 
