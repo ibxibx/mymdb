@@ -5,6 +5,8 @@ let allowedOrigins = ['http://localhost:1234', 'https://codesandbox.io', '*'];
 let auth = require("./auth")(app);
 const passport = require("passport");
 require("./passport");
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const morgan = require("morgan");
 const path = require("path");
@@ -103,29 +105,25 @@ require("./passport");
 
 
 app.post('/login', async (req, res) => {
-    const { username, password } = req.body;
-
+    const { Username, Password } = req.body;
     try {
         // Find the user by username
-        const user = await User.findOne({ username });
+        const user = await Users.findOne({ Username });
         if (!user) {
             return res.status(400).json({ message: 'Invalid username or password' });
         }
-
         // Compare the password with the stored hash
-        const isPasswordValid = await bcrypt.compare(password, user.password);
+        const isPasswordValid = await bcrypt.compare(Password, user.Password);
         if (!isPasswordValid) {
             return res.status(400).json({ message: 'Invalid username or password' });
         }
-
         // Generate JWT token
         const token = jwt.sign(
-            { id: user._id, username: user.username },
-            JWT_SECRET
+            { id: user._id, Username: user.Username },
+            process.env.JWT_SECRET
         );
-
-        // Respond with the token
-        res.json({ token, message: 'Login successful' });
+        // Respond with the token and user
+        res.json({ user, token, message: 'Login successful' });
     } catch (err) {
         console.error('Error during login:', err);
         res.status(500).json({ message: 'Server error' });
