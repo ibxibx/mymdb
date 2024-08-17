@@ -112,7 +112,7 @@ require("./passport");
 // Endpoints
 
 app.post("/login", async (req, res) => {
-  console.log("Login attempt received:", req.body);
+  console.log("Login attempt received for username:", req.body.Username);
   const { Username, Password } = req.body;
 
   if (!Username || !Password) {
