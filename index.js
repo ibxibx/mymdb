@@ -5,6 +5,7 @@ let allowedOrigins = ['http://localhost:1234', 'https://codesandbox.io', '*'];
 let auth = require("./auth")(app);
 const passport = require("passport");
 require("./passport");
+require('dotenv').config();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
