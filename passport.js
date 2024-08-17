@@ -1,12 +1,11 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
-const passportJWT = require("passport-jwt");
 const Models = require("./models.js");
+const passportJWT = require("passport-jwt");
+
 const Users = Models.User;
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
-const bcrypt = require("bcrypt");
-require("dotenv").config();
 
 passport.use(
   new LocalStrategy(
@@ -15,26 +14,24 @@ passport.use(
       passwordField: "Password",
     },
     async (username, password, callback) => {
-      console.log(`Attempting login for username: ${username}`);
+      console.log("LocalStrategy executing for username:", username);
       try {
         const user = await Users.findOne({ Username: username });
+
         if (!user) {
-          console.log(`User not found: ${username}`);
-          return callback(null, false, {
-            message: "Incorrect username or password.",
-          });
+          console.log("User not found:", username);
+          return callback(null, false, { message: "Incorrect username." });
         }
-        const isValid = await bcrypt.compare(password, user.Password);
-        if (!isValid) {
-          console.log(`Invalid password for user: ${username}`);
-          return callback(null, false, {
-            message: "Incorrect username or password.",
-          });
+
+        if (!user.validatePassword(password)) {
+          console.log("Incorrect password for user:", username);
+          return callback(null, false, { message: "Incorrect password." });
         }
-        console.log(`Login successful for user: ${username}`);
+
+        console.log("User authenticated successfully:", username);
         return callback(null, user);
       } catch (error) {
-        console.error(`Error during authentication for ${username}:`, error);
+        console.error("Error in LocalStrategy:", error);
         return callback(error);
       }
     }
@@ -50,18 +47,14 @@ passport.use(
     async (jwtPayload, callback) => {
       try {
         const user = await Users.findById(jwtPayload.id);
-        if (!user) {
-          console.log("User not found");
-          return callback(null, false, { message: "User not found." });
+        if (user) {
+          return callback(null, user);
+        } else {
+          return callback(null, false);
         }
-        console.log("JWT validated, user found");
-        return callback(null, user);
       } catch (error) {
-        console.log("Error in JWTStrategy:", error);
         return callback(error);
       }
     }
   )
 );
-
-module.exports = passport;
