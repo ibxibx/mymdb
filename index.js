@@ -87,7 +87,7 @@ mongoose.connect(mongoUri, {
 // Allow all origins
 
 app.use(cors({
-  origin: '*', 'http://localhost:1234',
+  origin: ['*', 'http://localhost:1234'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
