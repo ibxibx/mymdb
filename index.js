@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const authRoutes = require("./auth");
 const cors = require("cors");
 let allowedOrigins = ["http://localhost:1234", "https://codesandbox.io", "*"];
 let auth = require("./auth")(app);
@@ -14,6 +15,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const mongoUri = process.env.MONGODB_URI;
+
 if (!mongoUri) {
   console.error("MONGODB_URI environment variable is not set.");
   process.exit(1);
@@ -107,57 +109,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 app.use(passport.initialize());
-require("./passport");
+authRoutes(app);
 
 // Endpoints
-
-app.post("/login", async (req, res) => {
-  console.log("Login attempt received for username:", req.body.Username);
-  const { Username, Password } = req.body;
-
-  if (!Username || !Password) {
-    return res
-      .status(400)
-      .json({ message: "Username and password are required" });
-  }
-
-  try {
-    // Find the user by username
-    const user = await Users.findOne({ Username });
-    if (!user) {
-      console.log("User not found:", Username);
-      return res.status(400).json({ message: "Invalid username or password" });
-    }
-
-    // Compare the password with the stored hash
-    const isPasswordValid = await bcrypt.compare(Password, user.Password);
-    if (!isPasswordValid) {
-      console.log("Invalid password for user:", Username);
-      return res.status(400).json({ message: "Invalid username or password" });
-    }
-
-    if (!process.env.JWT_SECRET) {
-      console.error("JWT_SECRET environment variable is not set.");
-      return res.status(500).json({ message: "Server configuration error" });
-    }
-
-    // Generate JWT token
-    const token = jwt.sign(
-      { id: user._id, Username: user.Username },
-      process.env.JWT_SECRET,
-      { expiresIn: "24h" } // Token expires in 24 hours
-    );
-
-    console.log("Login successful for user:", Username);
-    // Respond with the token and user (excluding the password)
-    const userResponse = user.toObject();
-    delete userResponse.Password;
-    res.json({ user: userResponse, token, message: "Login successful" });
-  } catch (err) {
-    console.error("Error during login:", err);
-    res.status(500).json({ message: "Server error", error: err.message });
-  }
-});
 
 /**
  * @swagger
