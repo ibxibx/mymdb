@@ -14,6 +14,11 @@ export const LoginView = ({ onLoggedIn }) => {
       Password: password,
     };
 
+    console.log(
+      "Attempting to fetch:",
+      "https://mymdb-c295923140ec.herokuapp.com/login"
+    );
+
     fetch("https://mymdb-c295923140ec.herokuapp.com/login", {
       method: "POST",
       headers: {
@@ -23,7 +28,7 @@ export const LoginView = ({ onLoggedIn }) => {
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Login failed");
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
         return response.json();
       })
@@ -39,12 +44,7 @@ export const LoginView = ({ onLoggedIn }) => {
       })
       .catch((e) => {
         console.error("Login error:", e);
-        if (e.response) {
-          e.response
-            .text()
-            .then((text) => console.error("Error response:", text));
-        }
-        alert("Something went wrong");
+        alert("Something went wrong: " + e.message);
       });
   };
 

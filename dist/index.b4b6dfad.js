@@ -28523,6 +28523,7 @@ const LoginView = ({ onLoggedIn })=>{
             Username: username,
             Password: password
         };
+        console.log("Attempting to fetch:", "https://mymdb-c295923140ec.herokuapp.com/login");
         fetch("https://mymdb-c295923140ec.herokuapp.com/login", {
             method: "POST",
             headers: {
@@ -28530,7 +28531,7 @@ const LoginView = ({ onLoggedIn })=>{
             },
             body: JSON.stringify(data)
         }).then((response)=>{
-            if (!response.ok) throw new Error("Login failed");
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             return response.json();
         }).then((data)=>{
             console.log("Login response: ", data);
@@ -28541,8 +28542,7 @@ const LoginView = ({ onLoggedIn })=>{
             } else alert("No such user");
         }).catch((e)=>{
             console.error("Login error:", e);
-            if (e.response) e.response.text().then((text)=>console.error("Error response:", text));
-            alert("Something went wrong");
+            alert("Something went wrong: " + e.message);
         });
     };
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("form", {
