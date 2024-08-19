@@ -28,7 +28,6 @@ const Users = Models.User;
 
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
-const specs = swaggerJsdoc(options);
 
 const options = {
   definition: {
@@ -69,6 +68,8 @@ const options = {
   },
   apis: ["./index.js"], // Path to the API docs
 };
+
+const specs = swaggerJsdoc(options);
 
 mongoose
   .connect(mongoUri, {
@@ -508,12 +509,6 @@ app.get(
   }
 );
 
-const generateUsername = (email) => {
-  const emailPrefix = email.split("@")[0];
-  const randomSuffix = Math.floor(Math.random() * 10000);
-  return `${emailPrefix}${randomSuffix}`;
-};
-
 /**
  * @swagger
  * /users/register:
@@ -934,7 +929,9 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ message: "Something went wrong!" });
+  res
+    .status(500)
+    .json({ message: "Something went wrong!", error: err.message });
 });
 
 const port = process.env.PORT || 8080;
