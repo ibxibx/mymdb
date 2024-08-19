@@ -31,7 +31,7 @@ module.exports = (router) => {
           "User not found or invalid credentials for:",
           req.body.Username
         );
-        return res.status(400).json({
+        return res.status(401).json({
           message: "Invalid username or password",
         });
       }
