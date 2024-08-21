@@ -1,0 +1,22 @@
+.movie-card {
+  margin-bottom: 20px; // Add some spacing between cards
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.card-text {
+  color: #555; // A subtle color for the author text
+}
+
+.card-img-top {
+  height: 100% !important;
+  object-fit: cover;
+}
+
+.button {
+  margin-top: 10px; // Add spacing above the button
+  color: #007bff; // Bootstrap primary color for the button
+}
