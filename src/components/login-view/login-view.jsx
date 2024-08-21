@@ -25,10 +25,14 @@ export const LoginView = ({ onLoggedIn }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
+      credentials: "include",
     })
-      .then((response) => {
+      .then(async (response) => {
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          const errorData = await response.json();
+          throw new Error(
+            errorData.message || `HTTP error! status: ${response.status}`
+          );
         }
         return response.json();
       })
@@ -39,12 +43,12 @@ export const LoginView = ({ onLoggedIn }) => {
           localStorage.setItem("token", data.token);
           onLoggedIn(data.user, data.token);
         } else {
-          alert("No such user");
+          throw new Error("No user data received");
         }
       })
       .catch((e) => {
         console.error("Login error:", e);
-        alert("Something went wrong: " + e.message);
+        alert("Login failed: " + e.message);
       });
   };
 
