@@ -9,9 +9,13 @@ clean-mymdb-client
 │ ├── index.jsx
 │ ├── index.scss
 │ ├── components
+│ │ ├─ login-view
+│ │ │ └─login-view.jsx
 │ │ ├─ main-view
 │ │ │ └─main-view.jsx
 │ │ ├─ movie-card  
-│ │ │ └─main-card.jsx
-│ │ └─ movie-view 
-│ │   └─main-card.jsx
+│ │ │ └─movie-card.jsx
+│ │ ├─ movie-view 
+│ │ │ └─movie-view.jsx
+│ │ └─ signup-view 
+│ │   └─signup-view.jsx
