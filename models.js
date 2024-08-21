@@ -1,17 +1,30 @@
 const mongoose = require("mongoose");
-const { Schema } = mongoose;
+const Schema = mongoose.Schema;
+const bcrypt = require("bcrypt");
 
-let movieSchema = new Schema({
-  Title: { type: String, required: true },
-  Description: { type: String, required: true },
-  GenreId: { type: mongoose.Schema.Types.ObjectId, ref: "Genre" },
-  DirectorId: { type: mongoose.Schema.Types.ObjectId, ref: "Director" },
+const movieSchema = new Schema({
+  Title: String,
+  Description: String,
   Actors: [String],
   ImagePath: String,
   Featured: Boolean,
+  Genres: [
+    {
+      _id: Schema.Types.ObjectId,
+      genre: String,
+      description: String,
+    },
+  ],
+  Director: {
+    _id: Schema.Types.ObjectId,
+    name: String,
+    bio: String,
+    birthPlace: String,
+    moviesCount: Number,
+  },
 });
 
-let userSchema = new Schema({
+const userSchema = new Schema({
   Username: { type: String, required: true },
   Password: { type: String, required: true },
   Email: { type: String, required: true, unique: true },
@@ -19,16 +32,27 @@ let userSchema = new Schema({
   FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: "Movie" }],
 });
 
-let genreSchema = new Schema({
-  Name: { type: String, required: true },
-  Description: String,
+userSchema.methods.validatePassword = function (password) {
+  return bcrypt.compareSync(password, this.Password);
+};
+
+userSchema.pre("save", function (next) {
+  if (this.isModified("Password")) {
+    this.Password = bcrypt.hashSync(this.Password, 10);
+  }
+  next();
 });
 
-let directorSchema = new Schema({
-  Name: { type: String, required: true },
-  Bio: String,
-  Birth: Date,
-  Death: { type: Date, default: null }, // Allowing null values for Death
+const genreSchema = new Schema({
+  genre: String,
+  description: String,
+});
+
+const directorSchema = new Schema({
+  name: String,
+  bio: String,
+  birthPlace: String,
+  moviesCount: Number,
 });
 
 let Movie = mongoose.model("Movie", movieSchema);

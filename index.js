@@ -1,25 +1,30 @@
 const express = require("express");
 const app = express();
-let auth = require("./auth")(app);
+const authRoutes = require("./auth");
+const cors = require("cors");
 const passport = require("passport");
 require("./passport");
+require("dotenv").config();
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const cors = require('cors');
 let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234'];
 const morgan = require("morgan");
 const path = require("path");
 const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 const mongoose = require("mongoose");
 const mongoUri = process.env.MONGODB_URI;
+
 if (!mongoUri) {
-  console.error('MONGODB_URI environment variable is not set.');
+  console.error("MONGODB_URI environment variable is not set.");
   process.exit(1);
 }
 
 const Models = require("./models.js");
 const { Genre, Director } = Models;
-
-// Import models
 const Movie = Models.Movie;
 const Users = Models.User;
 
@@ -43,6 +48,10 @@ const options = {
         url: "http://localhost:8080",
         description: "Development server",
       },
+      {
+        url: "http://localhost:1234",
+        description: "Local server",
+      },
     ],
     components: {
       securitySchemes: {
@@ -64,12 +73,13 @@ const options = {
 
 const specs = swaggerJsdoc(options);
 
-mongoose.connect(mongoUri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 30000,
-  connectTimeoutMS: 30000,
-})
+mongoose
+  .connect(mongoUri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 30000,
+    connectTimeoutMS: 30000,
+  })
   .then(() => {
     console.log("Connected to the database");
   })
@@ -77,27 +87,27 @@ mongoose.connect(mongoUri, {
     console.error("Error connecting to the database", error);
   });
 
-app.use(cors({
- origin: (origin, callback) => {
-   if(!origin) return callback(null, true);
-   if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
-     let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
-     return callback(new Error(message ), false);
-   }
-   return callback(null, true);
- }
-}));
+// Allow all origins
 
-app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:1234",
+      "https://mymdb-c295923140ec.herokuapp.com",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
+
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
-
-require("./passport");
+app.use(passport.initialize());
+authRoutes(app);
 
 // Endpoints
 
@@ -124,13 +134,17 @@ require("./passport");
  *         description: Internal server error
  */
 
-app.get('/movies', async (req, res) => {
-  try {
-    const movies = await Movie.find();
-    res.status(200).json(movies);
-  } catch (error) {
-    console.error("Error fetching movies:", error);
-    res.status(500).send("Error: " + error.message);
+app.get(
+  "/movies",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      const movies = await Movie.find();
+      res.status(200).json(movies);
+    } catch (error) {
+      console.error("Error fetching movies:", error);
+      res.status(500).send("Error: " + error.message);
+    }
   }
 });
 
@@ -497,12 +511,6 @@ app.get(
   }
 );
 
-const generateUsername = (email) => {
-  const emailPrefix = email.split("@")[0];
-  const randomSuffix = Math.floor(Math.random() * 10000);
-  return `${emailPrefix}${randomSuffix}`;
-};
-
 /**
  * @swagger
  * /users/register:
@@ -533,28 +541,28 @@ const generateUsername = (email) => {
 // User registration route (no authentication required)
 app.post("/users/register", async (req, res) => {
   try {
-    const { Email, Password, Birthday } = req.body;
+    const { Username, Password, Email, Birthday } = req.body;
 
-    if (!Email || !Password) {
-      return res.status(400).json({ error: "Email and Password are required" });
+    if (!Username || !Password || !Email) {
+      return res
+        .status(400)
+        .json({ error: "Username, Password, and Email are required" });
     }
 
-    const existingUser = await Users.findOne({ Email });
+    const existingUser = await Users.findOne({ Username });
     if (existingUser) {
-      return res.status(400).json({ message: "Email is already registered" });
+      return res.status(400).json({ message: "Username is already taken" });
     }
 
-    const Username = generateUsername(Email);
-    const newUser = new Users({ Email, Password, Birthday, Username });
-    newUser.userId = newUser._id.toString();
+    const newUser = new Users({ Username, Password, Email, Birthday });
     await newUser.save();
 
     res.status(201).json({
-      userId: newUser.userId,
-      Email: newUser.Email,
       Username: newUser.Username,
+      Email: newUser.Email,
     });
   } catch (error) {
+    console.error("Registration error:", error);
     res
       .status(500)
       .json({ message: "Error registering user", error: error.message });
@@ -923,7 +931,9 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ message: "Something went wrong!" });
+  res
+    .status(500)
+    .json({ message: "Something went wrong!", error: err.message });
 });
 
 const port = process.env.PORT || 8080;
