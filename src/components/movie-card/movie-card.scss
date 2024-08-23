@@ -1,22 +1,36 @@
-.movie-card {
-  margin-bottom: 20px; // Add some spacing between cards
+.card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-img-top {
+  height: 400px; // Adjust this value to match standard movie poster size
+  object-fit: cover;
+}
+
+.card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .card-title {
   font-size: 1.2rem;
   font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .card-text {
-  color: #555; // A subtle color for the author text
+  color: #555;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.card-img-top {
-  height: 100% !important;
-  object-fit: cover;
-}
-
-.button {
-  margin-top: 10px; // Add spacing above the button
-  color: #007bff; // Bootstrap primary color for the button
+.btn {
+  margin-top: auto;
 }

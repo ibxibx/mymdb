@@ -13188,34 +13188,40 @@ textarea.form-control-lg {
   }
 }
 
-.movie-card {
-  margin-bottom: 20px;
-}
-
-.card-title {
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-
-.card-text {
-  color: #555;
+.card {
+  flex-direction: column;
+  height: 100%;
+  display: flex;
 }
 
 .card-img-top {
   object-fit: cover;
-  height: 100% !important;
+  height: 400px;
 }
 
-.button {
-  color: #007bff;
-  margin-top: 10px;
+.card-body {
+  flex-direction: column;
+  flex-grow: 1;
+  display: flex;
 }
 
-.back-button {
-  color: #f5f5f5;
-  background-color: #1e90ff;
-  border: none;
-  border-radius: 4px;
-  padding: 4px 12px;
+.card-title {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 1.2rem;
+  font-weight: bold;
+  overflow: hidden;
+}
+
+.card-text {
+  color: #555;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  overflow: hidden;
+}
+
+.btn {
+  margin-top: auto;
 }
 /*# sourceMappingURL=index.2212206d.css.map */
