@@ -27,7 +27,6 @@ export const LoginView = ({ onLoggedIn }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-      credentials: "include",
     })
       .then(async (response) => {
         if (!response.ok) {

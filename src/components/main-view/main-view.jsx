@@ -15,7 +15,6 @@ export const MainView = () => {
 
   useEffect(() => {
     if (!token) return;
-
     fetch("https://mymdb-c295923140ec.herokuapp.com/movies", {
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -33,17 +32,23 @@ export const MainView = () => {
             Featured: movie.Featured,
           };
         });
-
         setMovies(moviesFromApi);
       })
       .catch((error) => console.error("Error fetching movies:", error));
   }, [token]);
 
+  const onLoggedIn = (user, token) => {
+    setUser(user);
+    setToken(token);
+    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("token", token);
+  };
+
   return (
     <Row className="justify-content-md-center">
       {!user ? (
         <Col md={5}>
-          <LoginView onLoggedIn={(user) => setUser(user)} />
+          <LoginView onLoggedIn={onLoggedIn} />
           <p>or</p>
           <SignupView />
         </Col>
