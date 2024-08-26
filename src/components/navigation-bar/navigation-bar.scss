@@ -1,0 +1,22 @@
+.navbar {
+  background-color: #121212 !important;
+}
+
+.nav-link {
+  color: #c5c5c5 !important;
+  font-weight: bold;
+  margin-right: 30px; // Increase space between items
+  &:hover,
+  &:focus {
+    color: #ffffff !important;
+  }
+}
+
+.navbar-brand {
+  margin-right: 20px;
+}
+
+// Add more space to the last nav item
+.nav-item:last-child {
+  margin-right: 0;
+}

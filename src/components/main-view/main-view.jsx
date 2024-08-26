@@ -3,7 +3,8 @@ import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
-import { Button, Row, Col } from "react-bootstrap";
+import { NavigationBar } from "../navigation-bar/navigation-bar";
+import { Row, Col, Container } from "react-bootstrap";
 
 export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -44,48 +45,55 @@ export const MainView = () => {
     localStorage.setItem("token", token);
   };
 
+  const onLoggedOut = () => {
+    setUser(null);
+    setToken(null);
+    localStorage.clear();
+  };
+
   return (
-    <Row className="justify-content-md-center">
-      {!user ? (
-        <Col md={5}>
-          <LoginView onLoggedIn={onLoggedIn} />
-          <p>or</p>
-          <SignupView />
-        </Col>
-      ) : selectedMovie ? (
-        <Col md={8}>
-          <MovieView
-            movie={selectedMovie}
-            onBackClick={() => setSelectedMovie(null)}
-          />
-        </Col>
-      ) : movies.length === 0 ? (
-        <div>The list is empty!</div>
-      ) : (
-        <>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              setUser(null);
-              setToken(null);
-              localStorage.clear();
-            }}
-            className="mt-3 mb-3"
-          >
-            Logout
-          </Button>
-          {movies.map((movie) => (
-            <Col className="mb-4" key={movie._id} xs={12} sm={6} md={4} lg={3}>
-              <MovieCard
-                movie={movie}
-                onMovieClick={(newSelectedMovie) => {
-                  setSelectedMovie(newSelectedMovie);
-                }}
+    <>
+      <NavigationBar user={user} onLoggedOut={onLoggedOut} />
+      <Container>
+        <Row className="justify-content-md-center">
+          {!user ? (
+            <Col md={5}>
+              <LoginView onLoggedIn={onLoggedIn} />
+              <p>or</p>
+              <SignupView />
+            </Col>
+          ) : selectedMovie ? (
+            <Col md={8}>
+              <MovieView
+                movie={selectedMovie}
+                onBackClick={() => setSelectedMovie(null)}
               />
             </Col>
-          ))}
-        </>
-      )}
-    </Row>
+          ) : movies.length === 0 ? (
+            <div>The list is empty!</div>
+          ) : (
+            <Row className="justify-content-center">
+              {movies.map((movie) => (
+                <Col
+                  className="mb-4"
+                  key={movie._id}
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                >
+                  <MovieCard
+                    movie={movie}
+                    onMovieClick={(newSelectedMovie) => {
+                      setSelectedMovie(newSelectedMovie);
+                    }}
+                  />
+                </Col>
+              ))}
+            </Row>
+          )}
+        </Row>
+      </Container>
+    </>
   );
 };

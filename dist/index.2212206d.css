@@ -3973,10 +3973,6 @@ textarea.form-control-lg {
   }
 }
 
-.nav-link:hover, .nav-link:focus {
-  color: var(--bs-nav-link-hover-color);
-}
-
 .nav-link:focus-visible {
   outline: 0;
   box-shadow: 0 0 0 .25rem #2e8b5740;
@@ -13223,5 +13219,27 @@ textarea.form-control-lg {
 
 .btn {
   margin-top: auto;
+}
+
+.navbar {
+  background-color: #121212 !important;
+}
+
+.nav-link {
+  margin-right: 30px;
+  font-weight: bold;
+  color: #c5c5c5 !important;
+}
+
+.nav-link:hover, .nav-link:focus {
+  color: #fff !important;
+}
+
+.navbar-brand {
+  margin-right: 20px;
+}
+
+.nav-item:last-child {
+  margin-right: 0;
 }
 /*# sourceMappingURL=index.2212206d.css.map */
