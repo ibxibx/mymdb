@@ -1,33 +1,66 @@
+import React from "react";
 import PropTypes from "prop-types";
+import { Container, Row, Col, Card, Button, ListGroup } from "react-bootstrap";
+
+import React from "react";
+import PropTypes from "prop-types";
+import { Container, Row, Col, Card, Button, ListGroup } from "react-bootstrap";
 
 export const MovieView = ({ movie, onBackClick }) => {
   return (
-    <div>
-      <div>
-        <img src={movie.ImagePath} alt={movie.Title} />
-      </div>
-      <div>
-        <span>Title: </span>
-        <span>{movie.Title}</span>
-      </div>
-      <div>
-        <span>Genres: </span>
-        <span>{movie.Genres.map((g) => g.genre).join(", ")}</span>
-      </div>
-      <div>
-        <span>Director: </span>
-        <span>{movie.Director.name}</span>
-      </div>
-      <div>
-        <span>Actors: </span>
-        <span>{movie.Actors.join(", ")}</span>
-      </div>
-      <div>
-        <span>Description: </span>
-        <span>{movie.Description}</span>
-      </div>
-      <button onClick={onBackClick}>Back</button>
-    </div>
+    <Container className="movie-view">
+      <Row className="justify-content-md-center">
+        <Col md={8}>
+          <Card className="mb-3">
+            <div
+              style={{
+                width: "400px",
+                maxHeight: "717px",
+                margin: "0 auto",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "20px 10px", // Added padding
+              }}
+            >
+              <Card.Img
+                variant="top"
+                src={movie.ImagePath}
+                alt={movie.Title}
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "calc(100% - 40px)", // Adjusted for vertical padding
+                  width: "auto",
+                  height: "auto",
+                  objectFit: "contain",
+                }}
+              />
+            </div>
+            <Card.Body>
+              <Card.Title as="h2">{movie.Title}</Card.Title>
+              <Card.Text>{movie.Description}</Card.Text>
+            </Card.Body>
+            <ListGroup variant="flush">
+              <ListGroup.Item>
+                <strong>Genres:</strong>{" "}
+                {movie.Genres.map((g) => g.genre).join(", ")}
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <strong>Director:</strong> {movie.Director.name}
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <strong>Actors:</strong> {movie.Actors.join(", ")}
+              </ListGroup.Item>
+            </ListGroup>
+            <Card.Footer>
+              <Button variant="primary" onClick={onBackClick}>
+                Back
+              </Button>
+            </Card.Footer>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
