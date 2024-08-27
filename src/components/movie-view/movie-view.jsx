@@ -1,12 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Container, Row, Col, Card, Button, ListGroup } from "react-bootstrap";
+import { useParams, Link, useNavigate } from "react-router-dom";
 
-import React from "react";
-import PropTypes from "prop-types";
-import { Container, Row, Col, Card, Button, ListGroup } from "react-bootstrap";
+export const MovieView = ({ movies }) => {
+  const { movieId } = useParams();
+  const navigate = useNavigate();
 
-export const MovieView = ({ movie, onBackClick }) => {
+  const movie = movies.find((m) => m._id === movieId);
+
+  if (!movie) {
+    return <div>Movie not found</div>;
+  }
+
   return (
     <Container className="movie-view">
       <Row className="justify-content-md-center">
@@ -20,7 +26,7 @@ export const MovieView = ({ movie, onBackClick }) => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                padding: "20px 10px", // Added padding
+                padding: "20px 10px",
               }}
             >
               <Card.Img
@@ -29,7 +35,7 @@ export const MovieView = ({ movie, onBackClick }) => {
                 alt={movie.Title}
                 style={{
                   maxWidth: "100%",
-                  maxHeight: "calc(100% - 40px)", // Adjusted for vertical padding
+                  maxHeight: "100%",
                   width: "auto",
                   height: "auto",
                   objectFit: "contain",
@@ -53,7 +59,7 @@ export const MovieView = ({ movie, onBackClick }) => {
               </ListGroup.Item>
             </ListGroup>
             <Card.Footer>
-              <Button variant="primary" onClick={onBackClick}>
+              <Button variant="primary" onClick={() => navigate(-1)}>
                 Back
               </Button>
             </Card.Footer>
@@ -65,25 +71,26 @@ export const MovieView = ({ movie, onBackClick }) => {
 };
 
 MovieView.propTypes = {
-  movie: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    Title: PropTypes.string.isRequired,
-    ImagePath: PropTypes.string.isRequired,
-    Director: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      bio: PropTypes.string.isRequired,
-      birthPlace: PropTypes.string.isRequired,
-      moviesCount: PropTypes.number.isRequired,
-    }).isRequired,
-    Description: PropTypes.string.isRequired,
-    Genres: PropTypes.arrayOf(
-      PropTypes.shape({
-        genre: PropTypes.string.isRequired,
-        description: PropTypes.string.isRequired,
-      })
-    ).isRequired,
-    Actors: PropTypes.arrayOf(PropTypes.string).isRequired,
-    Featured: PropTypes.bool,
-  }).isRequired,
-  onBackClick: PropTypes.func.isRequired,
+  movies: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      Title: PropTypes.string.isRequired,
+      ImagePath: PropTypes.string.isRequired,
+      Director: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        bio: PropTypes.string.isRequired,
+        birthPlace: PropTypes.string.isRequired,
+        moviesCount: PropTypes.number.isRequired,
+      }).isRequired,
+      Description: PropTypes.string.isRequired,
+      Genres: PropTypes.arrayOf(
+        PropTypes.shape({
+          genre: PropTypes.string.isRequired,
+          description: PropTypes.string.isRequired,
+        })
+      ).isRequired,
+      Actors: PropTypes.arrayOf(PropTypes.string).isRequired,
+      Featured: PropTypes.bool,
+    })
+  ).isRequired,
 };

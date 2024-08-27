@@ -5,6 +5,7 @@ import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { Row, Col, Container } from "react-bootstrap";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -12,7 +13,6 @@ export const MainView = () => {
   const [user, setUser] = useState(storedUser);
   const [token, setToken] = useState(storedToken);
   const [movies, setMovies] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState(null);
 
   useEffect(() => {
     if (!token) return;
@@ -56,42 +56,86 @@ export const MainView = () => {
       <NavigationBar user={user} onLoggedOut={onLoggedOut} />
       <Container>
         <Row className="justify-content-md-center">
-          {!user ? (
-            <Col md={5}>
-              <LoginView onLoggedIn={onLoggedIn} />
-              <p>or</p>
-              <SignupView />
-            </Col>
-          ) : selectedMovie ? (
-            <Col md={8}>
-              <MovieView
-                movie={selectedMovie}
-                onBackClick={() => setSelectedMovie(null)}
-              />
-            </Col>
-          ) : movies.length === 0 ? (
-            <div>The list is empty!</div>
-          ) : (
-            <Row className="justify-content-center">
-              {movies.map((movie) => (
-                <Col
-                  className="mb-4"
-                  key={movie._id}
-                  xs={12}
-                  sm={6}
-                  md={4}
-                  lg={3}
-                >
-                  <MovieCard
-                    movie={movie}
-                    onMovieClick={(newSelectedMovie) => {
-                      setSelectedMovie(newSelectedMovie);
-                    }}
-                  />
-                </Col>
-              ))}
-            </Row>
-          )}
+          <Routes>
+            <Route
+              path="/signup"
+              element={
+                <>
+                  {user ? (
+                    <Navigate to="/" />
+                  ) : (
+                    <Col md={5}>
+                      <SignupView />
+                    </Col>
+                  )}
+                </>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <>
+                  {user ? (
+                    <Navigate to="/" />
+                  ) : (
+                    <Col md={5}>
+                      <LoginView onLoggedIn={onLoggedIn} />
+                    </Col>
+                  )}
+                </>
+              }
+            />
+            <Route
+              path="/movies/:movieId"
+              element={
+                <>
+                  {!user ? (
+                    <Navigate to="/login" replace />
+                  ) : movies.length === 0 ? (
+                    <Col>The list is empty!</Col>
+                  ) : (
+                    <Col md={8}>
+                      <MovieView movies={movies} />
+                    </Col>
+                  )}
+                </>
+              }
+            />
+            <Route
+              path="/"
+              element={
+                <>
+                  {!user ? (
+                    <Row className="justify-content-md-center">
+                      <Col md={5}>
+                        <LoginView onLoggedIn={onLoggedIn} />
+                      </Col>
+                      <Col md={5}>
+                        <SignupView />
+                      </Col>
+                    </Row>
+                  ) : movies.length === 0 ? (
+                    <Col>The list is empty!</Col>
+                  ) : (
+                    <Row className="justify-content-md-center">
+                      {movies.map((movie) => (
+                        <Col
+                          className="mb-4"
+                          key={movie._id}
+                          xs={12}
+                          sm={6}
+                          md={4}
+                          lg={3}
+                        >
+                          <MovieCard movie={movie} />
+                        </Col>
+                      ))}
+                    </Row>
+                  )}
+                </>
+              }
+            />
+          </Routes>
         </Row>
       </Container>
     </>

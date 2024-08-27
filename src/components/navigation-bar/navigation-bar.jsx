@@ -22,11 +22,11 @@ export const NavigationBar = ({ user, onLoggedOut }) => {
           <Nav className="ms-auto">
             {user && (
               <>
+                <Nav.Link as={Link} to="/home" className="nav-item">
+                  Home
+                </Nav.Link>
                 <Nav.Link as={Link} to="/profile" className="nav-item">
                   Profile
-                </Nav.Link>
-                <Nav.Link as={Link} to="/update-profile" className="nav-item">
-                  Update Profile
                 </Nav.Link>
                 <Nav.Link onClick={onLoggedOut} className="nav-item">
                   Logout
