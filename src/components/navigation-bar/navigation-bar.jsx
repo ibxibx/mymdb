@@ -2,7 +2,7 @@ import React from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./navigation-bar.scss";
-import logoImage from "./mymdb-logo.png"; // Import the image
+import logoImage from "./mymdb-logo.png";
 
 export const NavigationBar = ({ user, onLoggedOut }) => {
   return (
@@ -10,7 +10,7 @@ export const NavigationBar = ({ user, onLoggedOut }) => {
       <Container>
         <Navbar.Brand as={Link} to="/">
           <img
-            src={logoImage} // Use the imported image
+            src={logoImage}
             width="140"
             height="140"
             className="d-inline-block align-top"
@@ -20,9 +20,18 @@ export const NavigationBar = ({ user, onLoggedOut }) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-            {user && (
+            {!user ? (
               <>
-                <Nav.Link as={Link} to="/home" className="nav-item">
+                <Nav.Link as={Link} to="/login" className="nav-item">
+                  Login
+                </Nav.Link>
+                <Nav.Link as={Link} to="/signup" className="nav-item">
+                  Signup
+                </Nav.Link>
+              </>
+            ) : (
+              <>
+                <Nav.Link as={Link} to="/" className="nav-item">
                   Home
                 </Nav.Link>
                 <Nav.Link as={Link} to="/profile" className="nav-item">
