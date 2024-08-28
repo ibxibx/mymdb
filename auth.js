@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
+const bcrypt = require("bcrypt");
+const { User } = require("./models"); // Adjust this import based on your project structure
 require("./passport");
 require("dotenv").config();
 
@@ -18,35 +20,45 @@ let generateJWTToken = (user) => {
 module.exports = (router) => {
   router.post("/login", (req, res) => {
     console.log("Login attempt received:", req.body);
-    passport.authenticate("local", { session: false }, (error, user, info) => {
-      if (error) {
-        console.error("Authentication error:", error);
-        return res.status(500).json({
-          message: "Authentication error",
-          error: error.message,
-        });
-      }
-      if (!user) {
-        console.log(
-          "User not found or invalid credentials for:",
-          req.body.Username
-        );
-        return res.status(401).json({
-          message: "Invalid username or password",
-        });
-      }
-      req.login(user, { session: false }, (error) => {
-        if (error) {
-          console.error("Login error:", error);
-          return res.status(500).json({
-            message: "Login error",
-            error: error.message,
+
+    // First, find the user manually
+    User.findOne({ Username: req.body.Username })
+      .then((user) => {
+        if (!user) {
+          console.log("User not found:", req.body.Username);
+          return res.status(401).json({
+            message: "Invalid username or password",
           });
         }
-        let token = generateJWTToken(user);
-        console.log("Login successful for:", user.Username);
-        return res.json({ user, token });
+
+        // Manually compare passwords
+        bcrypt.compare(req.body.Password, user.Password, (err, isMatch) => {
+          if (err) {
+            console.error("Password comparison error:", err);
+            return res.status(500).json({
+              message: "Error during authentication",
+            });
+          }
+
+          if (!isMatch) {
+            console.log("Password mismatch for user:", req.body.Username);
+            return res.status(401).json({
+              message: "Invalid username or password",
+            });
+          }
+
+          // If we get here, username and password are correct
+          console.log("Authentication successful for:", user.Username);
+          let token = generateJWTToken(user);
+          return res.json({ user, token });
+        });
+      })
+      .catch((error) => {
+        console.error("Database error during login:", error);
+        return res.status(500).json({
+          message: "Error during authentication",
+          error: error.message,
+        });
       });
-    })(req, res);
   });
 };
