@@ -14,21 +14,22 @@ passport.use(
       passwordField: "Password",
     },
     async (username, password, callback) => {
-      console.log("LocalStrategy executing for username/email:", username);
+      console.log("LocalStrategy executing for username:", username);
       try {
-        const user = await Users.findOne({ 
-          $or: [{ Username: username }, { Email: username }]
-        });
+        const user = await Users.findOne({ Username: username });
+
         if (!user) {
           console.log("User not found:", username);
           return callback(null, false, {
-            message: "Incorrect username/email or password.",
+            message: "Incorrect username or password.",
           });
         }
+
         if (!user.validatePassword(password)) {
           console.log("Incorrect password for user:", username);
           return callback(null, false, { message: "Incorrect password." });
         }
+
         console.log("User authenticated successfully:", username);
         return callback(null, user);
       } catch (error) {

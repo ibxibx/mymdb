@@ -1,5 +1,4 @@
 const express = require("express");
-const router = express.Router();
 const app = express();
 const authRoutes = require("./auth");
 const cors = require("cors");
@@ -9,12 +8,6 @@ require("dotenv").config();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const cors = require("cors");
-let allowedOrigins = [
-  "http://localhost:8080",
-  "http://testsite.com",
-  "http://localhost:1234",
-];
 const morgan = require("morgan");
 const path = require("path");
 const bodyParser = require("body-parser");
@@ -543,16 +536,10 @@ app.get(
  *         description: Internal server error
  */
 
-// User registration route
+// User registration route (no authentication required)
 app.post("/users/register", async (req, res) => {
   try {
     const { Username, Password, Email, Birthday } = req.body;
-
-    console.log("Received registration request:", {
-      Username,
-      Email,
-      Birthday,
-    });
 
     if (!Username || !Password || !Email) {
       return res
@@ -565,25 +552,12 @@ app.post("/users/register", async (req, res) => {
       return res.status(400).json({ message: "Username is already taken" });
     }
 
-    const hashedPassword = await bcrypt.hash(Password, 10);
-    const newUser = new Users({
-      Username,
-      Password: hashedPassword,
-      Email,
-      Birthday,
-    });
-
+    const newUser = new Users({ Username, Password, Email, Birthday });
     await newUser.save();
 
-    console.log("User registered successfully:", newUser.Username);
-
     res.status(201).json({
-      user: {
-        Username: newUser.Username,
-        Email: newUser.Email,
-        Birthday: newUser.Birthday,
-      },
-      message: "User registered successfully",
+      Username: newUser.Username,
+      Email: newUser.Email,
     });
   } catch (error) {
     console.error("Registration error:", error);
@@ -633,56 +607,49 @@ app.put(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      const { Username, Password, Email, Birthday } = req.body;
-
-      // Ensure the user is updating their own profile
-      if (req.user._id.toString() !== req.params.userId) {
-        return res.status(403).json({ message: "Permission denied" });
-      }
-
-      // Check if the new username is already taken
-      if (Username) {
-        const existingUser = await Users.findOne({ Username });
-        if (existingUser && existingUser._id.toString() !== req.params.userId) {
-          return res.status(400).json({ message: "Username is already taken" });
-        }
-      }
-
-      // If a new password is provided, hash it
-      let updatedFields = { Username, Email, Birthday };
-      if (Password) {
-        const hashedPassword = await bcrypt.hash(Password, 10);
-        updatedFields.Password = hashedPassword;
-      }
-
       const updatedUser = await Users.findByIdAndUpdate(
         req.params.userId,
-        { $set: updatedFields },
+        { $set: req.body },
         { new: true }
-      ).select("-Password");
-
+      ).select("-password");
       if (!updatedUser) {
         return res.status(404).json({ message: "User not found" });
       }
-
-      // Generate a new JWT token with updated user information
-      const token = jwt.sign(
-        { id: updatedUser._id, username: updatedUser.Username },
-        process.env.JWT_SECRET,
-        {
-          subject: updatedUser.Username,
-          expiresIn: "365d",
-          algorithm: "HS256",
-        }
-      );
-
-      res.json({ user: updatedUser, token });
+      res.json(updatedUser);
     } catch (error) {
-      console.error("Error updating user:", error);
       res
         .status(500)
         .json({ message: "Error updating user", error: error.message });
     }
+  }
+);
+
+app.put(
+  "/users/:Username",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    if (req.user.Username !== req.params.Username) {
+      return res.status(400).send("Permission denied");
+    }
+    await Users.findOneAndUpdate(
+      { Username: req.params.Username },
+      {
+        $set: {
+          Username: req.body.Username,
+          Password: req.body.Password,
+          Email: req.body.Email,
+          Birthday: req.body.Birthday,
+        },
+      },
+      { new: true }
+    )
+      .then((updatedUser) => {
+        res.json(updatedUser);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).send("Error: " + err);
+      });
   }
 );
 
