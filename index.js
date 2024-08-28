@@ -606,17 +606,48 @@ app.put(
   "/users/:userId",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
+    console.log("Received update request for user:", req.params.userId);
+    console.log("Request body:", req.body);
+
+    const updatedFields = {};
+
+    // Validate and add fields only if they are present and not empty
+    if (req.body.Username && req.body.Username.trim() !== "") {
+      updatedFields.Username = req.body.Username;
+    }
+    if (req.body.Email && req.body.Email.trim() !== "") {
+      updatedFields.Email = req.body.Email;
+    }
+    if (req.body.Birthday) {
+      updatedFields.Birthday = req.body.Birthday;
+    }
+    if (req.body.Password && req.body.Password.trim() !== "") {
+      updatedFields.Password = bcrypt.hashSync(req.body.Password, 10);
+    }
+
+    console.log("Fields to be updated:", Object.keys(updatedFields));
+
+    if (Object.keys(updatedFields).length === 0) {
+      console.log("No valid fields to update");
+      return res.status(400).json({ message: "No valid fields to update" });
+    }
+
     try {
       const updatedUser = await Users.findByIdAndUpdate(
         req.params.userId,
-        { $set: req.body },
+        { $set: updatedFields },
         { new: true }
-      ).select("-password");
+      ).select("-Password");
+
       if (!updatedUser) {
+        console.log("User not found:", req.params.userId);
         return res.status(404).json({ message: "User not found" });
       }
+
+      console.log("User updated successfully:", updatedUser.Username);
       res.json(updatedUser);
     } catch (error) {
+      console.error("Error updating user:", error);
       res
         .status(500)
         .json({ message: "Error updating user", error: error.message });

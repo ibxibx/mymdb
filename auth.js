@@ -21,36 +21,56 @@ module.exports = (router) => {
   router.post("/login", (req, res) => {
     console.log("Login attempt received:", req.body);
 
-    // First, find the user manually
+    if (!req.body.Username || !req.body.Password) {
+      console.log("Missing username or password in request");
+      return res.status(400).json({
+        message: "Both username and password are required",
+      });
+    }
+
     User.findOne({ Username: req.body.Username })
       .then((user) => {
         if (!user) {
-          console.log("User not found:", req.body.Username);
+          console.log("No user found with username:", req.body.Username);
           return res.status(401).json({
             message: "Invalid username or password",
           });
         }
 
-        // Manually compare passwords
+        console.log("User found:", user.Username);
+        console.log("Stored hashed password:", user.Password);
+        console.log("Provided password:", req.body.Password);
+
         bcrypt.compare(req.body.Password, user.Password, (err, isMatch) => {
           if (err) {
-            console.error("Password comparison error:", err);
+            console.error("bcrypt compare error:", err);
             return res.status(500).json({
-              message: "Error during authentication",
+              message: "Error comparing passwords",
+              error: err.message,
             });
           }
 
           if (!isMatch) {
-            console.log("Password mismatch for user:", req.body.Username);
+            console.log("Password does not match for user:", user.Username);
             return res.status(401).json({
               message: "Invalid username or password",
             });
           }
 
-          // If we get here, username and password are correct
-          console.log("Authentication successful for:", user.Username);
+          console.log("Password matches, generating token for:", user.Username);
           let token = generateJWTToken(user);
-          return res.json({ user, token });
+
+          // Remove sensitive information before sending the user object
+          const userResponse = {
+            _id: user._id,
+            Username: user.Username,
+            Email: user.Email,
+            Birthday: user.Birthday,
+            FavoriteMovies: user.FavoriteMovies,
+          };
+
+          console.log("Login successful, sending response");
+          return res.json({ user: userResponse, token });
         });
       })
       .catch((error) => {
