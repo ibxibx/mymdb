@@ -543,10 +543,16 @@ app.get(
  *         description: Internal server error
  */
 
-// User registration route (no authentication required)
+// User registration route
 app.post("/users/register", async (req, res) => {
   try {
     const { Username, Password, Email, Birthday } = req.body;
+
+    console.log("Received registration request:", {
+      Username,
+      Email,
+      Birthday,
+    });
 
     if (!Username || !Password || !Email) {
       return res
@@ -559,12 +565,25 @@ app.post("/users/register", async (req, res) => {
       return res.status(400).json({ message: "Username is already taken" });
     }
 
-    const newUser = new Users({ Username, Password, Email, Birthday });
+    const hashedPassword = await bcrypt.hash(Password, 10);
+    const newUser = new Users({
+      Username,
+      Password: hashedPassword,
+      Email,
+      Birthday,
+    });
+
     await newUser.save();
 
+    console.log("User registered successfully:", newUser.Username);
+
     res.status(201).json({
-      Username: newUser.Username,
-      Email: newUser.Email,
+      user: {
+        Username: newUser.Username,
+        Email: newUser.Email,
+        Birthday: newUser.Birthday,
+      },
+      message: "User registered successfully",
     });
   } catch (error) {
     console.error("Registration error:", error);
