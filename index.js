@@ -1,4 +1,5 @@
 const express = require("express");
+const router = express.Router();
 const app = express();
 const authRoutes = require("./auth");
 const cors = require("cors");
@@ -8,8 +9,12 @@ require("dotenv").config();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234'];
+const cors = require("cors");
+let allowedOrigins = [
+  "http://localhost:8080",
+  "http://testsite.com",
+  "http://localhost:1234",
+];
 const morgan = require("morgan");
 const path = require("path");
 const bodyParser = require("body-parser");
@@ -146,7 +151,7 @@ app.get(
       res.status(500).send("Error: " + error.message);
     }
   }
-});
+);
 
 /**
  * @swagger
@@ -654,6 +659,7 @@ app.put(
 
       res.json({ user: updatedUser, token });
     } catch (error) {
+      console.error("Error updating user:", error);
       res
         .status(500)
         .json({ message: "Error updating user", error: error.message });
