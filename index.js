@@ -609,49 +609,55 @@ app.put(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
+      const { Username, Password, Email, Birthday } = req.body;
+
+      // Ensure the user is updating their own profile
+      if (req.user._id.toString() !== req.params.userId) {
+        return res.status(403).json({ message: "Permission denied" });
+      }
+
+      // Check if the new username is already taken
+      if (Username) {
+        const existingUser = await Users.findOne({ Username });
+        if (existingUser && existingUser._id.toString() !== req.params.userId) {
+          return res.status(400).json({ message: "Username is already taken" });
+        }
+      }
+
+      // If a new password is provided, hash it
+      let updatedFields = { Username, Email, Birthday };
+      if (Password) {
+        const hashedPassword = await bcrypt.hash(Password, 10);
+        updatedFields.Password = hashedPassword;
+      }
+
       const updatedUser = await Users.findByIdAndUpdate(
         req.params.userId,
-        { $set: req.body },
+        { $set: updatedFields },
         { new: true }
-      ).select("-password");
+      ).select("-Password");
+
       if (!updatedUser) {
         return res.status(404).json({ message: "User not found" });
       }
-      res.json(updatedUser);
+
+      // Generate a new JWT token with updated user information
+      const token = jwt.sign(
+        { id: updatedUser._id, username: updatedUser.Username },
+        process.env.JWT_SECRET,
+        {
+          subject: updatedUser.Username,
+          expiresIn: "365d",
+          algorithm: "HS256",
+        }
+      );
+
+      res.json({ user: updatedUser, token });
     } catch (error) {
       res
         .status(500)
         .json({ message: "Error updating user", error: error.message });
     }
-  }
-);
-
-app.put(
-  "/users/:Username",
-  passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
-    if (req.user.Username !== req.params.Username) {
-      return res.status(400).send("Permission denied");
-    }
-    await Users.findOneAndUpdate(
-      { Username: req.params.Username },
-      {
-        $set: {
-          Username: req.body.Username,
-          Password: req.body.Password,
-          Email: req.body.Email,
-          Birthday: req.body.Birthday,
-        },
-      },
-      { new: true }
-    )
-      .then((updatedUser) => {
-        res.json(updatedUser);
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).send("Error: " + err);
-      });
   }
 );
 
