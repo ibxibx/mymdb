@@ -26,12 +26,16 @@ export const ProfileView = ({
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const data = {
-      Username: username,
-      Password: password,
-      Email: email,
-      Birthday: birthday,
-    };
+    const data = {};
+    if (username !== user.Username) data.Username = username;
+    if (email !== user.Email) data.Email = email;
+    if (birthday !== user.Birthday) data.Birthday = birthday;
+    if (password) data.Password = password;
+
+    if (Object.keys(data).length === 0) {
+      alert("No changes to update");
+      return;
+    }
 
     fetch(`https://mymdb-c295923140ec.herokuapp.com/users/${user._id}`, {
       method: "PUT",
@@ -45,18 +49,21 @@ export const ProfileView = ({
         if (response.ok) {
           return response.json();
         } else {
-          alert("Update failed");
-          return false;
+          throw new Error("Update failed");
         }
       })
-      .then((user) => {
-        if (user) {
-          alert("Update successful");
-          onUserUpdate(user);
+      .then((updatedUser) => {
+        alert("Update successful");
+        onUserUpdate(updatedUser);
+        // If the username was changed, update it in localStorage
+        if (data.Username) {
+          const storedUser = JSON.parse(localStorage.getItem("user"));
+          storedUser.Username = data.Username;
+          localStorage.setItem("user", JSON.stringify(storedUser));
         }
       })
       .catch((e) => {
-        alert("Something went wrong");
+        alert("Something went wrong: " + e.message);
       });
   };
 

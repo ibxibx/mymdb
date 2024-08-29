@@ -44,6 +44,41 @@ export const MainView = () => {
       .catch((error) => console.error("Error fetching movies:", error));
   };
 
+  const toggleFavorite = (movieId) => {
+    const isFavorite = user.FavoriteMovies.includes(movieId);
+    const method = isFavorite ? "DELETE" : "POST";
+
+    fetch(
+      `https://mymdb-c295923140ec.herokuapp.com/users/${user._id}/movies/${movieId}`,
+      {
+        method: method,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error(
+            isFavorite
+              ? "Failed to remove movie from favorites"
+              : "Failed to add movie to favorites"
+          );
+        }
+      })
+      .then((updatedUser) => {
+        if (updatedUser) {
+          setUser(updatedUser);
+          localStorage.setItem("user", JSON.stringify(updatedUser));
+        }
+      })
+      .catch((e) => {
+        console.error("Error toggling favorite:", e);
+      });
+  };
+
   const onLoggedIn = (user, token) => {
     setUser(user);
     setToken(token);
@@ -164,16 +199,24 @@ export const MainView = () => {
                   ) : movies.length === 0 ? (
                     <Col>The list is empty!</Col>
                   ) : (
-                    <>
+                    <Row className="g-4">
                       {movies.map((movie) => (
-                        <Col className="mb-4" key={movie._id} md={3}>
+                        <Col
+                          xs={12}
+                          sm={6}
+                          md={4}
+                          lg={3}
+                          key={movie._id}
+                          className="mb-4"
+                        >
                           <MovieCard
                             movie={movie}
-                            onAddFavorite={addFavorite}
+                            user={user}
+                            onToggleFavorite={toggleFavorite}
                           />
                         </Col>
                       ))}
-                    </>
+                    </Row>
                   )}
                 </>
               }
