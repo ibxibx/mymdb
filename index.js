@@ -6,7 +6,7 @@ const allowedOrigins = [
   "http://localhost:8080",
   "http://testsite.com",
   "http://localhost:1234",
-  "https://my-mdb-app.netlify.app",
+  "https://mymdb-app.netlify.app",
 ];
 const passport = require("passport");
 require("./passport");
