@@ -1,36 +1,52 @@
-.card {
+.movie-card {
   height: 100%;
   display: flex;
   flex-direction: column;
+
+  .card-img-wrapper {
+    position: relative;
+    padding-top: 133.33%; // 4:3 aspect ratio
+    overflow: hidden;
+
+    .card-img-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .card-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-title {
+    font-size: 1rem;
+  }
+
+  .card-text {
+    font-size: 0.875rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+
+  .btn {
+    font-size: 0.875rem;
+    padding: 0.25rem 0.5rem;
+  }
 }
 
-.card-img-top {
-  height: 400px; // Adjust this value to match standard movie poster size
-  object-fit: cover;
-}
-
-.card-body {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.card-title {
-  font-size: 1.2rem;
-  font-weight: bold;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.card-text {
-  color: #555;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.btn {
-  margin-top: auto;
+// Custom breakpoint for 4 columns
+@media (min-width: 1400px) {
+  .col-xxl-3 {
+    flex: 0 0 auto;
+    width: 25%;
+  }
 }

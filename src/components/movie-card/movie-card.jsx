@@ -1,22 +1,33 @@
-import PropTypes from "prop-types";
+import React from "react";
 import PropTypes from "prop-types";
 import { Button, Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import "./movie-card.scss";
 
-export const MovieCard = ({ movie, onMovieClick }) => {
+export const MovieCard = ({ movie, user, onToggleFavorite }) => {
+  const isFavorite = user && user.FavoriteMovies.includes(movie._id);
+
   return (
-    <Card>
-      <Card.Img variant="top" src={movie.ImagePath} />
-      <Card.Body>
+    <Card className="h-100 movie-card">
+      <div className="card-img-wrapper">
+        <Card.Img variant="top" src={movie.ImagePath} />
+      </div>
+      <Card.Body className="d-flex flex-column">
         <Card.Title>{movie.Title}</Card.Title>
-        <Card.Text>{movie.Description}</Card.Text>
-        <Button
-          onClick={() => onMovieClick(movie)}
-          variant="primary"
-          className="w-100"
-        >
-          Open
-        </Button>
+        <Card.Text className="flex-grow-1">{movie.Description}</Card.Text>
+        <div className="mt-auto">
+          <Link to={`/movies/${encodeURIComponent(movie._id)}`}>
+            <Button variant="link">Open</Button>
+          </Link>
+          {user && (
+            <Button
+              variant={isFavorite ? "danger" : "primary"}
+              onClick={() => onToggleFavorite(movie._id)}
+            >
+              {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+            </Button>
+          )}
+        </div>
       </Card.Body>
     </Card>
   );
@@ -43,5 +54,6 @@ MovieCard.propTypes = {
     Actors: PropTypes.arrayOf(PropTypes.string).isRequired,
     Featured: PropTypes.bool,
   }).isRequired,
-  onMovieClick: PropTypes.func.isRequired,
+  user: PropTypes.object,
+  onToggleFavorite: PropTypes.func.isRequired,
 };

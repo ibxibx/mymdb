@@ -11,15 +11,15 @@ export const LoginView = ({ onLoggedIn }) => {
     // this prevents the default behavior of the form which is to reload the entire page
     event.preventDefault();
 
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const loginUsername = storedUser ? storedUser.Username : username;
+
     const data = {
-      Username: username,
+      Username: loginUsername,
       Password: password,
     };
 
-    console.log(
-      "Attempting to fetch:",
-      "https://mymdb-c295923140ec.herokuapp.com/login"
-    );
+    console.log("Attempting login with:", JSON.stringify(data));
 
     fetch("https://mymdb-c295923140ec.herokuapp.com/login", {
       method: "POST",
