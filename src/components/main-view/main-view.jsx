@@ -54,6 +54,7 @@ export const MainView = () => {
           };
         });
         setMovies(moviesFromApi);
+        setFilteredMovies(moviesFromApi);
       })
       .catch((error) => console.error("Error fetching movies:", error));
   };
@@ -80,12 +81,12 @@ export const MainView = () => {
     let filtered = movies;
     if (selectedGenres.length > 0) {
       filtered = filtered.filter((movie) =>
-        movie.Genres.some((genre) => selectedGenres.includes(genre.Name))
+        movie.Genres.some((genreObj) => selectedGenres.includes(genreObj.genre))
       );
     }
     if (selectedDirector) {
       filtered = filtered.filter(
-        (movie) => movie.Director.Name === selectedDirector
+        (movie) => movie.Director.name === selectedDirector
       );
     }
     setFilteredMovies(filtered);
@@ -97,9 +98,21 @@ export const MainView = () => {
     );
   };
 
+  const applyFilters = (filterType) => {
+    if (filterType === "genre") {
+      setSelectedDirector("");
+    } else if (filterType === "director") {
+      setSelectedGenres([]);
+    }
+    setShowGenreModal(false);
+    setShowDirectorModal(false);
+    filterMovies();
+  };
+
   const clearFilters = () => {
     setSelectedGenres([]);
     setSelectedDirector("");
+    setFilteredMovies(movies);
   };
 
   const toggleFavorite = (movieId) => {
@@ -277,6 +290,7 @@ export const MainView = () => {
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   setSelectedGenres([]);
+                                  filterMovies();
                                 }}
                               >
                                 &#x2715;
@@ -296,19 +310,26 @@ export const MainView = () => {
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   setSelectedDirector("");
+                                  filterMovies();
                                 }}
                               >
                                 &#x2715;
                               </span>
                             )}
                           </Button>
+                          {(selectedGenres.length > 0 || selectedDirector) && (
+                            <Button
+                              variant="danger"
+                              className="ms-2"
+                              onClick={clearFilters}
+                            >
+                              Clear All Filters
+                            </Button>
+                          )}
                         </div>
                       </Col>
                       <Row className="g-4">
-                        {(filteredMovies.length > 0
-                          ? filteredMovies
-                          : movies
-                        ).map((movie) => (
+                        {filteredMovies.map((movie) => (
                           <Col
                             xs={12}
                             sm={6}
@@ -333,25 +354,30 @@ export const MainView = () => {
           </Routes>
         </Row>
       </Container>
+
       {/* Genre Modal */}
       <Modal show={showGenreModal} onHide={() => setShowGenreModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Select Genres</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {genres.map((genre) => (
+          {genres.map((genreObj) => (
             <Form.Check
-              key={genre._id}
+              key={genreObj._id}
               type="checkbox"
-              label={genre.Name}
-              checked={selectedGenres.includes(genre.Name)}
-              onChange={() => toggleGenre(genre.Name)}
+              id={`genre-${genreObj._id}`}
+              label={genreObj.genre}
+              checked={selectedGenres.includes(genreObj.genre)}
+              onChange={() => toggleGenre(genreObj.genre)}
+              className={
+                selectedGenres.includes(genreObj.genre) ? "fw-bold" : ""
+              }
             />
           ))}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowGenreModal(false)}>
-            Close
+          <Button variant="primary" onClick={() => applyFilters("genre")}>
+            Apply Filter
           </Button>
         </Modal.Footer>
       </Modal>
@@ -372,28 +398,29 @@ export const MainView = () => {
             onChange={(e) => setDirectorSearch(e.target.value)}
           />
           {directors
-            .filter((director) =>
-              director.Name.toLowerCase().includes(directorSearch.toLowerCase())
-            )
+            .filter((director) => {
+              if (!director || typeof director !== "object") return false;
+              return director.name
+                .toLowerCase()
+                .includes(directorSearch.toLowerCase());
+            })
             .map((director) => (
               <Button
                 key={director._id}
                 variant="link"
                 onClick={() => {
-                  setSelectedDirector(director.Name);
-                  setShowDirectorModal(false);
+                  setSelectedDirector(director.name);
+                  applyFilters("director");
                 }}
+                className={selectedDirector === director.name ? "fw-bold" : ""}
               >
-                {director.Name}
+                {director.name}
               </Button>
             ))}
         </Modal.Body>
         <Modal.Footer>
-          <Button
-            variant="secondary"
-            onClick={() => setShowDirectorModal(false)}
-          >
-            Close
+          <Button variant="primary" onClick={() => applyFilters("director")}>
+            Apply Filter
           </Button>
         </Modal.Footer>
       </Modal>
