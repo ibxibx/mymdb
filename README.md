@@ -17,5 +17,9 @@ clean-mymdb-client
 │ │ │ └─movie-card.jsx
 │ │ ├─ movie-view 
 │ │ │ └─movie-view.jsx
-│ │ └─ signup-view 
-│ │   └─signup-view.jsx
+│ │ ├─ signup-view 
+│ │ │ └─signup-view.jsx
+│ │ ├─ navigation-bar
+│ │ │ └─navigation-bar.jsx
+│ │ ├─ profile-view
+│ │ │ └─profile-view.jsx
