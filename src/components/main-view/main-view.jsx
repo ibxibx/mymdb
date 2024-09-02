@@ -5,7 +5,7 @@ import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { ProfileView } from "../profile-view/profile-view";
-import { Row, Col, Container } from "react-bootstrap";
+import { Row, Col, Container, Button, Form, Modal } from "react-bootstrap";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 export const MainView = () => {
@@ -14,11 +14,25 @@ export const MainView = () => {
   const [user, setUser] = useState(storedUser);
   const [token, setToken] = useState(storedToken);
   const [movies, setMovies] = useState([]);
+  const [filteredMovies, setFilteredMovies] = useState([]);
+  const [genres, setGenres] = useState([]);
+  const [directors, setDirectors] = useState([]);
+  const [showGenreModal, setShowGenreModal] = useState(false);
+  const [showDirectorModal, setShowDirectorModal] = useState(false);
+  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [selectedDirector, setSelectedDirector] = useState("");
+  const [directorSearch, setDirectorSearch] = useState("");
 
   useEffect(() => {
     if (!token) return;
     fetchMovies(token);
+    fetchGenres(token);
+    fetchDirectors(token);
   }, [token]);
+
+  useEffect(() => {
+    filterMovies();
+  }, [movies, selectedGenres, selectedDirector]);
 
   const fetchMovies = (token) => {
     if (!token) return;
@@ -42,6 +56,50 @@ export const MainView = () => {
         setMovies(moviesFromApi);
       })
       .catch((error) => console.error("Error fetching movies:", error));
+  };
+
+  const fetchGenres = (token) => {
+    fetch("https://mymdb-c295923140ec.herokuapp.com/genres", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((response) => response.json())
+      .then((data) => setGenres(data))
+      .catch((error) => console.error("Error fetching genres:", error));
+  };
+
+  const fetchDirectors = (token) => {
+    fetch("https://mymdb-c295923140ec.herokuapp.com/directors", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((response) => response.json())
+      .then((data) => setDirectors(data))
+      .catch((error) => console.error("Error fetching directors:", error));
+  };
+
+  const filterMovies = () => {
+    let filtered = movies;
+    if (selectedGenres.length > 0) {
+      filtered = filtered.filter((movie) =>
+        movie.Genres.some((genre) => selectedGenres.includes(genre.Name))
+      );
+    }
+    if (selectedDirector) {
+      filtered = filtered.filter(
+        (movie) => movie.Director.Name === selectedDirector
+      );
+    }
+    setFilteredMovies(filtered);
+  };
+
+  const toggleGenre = (genre) => {
+    setSelectedGenres((prev) =>
+      prev.includes(genre) ? prev.filter((g) => g !== genre) : [...prev, genre]
+    );
+  };
+
+  const clearFilters = () => {
+    setSelectedGenres([]);
+    setSelectedDirector("");
   };
 
   const toggleFavorite = (movieId) => {
@@ -199,24 +257,75 @@ export const MainView = () => {
                   ) : movies.length === 0 ? (
                     <Col>The list is empty!</Col>
                   ) : (
-                    <Row className="g-4">
-                      {movies.map((movie) => (
-                        <Col
-                          xs={12}
-                          sm={6}
-                          md={4}
-                          lg={3}
-                          key={movie._id}
-                          className="mb-4"
-                        >
-                          <MovieCard
-                            movie={movie}
-                            user={user}
-                            onToggleFavorite={toggleFavorite}
-                          />
-                        </Col>
-                      ))}
-                    </Row>
+                    <>
+                      <Col xs={12} className="mb-4">
+                        <div className="d-flex justify-content-center align-items-center">
+                          <span className="me-2">Filter Movies by</span>
+                          <Button
+                            variant={
+                              selectedGenres.length > 0
+                                ? "primary"
+                                : "outline-primary"
+                            }
+                            className="me-2"
+                            onClick={() => setShowGenreModal(true)}
+                          >
+                            Genre
+                            {selectedGenres.length > 0 && (
+                              <span
+                                className="ms-2"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSelectedGenres([]);
+                                }}
+                              >
+                                &#x2715;
+                              </span>
+                            )}
+                          </Button>
+                          <Button
+                            variant={
+                              selectedDirector ? "primary" : "outline-primary"
+                            }
+                            onClick={() => setShowDirectorModal(true)}
+                          >
+                            Director
+                            {selectedDirector && (
+                              <span
+                                className="ms-2"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSelectedDirector("");
+                                }}
+                              >
+                                &#x2715;
+                              </span>
+                            )}
+                          </Button>
+                        </div>
+                      </Col>
+                      <Row className="g-4">
+                        {(filteredMovies.length > 0
+                          ? filteredMovies
+                          : movies
+                        ).map((movie) => (
+                          <Col
+                            xs={12}
+                            sm={6}
+                            md={4}
+                            lg={3}
+                            key={movie._id}
+                            className="mb-4"
+                          >
+                            <MovieCard
+                              movie={movie}
+                              user={user}
+                              onToggleFavorite={toggleFavorite}
+                            />
+                          </Col>
+                        ))}
+                      </Row>
+                    </>
                   )}
                 </>
               }
@@ -224,6 +333,70 @@ export const MainView = () => {
           </Routes>
         </Row>
       </Container>
+      {/* Genre Modal */}
+      <Modal show={showGenreModal} onHide={() => setShowGenreModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Select Genres</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {genres.map((genre) => (
+            <Form.Check
+              key={genre._id}
+              type="checkbox"
+              label={genre.Name}
+              checked={selectedGenres.includes(genre.Name)}
+              onChange={() => toggleGenre(genre.Name)}
+            />
+          ))}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowGenreModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Director Modal */}
+      <Modal
+        show={showDirectorModal}
+        onHide={() => setShowDirectorModal(false)}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Select Director</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Control
+            type="text"
+            placeholder="Search directors"
+            value={directorSearch}
+            onChange={(e) => setDirectorSearch(e.target.value)}
+          />
+          {directors
+            .filter((director) =>
+              director.Name.toLowerCase().includes(directorSearch.toLowerCase())
+            )
+            .map((director) => (
+              <Button
+                key={director._id}
+                variant="link"
+                onClick={() => {
+                  setSelectedDirector(director.Name);
+                  setShowDirectorModal(false);
+                }}
+              >
+                {director.Name}
+              </Button>
+            ))}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={() => setShowDirectorModal(false)}
+          >
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

@@ -1,0 +1,21 @@
+.filter-bar {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.filter-button {
+  transition: all 0.3s ease;
+}
+
+.filter-button.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.filter-button .close-icon {
+  font-size: 0.8em;
+  margin-left: 5px;
+}
