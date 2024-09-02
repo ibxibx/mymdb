@@ -2,6 +2,12 @@ const express = require("express");
 const app = express();
 const authRoutes = require("./auth");
 const cors = require("cors");
+const allowedOrigins = [
+  "http://localhost:8080",
+  "http://testsite.com",
+  "http://localhost:1234",
+  "https://my-mdb-app.netlify.app",
+];
 const passport = require("passport");
 require("./passport");
 require("dotenv").config();
@@ -89,13 +95,17 @@ mongoose
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:1234",
-      "https://mymdb-c295923140ec.herokuapp.com",
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        // If a specific origin isn’t found on the list of allowed origins
+        let message =
+          "The CORS policy for this application doesn’t allow access from origin " +
+          origin;
+        return callback(new Error(message), false);
+      }
+      return callback(null, true);
+    },
   })
 );
 
