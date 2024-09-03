@@ -8,26 +8,20 @@ export const MovieCard = ({ movie, user, onToggleFavorite }) => {
   const isFavorite = user && user.FavoriteMovies.includes(movie._id);
 
   return (
-    <Card className="h-100 movie-card">
-      <div className="card-img-wrapper">
-        <Card.Img variant="top" src={movie.ImagePath} />
-      </div>
-      <Card.Body className="d-flex flex-column">
+    <Card className="h-100">
+      <Card.Img variant="top" src={movie.ImagePath} />
+      <Card.Body>
         <Card.Title>{movie.Title}</Card.Title>
-        <Card.Text className="flex-grow-1">{movie.Description}</Card.Text>
-        <div className="mt-auto">
-          <Link to={`/movies/${encodeURIComponent(movie._id)}`}>
-            <Button variant="link">Open</Button>
-          </Link>
-          {user && (
-            <Button
-              variant={isFavorite ? "danger" : "primary"}
-              onClick={() => onToggleFavorite(movie._id)}
-            >
-              {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
-            </Button>
-          )}
-        </div>
+        <Card.Text>{movie.Director.name}</Card.Text>
+        <Link to={`/movies/${encodeURIComponent(movie._id)}`}>
+          <Button variant="link">Open</Button>
+        </Link>
+        <Button
+          variant={isFavorite ? "danger" : "success"}
+          onClick={() => onToggleFavorite(movie._id)}
+        >
+          {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+        </Button>
       </Card.Body>
     </Card>
   );
