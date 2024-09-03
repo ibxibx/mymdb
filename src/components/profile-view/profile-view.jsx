@@ -23,6 +23,43 @@ export const ProfileView = ({
     );
   }, [movies, user]);
 
+  const toggleFavorite = (movieId) => {
+    const isFavorite = user.FavoriteMovies.includes(movieId);
+    const method = isFavorite ? "DELETE" : "POST";
+
+    fetch(
+      `https://mymdb-c295923140ec.herokuapp.com/users/${user._id}/movies/${movieId}`,
+      {
+        method: method,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error(
+            isFavorite
+              ? "Failed to remove movie from favorites"
+              : "Failed to add movie to favorites"
+          );
+        }
+      })
+      .then((updatedUser) => {
+        if (updatedUser) {
+          onUserUpdate(updatedUser);
+          setFavoriteMovies(
+            movies.filter((m) => updatedUser.FavoriteMovies.includes(m._id))
+          );
+        }
+      })
+      .catch((e) => {
+        alert(`Error: ${e.message}`);
+      });
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -174,7 +211,11 @@ export const ProfileView = ({
           </Button>
         </Col>
         <Col md={8} lg={9}>
-          <h2>Favorite Movies</h2>
+          <Row className="justify-content-center mb-4">
+            <Col xs="auto">
+              <h2 className="text-center">Favorite Movies</h2>
+            </Col>
+          </Row>
           <Row>
             {favoriteMovies.map((movie) => (
               <Col
@@ -187,7 +228,8 @@ export const ProfileView = ({
               >
                 <MovieCard
                   movie={movie}
-                  onRemoveFavorite={() => removeFavorite(movie._id)}
+                  user={user}
+                  onToggleFavorite={toggleFavorite}
                 />
               </Col>
             ))}
