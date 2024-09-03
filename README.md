@@ -1,5 +1,9 @@
 # MyMDB (My Movie Database)
 
+## Live Demo
+
+**🎬 [Access the MyMDB App Here](https://mymdb-app.netlify.app/) 🎬**
+
 ## Project Description
 
 MyMDB is a full-stack web application built using the MERN stack (MongoDB, Express, React, and Node.js). It's designed for movie enthusiasts who want to explore, save, and manage information about their favorite films.
@@ -41,6 +45,8 @@ MyMDB is a full-stack web application built using the MERN stack (MongoDB, Expre
 - **State Management**: Leverages React's built-in state management with hooks for features like movie filtering.
 - **RESTful API Integration**: Communicates with a backend API for data management.
 - **Online Hosting**: The application is hosted online for easy access.
+
+https://mymdb-app.netlify.app/
 
 ## Getting Started
 
