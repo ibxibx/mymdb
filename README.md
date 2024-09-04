@@ -46,7 +46,63 @@ MyMDB is a full-stack web application built using the MERN stack (MongoDB, Expre
 - **RESTful API Integration**: Communicates with a backend API for data management.
 - **Online Hosting**: The application is hosted online for easy access.
 
-https://mymdb-app.netlify.app/
+## For Developers
+
+If you want to run this project locally or contribute to its development, follow these steps:
+
+### Repository
+
+The project repository is available at: [https://github.com/ibxibx/mymdb/tree/clean-mymdb-client](https://github.com/ibxibx/mymdb/tree/clean-mymdb-client)
+
+### Setup
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/ibxibx/mymdb.git
+   cd mymdb
+   git checkout clean-mymdb-client
+   ```
+
+2. Install dependencies:
+   ```
+   npm install
+   ```
+
+### Running the Project
+
+You can run the project using one of the following commands:
+
+- Using npm:
+  ```
+  npm start
+  ```
+
+- Using Parcel directly:
+  ```
+  parcel src/index.html
+  ```
+
+This will start the development server, and you can view the app in your browser at `http://localhost:1234` (or whichever port Parcel assigns).
+
+### Project Structure
+
+- `src/`: Contains the source code for the React application
+  - `components/`: React components
+  - `index.html`: The main HTML file
+  - `index.jsx`: The entry point for the React application
+- `img/`: Contains images used in the README and possibly the application
+- `package.json`: Defines the project dependencies and scripts
+- `.gitignore`: Specifies files that Git should ignore
+
+### Building for Production
+
+To build the project for production, run:
+
+```
+npm run build
+```
+
+This will create a `dist/` directory with the compiled and optimized files ready for deployment.
 
 ## Getting Started
 
