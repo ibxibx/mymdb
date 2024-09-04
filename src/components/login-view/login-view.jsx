@@ -1,15 +1,15 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 export const LoginView = ({ onLoggedIn }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = (event) => {
-    // this prevents the default behavior of the form which is to reload the entire page
     event.preventDefault();
+    setIsLoading(true);
 
     const storedUser = JSON.parse(localStorage.getItem("user"));
     const loginUsername = storedUser ? storedUser.Username : username;
@@ -38,6 +38,7 @@ export const LoginView = ({ onLoggedIn }) => {
         return response.json();
       })
       .then((data) => {
+        setIsLoading(false);
         console.log("Login response: ", data);
         if (data.user) {
           localStorage.setItem("user", JSON.stringify(data.user));
@@ -48,6 +49,7 @@ export const LoginView = ({ onLoggedIn }) => {
         }
       })
       .catch((e) => {
+        setIsLoading(false);
         console.error("Login error:", e);
         alert("Login failed: " + e.message);
       });
@@ -78,9 +80,12 @@ export const LoginView = ({ onLoggedIn }) => {
           required
         />
       </Form.Group>
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
+
+      <div className="text-end mt-3">
+        <Button variant="primary" type="submit" disabled={isLoading}>
+          {isLoading ? "Loading..." : "Submit"}
+        </Button>
+      </div>
     </Form>
   );
 };
