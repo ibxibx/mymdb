@@ -8,10 +8,12 @@ export const SignupView = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setIsLoading(true);
 
     const data = {
       Username: username,
@@ -27,9 +29,10 @@ export const SignupView = () => {
         "Content-Type": "application/json",
       },
     }).then((response) => {
+      setIsLoading(false);
       if (response.ok) {
         alert("Signup successful");
-        navigate("/login"); // Redirect to login page after successful signup
+        navigate("/login");
       } else {
         alert("Signup failed");
       }
@@ -84,9 +87,11 @@ export const SignupView = () => {
         />
       </Form.Group>
 
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
+      <div className="text-end mt-3">
+        <Button variant="primary" type="submit" disabled={isLoading}>
+          {isLoading ? "Loading..." : "Submit"}
+        </Button>
+      </div>
     </Form>
   );
 };
