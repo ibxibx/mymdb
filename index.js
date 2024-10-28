@@ -5,6 +5,7 @@ const cors = require("cors");
 const allowedOrigins = [
   "http://localhost:8080",
   "http://testsite.com",
+  "http://localhost:4200",
   "http://localhost:1234",
   "https://mymdb-app.netlify.app",
   "https://mymdb-c295923140ec.herokuapp.com"
