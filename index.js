@@ -8,7 +8,8 @@ const allowedOrigins = [
   "http://localhost:4200",
   "http://localhost:1234",
   "https://mymdb-app.netlify.app",
-  "https://mymdb-c295923140ec.herokuapp.com"
+  "https://mymdb-c295923140ec.herokuapp.com",
+  "https://ibxibx.github.io",
 ];
 const passport = require("passport");
 require("./passport");
