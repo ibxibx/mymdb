@@ -10,6 +10,7 @@ const allowedOrigins = [
   "https://mymdb-app.netlify.app",
   "https://mymdb-c295923140ec.herokuapp.com",
   "https://ibxibx.github.io",
+  "https://ibxibx.github.io/mymdb-angular-client",
 ];
 const passport = require("passport");
 require("./passport");
