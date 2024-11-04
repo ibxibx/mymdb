@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>🎬 MyMDB - My Movie Database</h1>
+<p><a href="https://mymdb-app.netlify.app/"><img src="https://img.shields.io/badge/Live-Demo-brightgreen.svg" alt="Live Demo"></a></p>
+<h2>📖 Project Overview</h2>
+<p>MyMDB is a full-stack web application that allows movie enthusiasts to explore, search, and manage their favorite movies. Built using the MERN stack (MongoDB, Express.js, React, and Node.js), this application provides a rich user interface for interacting with movie data while maintaining user preferences and favorites.</p>
+<h2>✨ Key Features</h2>
+<ul>
+<li>🔍 Browse and search through a curated collection of movies</li>
+<li>📋 View detailed information about movies, including descriptions, genres, and directors</li>
+<li>👤 Create and manage user profiles</li>
+<li>⭐ Save favorite movies to your personal list</li>
+<li>📱 Responsive design that works on both desktop and mobile devices</li>
+</ul>
+<h2>🖥️ Server-Side</h2>
+<h3>🛠️ Technologies Used</h3>
+<ul>
+<li>🟢 Node.js</li>
+<li>⚡ Express.js</li>
+<li>🍃 MongoDB</li>
+<li>🔷 Mongoose</li>
+<li>🔑 JSON Web Token for authentication</li>
+<li>🔄 CORS</li>
+<li>✅ Express-validator</li>
+</ul>
+<h3>📡 API Endpoints</h3>
+<h4>🎬 Movies</h4>
+<ul>
+<li><code>GET /movies</code> - Get all movies</li>
+<li><code>GET /movies/:Title</code> - Get movie by title</li>
+<li><code>GET /genres/:Name</code> - Get genre details</li>
+<li><code>GET /directors/:Name</code> - Get director details</li>
+</ul>
+<h4>👥 Users</h4>
+<ul>
+<li><code>POST /users</code> - User registration</li>
+<li><code>POST /login</code> - User authentication</li>
+<li><code>PUT /users/:Username</code> - Update user info</li>
+<li><code>POST /users/:Username/movies/:MovieID</code> - Add favorite movie</li>
+<li><code>DELETE /users/:Username/movies/:MovieID</code> - Remove favorite movie</li>
+<li><code>DELETE /users/:Username</code> - Delete user account</li>
+</ul>
+<h2>💻 Client-Side</h2>
+<h3>🛠️ Technologies Used</h3>
+<ul>
+<li>⚛️ React</li>
+<li>🎨 React Bootstrap</li>
+<li>🔀 React Router</li>
+<li>📊 Redux (for state management)</li>
+<li>📦 Parcel (build tool)</li>
+<li>🔌 Axios for API communication</li>
+</ul>
+<h3>🌟 Features</h3>
+<ul>
+<li>🎨 Responsive Design: Works seamlessly across desktop and mobile devices</li>
+<li>🔐 User Authentication: Secure login and registration system</li>
+<li>👤 Profile Management: Users can update their information and manage favorite movies</li>
+<li>🔍 Search Functionality: Filter movies in real-time</li>
+<li>🖱️ Interactive UI: Smooth navigation and user-friendly interface</li>
+</ul>
+<h2>📸 Screenshots</h2>
+<p><img src="img/Screenshot1.jpg" alt="Main View">
+<img src="img/Screenshot2.jpg" alt="Profile View">
+<img src="img/Screenshot3.jpg" alt="Genre Filter">
+<img src="img/Screenshot4.jpg" alt="Director Filter"></p>
+<h2>🚀 Installation and Setup</h2>
+<h3>📋 Prerequisites</h3>
+<ul>
+<li>📌 Node.js (v14 or higher)</li>
+<li>📌 MongoDB</li>
+<li>📌 npm or yarn</li>
+</ul>
+<h3>⚙️ Server Setup</h3>
+<ol>
+<li>Clone the repository:</li>
+</ol>
+<pre class="prettyprint source lang-bash"><code>git clone https://github.com/ibxibx/mymdb.git
+cd mymdb
+</code></pre>
+<ol start="2">
+<li>Install dependencies:</li>
+</ol>
+<pre class="prettyprint source lang-bash"><code>npm install
+</code></pre>
+<ol start="3">
+<li>Create a <code>.env</code> file with your MongoDB connection string and JWT secret:</li>
+</ol>
+<pre class="prettyprint source"><code>CONNECTION_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+</code></pre>
+<ol start="4">
+<li>Start the server:</li>
+</ol>
+<pre class="prettyprint source lang-bash"><code>npm start
+</code></pre>
+<h3>🖥️ Client Setup</h3>
+<ol>
+<li>Switch to the client branch:</li>
+</ol>
+<pre class="prettyprint source lang-bash"><code>git checkout clean-mymdb-client
+</code></pre>
+<ol start="2">
+<li>Install dependencies:</li>
+</ol>
+<pre class="prettyprint source lang-bash"><code>npm install
+</code></pre>
+<ol start="3">
+<li>Create a <code>.env</code> file with your API URL:</li>
+</ol>
+<pre class="prettyprint source"><code>REACT_APP_API_URL=your_api_url
+</code></pre>
+<ol start="4">
+<li>Start the development server:</li>
+</ol>
+<pre class="prettyprint source lang-bash"><code>npm start
+</code></pre>
+<h3>📦 Building for Production</h3>
+<p>To build the project for production, run:</p>
+<pre class="prettyprint source lang-bash"><code>npm run build
+</code></pre>
+<p>This will create a <code>dist/</code> directory with the compiled and optimized files ready for deployment.</p>
+<h2>🤝 Contributing</h2>
+<p>Contributions are welcome! Please feel free to submit a Pull Request.</p>
+<h2>📜 License</h2>
+<p>This project is licensed under the MIT License - see the LICENSE file for details.</p></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-MyMDB-API.html">MyMDB-API</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Nov 04 2024 14:40:09 GMT+0100 (Central European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
