@@ -38,7 +38,7 @@
     <div class="container-overview">
     
         
-            <div class="description">Main Express server application for the MyMDB (My Movie Database) API</div>
+            <div class="description">REST API for MyMDB movie database service</div>
         
 
         
@@ -208,7 +208,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line59">line 59</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line60">line 60</a>
     </li></ul></dd>
     
 
@@ -280,7 +280,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line21">line 21</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line22">line 22</a>
     </li></ul></dd>
     
 
@@ -352,7 +352,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line48">line 48</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -424,69 +424,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line71">line 71</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="~port"><span class="type-signature">(inner, constant) </span>port<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    Start the server
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line1149">line 1149</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line72">line 72</a>
     </li></ul></dd>
     
 
@@ -514,7 +452,7 @@
     
 
     
-    <h4 class="name" id="~addMovieToFavorites"><span class="type-signature">(async, inner) </span>addMovieToFavorites<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
+    <h4 class="name" id="~addMovieToFavorites"><span class="type-signature">(async, inner) </span>addMovieToFavorites<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;Object>}</span></h4>
     
 
     
@@ -522,7 +460,7 @@
 
 
 <div class="description">
-    Adds a movie to user's favorites
+    API Endpoint: POST /users/:userId/movies/:movieId - Adds a movie to a user's favorites list
 </div>
 
 
@@ -574,7 +512,128 @@
 
             
 
-            <td class="description last">Express request object</td>
+            <td class="description last">Express request object
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">URL parameters
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>userId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The user's ID (URL parameter)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>movieId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The movie's ID to add (URL parameter)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -598,52 +657,6 @@
             
 
             <td class="description last">Express response object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>req.params.userId</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The ID of the user</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>req.params.movieId</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The ID of the movie to add</td>
         </tr>
 
     
@@ -684,7 +697,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line816">line 816</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line852">line 852</a>
     </li></ul></dd>
     
 
@@ -714,7 +727,7 @@
 <dl>
     <dt>
         <div class="param-desc">
-        When operation fails
+        Database operation error
         </div>
     </dt>
     <dd></dd>
@@ -742,7 +755,7 @@
 
         
 <div class="param-desc">
-    Promise representing the add to favorites operation
+    Updated user object with new favorite movie
 </div>
 
 
@@ -753,7 +766,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;void></span>
+<span class="param-type">Promise.&lt;Object></span>
 
 
     </dd>
@@ -859,7 +872,7 @@
     
 
     
-    <h4 class="name" id="~deleteUser"><span class="type-signature">(async, inner) </span>deleteUser<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
+    <h4 class="name" id="~deleteUser"><span class="type-signature">(async, inner) </span>deleteUser<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;Object>}</span></h4>
     
 
     
@@ -867,7 +880,7 @@
 
 
 <div class="description">
-    Deletes a user account
+    API Endpoint: DELETE /users/:userId - Permanently deletes a user account
 </div>
 
 
@@ -919,14 +932,33 @@
 
             
 
-            <td class="description last">Express request object</td>
-        </tr>
+            <td class="description last">Express request object
+                <h6>Properties</h6>
+                
 
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
     
 
         <tr>
             
-                <td class="name"><code>res</code></td>
+                <td class="name"><code>params</code></td>
             
 
             <td class="type">
@@ -942,14 +974,33 @@
 
             
 
-            <td class="description last">Express response object</td>
-        </tr>
+            <td class="description last">URL parameters
+                <h6>Properties</h6>
+                
 
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
     
 
         <tr>
             
-                <td class="name"><code>req.params.userId</code></td>
+                <td class="name"><code>userId</code></td>
             
 
             <td class="type">
@@ -965,7 +1016,44 @@
 
             
 
-            <td class="description last">The ID of the user to delete</td>
+            <td class="description last">The ID of the user to delete (URL parameter)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Express response object</td>
         </tr>
 
     
@@ -1006,7 +1094,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line974">line 974</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line1016">line 1016</a>
     </li></ul></dd>
     
 
@@ -1036,7 +1124,7 @@
 <dl>
     <dt>
         <div class="param-desc">
-        When deletion fails
+        Database operation error
         </div>
     </dt>
     <dd></dd>
@@ -1064,7 +1152,7 @@
 
         
 <div class="param-desc">
-    Promise representing the user deletion operation
+    Success message
 </div>
 
 
@@ -1075,7 +1163,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;void></span>
+<span class="param-type">Promise.&lt;Object></span>
 
 
     </dd>
@@ -1093,7 +1181,7 @@
     
 
     
-    <h4 class="name" id="~getAllDirectors"><span class="type-signature">(async, inner) </span>getAllDirectors<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
+    <h4 class="name" id="~getAllDirectors"><span class="type-signature">(async, inner) </span>getAllDirectors<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;Object>>}</span></h4>
     
 
     
@@ -1101,7 +1189,7 @@
 
 
 <div class="description">
-    Retrieves all directors from the database
+    API Endpoint: GET /directors - Returns a list of all movie directors
 </div>
 
 
@@ -1217,7 +1305,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line536">line 536</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line562">line 562</a>
     </li></ul></dd>
     
 
@@ -1247,7 +1335,7 @@
 <dl>
     <dt>
         <div class="param-desc">
-        When database operation fails
+        Database operation error
         </div>
     </dt>
     <dd></dd>
@@ -1275,7 +1363,7 @@
 
         
 <div class="param-desc">
-    Promise representing the directors list operation
+    Array of director objects
 </div>
 
 
@@ -1286,7 +1374,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;void></span>
+<span class="param-type">Promise.&lt;Array.&lt;Object>></span>
 
 
     </dd>
@@ -1304,7 +1392,7 @@
     
 
     
-    <h4 class="name" id="~getAllGenres"><span class="type-signature">(async, inner) </span>getAllGenres<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
+    <h4 class="name" id="~getAllGenres"><span class="type-signature">(async, inner) </span>getAllGenres<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;Object>>}</span></h4>
     
 
     
@@ -1312,7 +1400,7 @@
 
 
 <div class="description">
-    Retrieves all genres
+    API Endpoint: GET /genres - Returns a list of all movie genres
 </div>
 
 
@@ -1428,7 +1516,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line436">line 436</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line455">line 455</a>
     </li></ul></dd>
     
 
@@ -1458,7 +1546,7 @@
 <dl>
     <dt>
         <div class="param-desc">
-        When database operation fails
+        Database operation error
         </div>
     </dt>
     <dd></dd>
@@ -1486,7 +1574,7 @@
 
         
 <div class="param-desc">
-    Promise representing the genres list operation
+    Array of genre objects
 </div>
 
 
@@ -1497,7 +1585,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;void></span>
+<span class="param-type">Promise.&lt;Array.&lt;Object>></span>
 
 
     </dd>
@@ -1515,7 +1603,7 @@
     
 
     
-    <h4 class="name" id="~getAllUsers"><span class="type-signature">(async, inner) </span>getAllUsers<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
+    <h4 class="name" id="~getAllUsers"><span class="type-signature">(async, inner) </span>getAllUsers<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;Object>>}</span></h4>
     
 
     
@@ -1523,7 +1611,7 @@
 
 
 <div class="description">
-    Retrieves all users from the database
+    API Endpoint: GET /users - Returns a list of all users
 </div>
 
 
@@ -1639,7 +1727,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line264">line 264</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line270">line 270</a>
     </li></ul></dd>
     
 
@@ -1669,7 +1757,7 @@
 <dl>
     <dt>
         <div class="param-desc">
-        When database operation fails
+        Database operation error
         </div>
     </dt>
     <dd></dd>
@@ -1697,7 +1785,7 @@
 
         
 <div class="param-desc">
-    Promise representing the users list operation
+    Array of user objects (without passwords)
 </div>
 
 
@@ -1708,7 +1796,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;void></span>
+<span class="param-type">Promise.&lt;Array.&lt;Object>></span>
 
 
     </dd>
@@ -1726,7 +1814,7 @@
     
 
     
-    <h4 class="name" id="~getDirectorByName"><span class="type-signature">(async, inner) </span>getDirectorByName<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
+    <h4 class="name" id="~getDirectorByName"><span class="type-signature">(async, inner) </span>getDirectorByName<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;Object>}</span></h4>
     
 
     
@@ -1734,7 +1822,7 @@
 
 
 <div class="description">
-    Retrieves director by name
+    API Endpoint: GET /directors/:name - Returns details of a specific director
 </div>
 
 
@@ -1786,14 +1874,33 @@
 
             
 
-            <td class="description last">Express request object</td>
-        </tr>
+            <td class="description last">Express request object
+                <h6>Properties</h6>
+                
 
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
     
 
         <tr>
             
-                <td class="name"><code>res</code></td>
+                <td class="name"><code>params</code></td>
             
 
             <td class="type">
@@ -1809,14 +1916,33 @@
 
             
 
-            <td class="description last">Express response object</td>
-        </tr>
+            <td class="description last">URL parameters
+                <h6>Properties</h6>
+                
 
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
     
 
         <tr>
             
-                <td class="name"><code>req.params.name</code></td>
+                <td class="name"><code>name</code></td>
             
 
             <td class="type">
@@ -1832,195 +1958,21 @@
 
             
 
-            <td class="description last">The name of the director to retrieve</td>
+            <td class="description last">The director's name (URL parameter)</td>
         </tr>
 
     
     </tbody>
 </table>
 
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line582">line 582</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Throws:</h5>
-
-        
-
-<dl>
-    <dt>
-        <div class="param-desc">
-        When database operation fails
-        </div>
-    </dt>
-    <dd></dd>
-    <dt>
-        <dl>
-            <dt>
-                Type
-            </dt>
-            <dd>
-                
-<span class="param-type">Error</span>
-
-
-            </dd>
-        </dl>
-    </dt>
-    <dd></dd>
-</dl>
-
-
-    
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Promise representing the director retrieval operation
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;void></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~getGenreByName"><span class="type-signature">(async, inner) </span>getGenreByName<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Retrieves genre by name
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>req</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
             </td>
+        </tr>
 
-            
+    
+    </tbody>
+</table>
 
-            
-
-            <td class="description last">Express request object</td>
+            </td>
         </tr>
 
     
@@ -2084,7 +2036,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line481">line 481</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line610">line 610</a>
     </li></ul></dd>
     
 
@@ -2114,7 +2066,7 @@
 <dl>
     <dt>
         <div class="param-desc">
-        When database operation fails
+        Database operation error
         </div>
     </dt>
     <dd></dd>
@@ -2142,7 +2094,7 @@
 
         
 <div class="param-desc">
-    Promise representing the genre retrieval operation
+    Director object containing Name, Bio, Birth, and Death details
 </div>
 
 
@@ -2153,7 +2105,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;void></span>
+<span class="param-type">Promise.&lt;Object></span>
 
 
     </dd>
@@ -2171,7 +2123,7 @@
     
 
     
-    <h4 class="name" id="~getMovieById"><span class="type-signature">(async, inner) </span>getMovieById<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
+    <h4 class="name" id="~getGenreByName"><span class="type-signature">(async, inner) </span>getGenreByName<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;Object>}</span></h4>
     
 
     
@@ -2179,7 +2131,7 @@
 
 
 <div class="description">
-    Retrieves movie by ID
+    API Endpoint: GET /genres/:name - Returns details of a specific genre
 </div>
 
 
@@ -2231,7 +2183,105 @@
 
             
 
-            <td class="description last">Express request object</td>
+            <td class="description last">Express request object
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">URL parameters
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The genre's name (URL parameter)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -2295,7 +2345,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line326">line 326</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line503">line 503</a>
     </li></ul></dd>
     
 
@@ -2325,7 +2375,7 @@
 <dl>
     <dt>
         <div class="param-desc">
-        When database operation fails
+        Database operation error
         </div>
     </dt>
     <dd></dd>
@@ -2353,7 +2403,7 @@
 
         
 <div class="param-desc">
-    Promise representing the movie retrieval operation
+    Genre object
 </div>
 
 
@@ -2364,7 +2414,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;void></span>
+<span class="param-type">Promise.&lt;Object></span>
 
 
     </dd>
@@ -2382,7 +2432,7 @@
     
 
     
-    <h4 class="name" id="~getMovieByTitle"><span class="type-signature">(async, inner) </span>getMovieByTitle<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
+    <h4 class="name" id="~getMovieById"><span class="type-signature">(async, inner) </span>getMovieById<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;Object>}</span></h4>
     
 
     
@@ -2390,7 +2440,7 @@
 
 
 <div class="description">
-    Retrieves movie by title
+    API Endpoint: GET /movies/:movieId - Returns details of a specific movie
 </div>
 
 
@@ -2442,7 +2492,105 @@
 
             
 
-            <td class="description last">Express request object</td>
+            <td class="description last">Express request object
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">URL parameters
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>movieId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The movie's ID (URL parameter)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -2506,7 +2654,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line381">line 381</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line337">line 337</a>
     </li></ul></dd>
     
 
@@ -2536,7 +2684,7 @@
 <dl>
     <dt>
         <div class="param-desc">
-        When database operation fails
+        Database operation error
         </div>
     </dt>
     <dd></dd>
@@ -2564,7 +2712,7 @@
 
         
 <div class="param-desc">
-    Promise representing the movie retrieval operation
+    Movie object
 </div>
 
 
@@ -2575,7 +2723,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;void></span>
+<span class="param-type">Promise.&lt;Object></span>
 
 
     </dd>
@@ -2593,7 +2741,7 @@
     
 
     
-    <h4 class="name" id="~getMovies"><span class="type-signature">(async, inner) </span>getMovies<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
+    <h4 class="name" id="~getMovieByTitle"><span class="type-signature">(async, inner) </span>getMovieByTitle<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;Object>}</span></h4>
     
 
     
@@ -2601,7 +2749,316 @@
 
 
 <div class="description">
-    Retrieves all movies from the database
+    API Endpoint: GET /movies/title/:title - Returns details of a movie by its title
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Express request object
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">URL parameters
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>title</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The movie's title (URL parameter)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Express response object</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line396">line 396</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        Database operation error
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">Error</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Movie object
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;Object></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~getMovies"><span class="type-signature">(async, inner) </span>getMovies<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;Object>>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    API Endpoint: GET /movies - Returns a list of all movies in the database
 </div>
 
 
@@ -2747,7 +3204,7 @@
 <dl>
     <dt>
         <div class="param-desc">
-        When database operation fails
+        Database operation error
         </div>
     </dt>
     <dd></dd>
@@ -2775,7 +3232,7 @@
 
         
 <div class="param-desc">
-    Promise representing the movies list operation
+    Array of movie objects
 </div>
 
 
@@ -2786,7 +3243,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;void></span>
+<span class="param-type">Promise.&lt;Array.&lt;Object>></span>
 
 
     </dd>
@@ -2804,7 +3261,7 @@
     
 
     
-    <h4 class="name" id="~getUserById"><span class="type-signature">(inner) </span>getUserById<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
+    <h4 class="name" id="~getUserById"><span class="type-signature">(async, inner) </span>getUserById<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;Object>}</span></h4>
     
 
     
@@ -2812,7 +3269,7 @@
 
 
 <div class="description">
-    Retrieves user information by ID
+    API Endpoint: GET /user/:userId - Returns information about a specific user
 </div>
 
 
@@ -2864,7 +3321,105 @@
 
             
 
-            <td class="description last">Express request object</td>
+            <td class="description last">Express request object
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">URL parameters
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>userId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The user's ID (URL parameter)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -2888,29 +3443,6 @@
             
 
             <td class="description last">Express response object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>req.params.userId</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The ID of the user to retrieve</td>
         </tr>
 
     
@@ -2951,7 +3483,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line209">line 209</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line211">line 211</a>
     </li></ul></dd>
     
 
@@ -2981,7 +3513,7 @@
 <dl>
     <dt>
         <div class="param-desc">
-        When database operation fails
+        Database operation error
         </div>
     </dt>
     <dd></dd>
@@ -3009,7 +3541,7 @@
 
         
 <div class="param-desc">
-    Promise representing the user retrieval operation
+    User object (without password)
 </div>
 
 
@@ -3020,7 +3552,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;void></span>
+<span class="param-type">Promise.&lt;Object></span>
 
 
     </dd>
@@ -3046,7 +3578,7 @@
 
 
 <div class="description">
-    Error handler for 204 No Content
+    Handles 204 No Content responses
 </div>
 
 
@@ -3185,7 +3717,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line1115">line 1115</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line1162">line 1162</a>
     </li></ul></dd>
     
 
@@ -3229,7 +3761,7 @@
 
 
 <div class="description">
-    Error handler for 404 Not Found
+    Handles all undefined routes with a 404 error page
 </div>
 
 
@@ -3345,7 +3877,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line1026">line 1026</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line1071">line 1071</a>
     </li></ul></dd>
     
 
@@ -3389,7 +3921,7 @@
 
 
 <div class="description">
-    Global error handler
+    Global error handler for all uncaught errors
 </div>
 
 
@@ -3551,7 +4083,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line1130">line 1130</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line1178">line 1178</a>
     </li></ul></dd>
     
 
@@ -3639,7 +4171,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line113">line 113</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line114">line 114</a>
     </li></ul></dd>
     
 
@@ -3675,7 +4207,7 @@
     
 
     
-    <h4 class="name" id="~registerUser"><span class="type-signature">(async, inner) </span>registerUser<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
+    <h4 class="name" id="~registerUser"><span class="type-signature">(async, inner) </span>registerUser<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;Object>}</span></h4>
     
 
     
@@ -3683,7 +4215,7 @@
 
 
 <div class="description">
-    Registers a new user
+    API Endpoint: POST /users/register - Creates a new user account
 </div>
 
 
@@ -3735,37 +4267,33 @@
 
             
 
-            <td class="description last">Express request object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>res</code></td>
-            
-
-            <td class="type">
-            
+            <td class="description last">Express request object
+                <h6>Properties</h6>
                 
-<span class="param-type">Object</span>
 
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
 
-            
-            </td>
+        <th>Type</th>
 
-            
+        
 
-            
+        
 
-            <td class="description last">Express response object</td>
-        </tr>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
 
+    <tbody>
     
 
         <tr>
             
-                <td class="name"><code>req.body</code></td>
+                <td class="name"><code>body</code></td>
             
 
             <td class="type">
@@ -3833,7 +4361,7 @@
 
             
 
-            <td class="description last">User's username</td>
+            <td class="description last">The username (required)</td>
         </tr>
 
     
@@ -3864,7 +4392,7 @@
 
             
 
-            <td class="description last">User's password</td>
+            <td class="description last">The password (required)</td>
         </tr>
 
     
@@ -3895,7 +4423,7 @@
 
             
 
-            <td class="description last">User's email</td>
+            <td class="description last">The email address (required)</td>
         </tr>
 
     
@@ -3928,7 +4456,7 @@
 
             
 
-            <td class="description last">User's birthday (optional)</td>
+            <td class="description last">The user's birthday (optional)</td>
         </tr>
 
     
@@ -3936,6 +4464,36 @@
 </table>
 
             </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Express response object</td>
         </tr>
 
     
@@ -3976,7 +4534,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line643">line 643</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line674">line 674</a>
     </li></ul></dd>
     
 
@@ -4006,7 +4564,7 @@
 <dl>
     <dt>
         <div class="param-desc">
-        When registration fails
+        Registration error or database operation error
         </div>
     </dt>
     <dd></dd>
@@ -4034,7 +4592,7 @@
 
         
 <div class="param-desc">
-    Promise representing the user registration operation
+    New user object (without password)
 </div>
 
 
@@ -4045,7 +4603,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;void></span>
+<span class="param-type">Promise.&lt;Object></span>
 
 
     </dd>
@@ -4063,7 +4621,7 @@
     
 
     
-    <h4 class="name" id="~removeMovieFromFavorites"><span class="type-signature">(async, inner) </span>removeMovieFromFavorites<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
+    <h4 class="name" id="~removeMovieFromFavorites"><span class="type-signature">(async, inner) </span>removeMovieFromFavorites<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;Object>}</span></h4>
     
 
     
@@ -4071,7 +4629,7 @@
 
 
 <div class="description">
-    Removes a movie from user's favorites
+    API Endpoint: DELETE /users/:userId/movies/:movieId - Removes a movie from a user's favorites list
 </div>
 
 
@@ -4123,7 +4681,128 @@
 
             
 
-            <td class="description last">Express request object</td>
+            <td class="description last">Express request object
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">URL parameters
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>userId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The user's ID (URL parameter)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>movieId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The movie's ID to remove (URL parameter)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -4147,52 +4826,6 @@
             
 
             <td class="description last">Express response object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>req.params.userId</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The ID of the user</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>req.params.movieId</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The ID of the movie to remove</td>
         </tr>
 
     
@@ -4233,7 +4866,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line907">line 907</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line946">line 946</a>
     </li></ul></dd>
     
 
@@ -4263,7 +4896,7 @@
 <dl>
     <dt>
         <div class="param-desc">
-        When operation fails
+        Database operation error
         </div>
     </dt>
     <dd></dd>
@@ -4291,7 +4924,7 @@
 
         
 <div class="param-desc">
-    Promise representing the remove from favorites operation
+    Updated user object without the removed movie
 </div>
 
 
@@ -4302,7 +4935,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;void></span>
+<span class="param-type">Promise.&lt;Object></span>
 
 
     </dd>
@@ -4328,7 +4961,7 @@
 
 
 <div class="description">
-    Serves the home page
+    API Endpoint: GET / - Serves the application's home page
 </div>
 
 
@@ -4444,7 +5077,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line310">line 310</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line318">line 318</a>
     </li></ul></dd>
     
 
@@ -4480,7 +5113,7 @@
     
 
     
-    <h4 class="name" id="~updateUser"><span class="type-signature">(async, inner) </span>updateUser<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
+    <h4 class="name" id="~startServer"><span class="type-signature">(inner) </span>startServer<span class="signature">(port)</span><span class="type-signature"></span></h4>
     
 
     
@@ -4488,7 +5121,144 @@
 
 
 <div class="description">
-    Updates user information
+    Initializes and starts the Express server
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>port</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Port number to listen on (defaults to 8080)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line1194">line 1194</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~updateUser"><span class="type-signature">(async, inner) </span>updateUser<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;Object>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    API Endpoint: PUT /users/:userId - Updates an existing user's information
 </div>
 
 
@@ -4540,14 +5310,33 @@
 
             
 
-            <td class="description last">Express request object</td>
-        </tr>
+            <td class="description last">Express request object
+                <h6>Properties</h6>
+                
 
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
     
 
         <tr>
             
-                <td class="name"><code>res</code></td>
+                <td class="name"><code>params</code></td>
             
 
             <td class="type">
@@ -4563,14 +5352,33 @@
 
             
 
-            <td class="description last">Express response object</td>
-        </tr>
+            <td class="description last">URL parameters
+                <h6>Properties</h6>
+                
 
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
     
 
         <tr>
             
-                <td class="name"><code>req.params.userId</code></td>
+                <td class="name"><code>userId</code></td>
             
 
             <td class="type">
@@ -4586,14 +5394,21 @@
 
             
 
-            <td class="description last">The ID of the user to update</td>
+            <td class="description last">The ID of the user to update (URL parameter)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>req.body</code></td>
+                <td class="name"><code>body</code></td>
             
 
             <td class="type">
@@ -4609,7 +5424,7 @@
 
             
 
-            <td class="description last">Request body with fields to update
+            <td class="description last">Request body
                 <h6>Properties</h6>
                 
 
@@ -4663,7 +5478,7 @@
 
             
 
-            <td class="description last">New username</td>
+            <td class="description last">New username (optional)</td>
         </tr>
 
     
@@ -4696,7 +5511,7 @@
 
             
 
-            <td class="description last">New password</td>
+            <td class="description last">New password (optional)</td>
         </tr>
 
     
@@ -4729,7 +5544,7 @@
 
             
 
-            <td class="description last">New email</td>
+            <td class="description last">New email address (optional)</td>
         </tr>
 
     
@@ -4762,7 +5577,7 @@
 
             
 
-            <td class="description last">New birthday</td>
+            <td class="description last">New birthday (optional)</td>
         </tr>
 
     
@@ -4770,6 +5585,36 @@
 </table>
 
             </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Express response object</td>
         </tr>
 
     
@@ -4810,7 +5655,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line714">line 714</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line747">line 747</a>
     </li></ul></dd>
     
 
@@ -4840,7 +5685,7 @@
 <dl>
     <dt>
         <div class="param-desc">
-        When update fails
+        Update error or database operation error
         </div>
     </dt>
     <dd></dd>
@@ -4868,7 +5713,7 @@
 
         
 <div class="param-desc">
-    Promise representing the user update operation
+    Updated user object (without password)
 </div>
 
 
@@ -4879,7 +5724,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;void></span>
+<span class="param-type">Promise.&lt;Object></span>
 
 
     </dd>
@@ -4913,7 +5758,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Nov 04 2024 14:54:15 GMT+0100 (Central European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Tue Nov 05 2024 22:13:08 GMT+0100 (Central European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

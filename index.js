@@ -7,6 +7,7 @@
  * @requires jsonwebtoken
  * @requires bcrypt
  * @requires cors
+ * @description REST API for MyMDB movie database service
  */
 
 const express = require("express");
@@ -130,7 +131,6 @@ mongoose
   });
 
 // Allow all origins
-
 /**
  * Configure CORS middleware
  * @function configureCORS
@@ -165,10 +165,12 @@ authRoutes(app);
  * Retrieves all movies from the database
  * @async
  * @function getMovies
+ * @path {GET} /movies
+ * @description API Endpoint: GET /movies - Returns a list of all movies in the database
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
- * @returns {Promise<void>} Promise representing the movies list operation
- * @throws {Error} When database operation fails
+ * @returns {Promise<Object[]>} Array of movie objects
+ * @throws {Error} Database operation error
  *
  * @swagger
  * /movies:
@@ -208,12 +210,16 @@ app.get(
 
 /**
  * Retrieves user information by ID
+ * @async
  * @function getUserById
+ * @path {GET} /user/:userId
+ * @description API Endpoint: GET /user/:userId - Returns information about a specific user
  * @param {Object} req - Express request object
+ * @param {Object} req.params - URL parameters
+ * @param {string} req.params.userId - The user's ID (URL parameter)
  * @param {Object} res - Express response object
- * @param {string} req.params.userId - The ID of the user to retrieve
- * @returns {Promise<void>} Promise representing the user retrieval operation
- * @throws {Error} When database operation fails
+ * @returns {Promise<Object>} User object (without password)
+ * @throws {Error} Database operation error
  *
  * @swagger
  * /user/{userId}:
@@ -265,10 +271,12 @@ app.get(
  * Retrieves all users from the database
  * @async
  * @function getAllUsers
+ * @path {GET} /users
+ * @description API Endpoint: GET /users - Returns a list of all users
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
- * @returns {Promise<void>} Promise representing the users list operation
- * @throws {Error} When database operation fails
+ * @returns {Promise<Object[]>} Array of user objects (without passwords)
+ * @throws {Error} Database operation error
  *
  * @swagger
  * /users:
@@ -310,9 +318,12 @@ app.get(
 /**
  * Serves the home page
  * @function serveHomePage
+ * @path {GET} /
+ * @description API Endpoint: GET / - Serves the application's home page
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  */
+
 app.get("/", (req, res) => {
   const filePath = path.join(__dirname, "public", "hello.html");
   res.sendFile(filePath, (err) => {
@@ -327,10 +338,14 @@ app.get("/", (req, res) => {
  * Retrieves movie by ID
  * @async
  * @function getMovieById
+ * @path {GET} /movies/:movieId
+ * @description API Endpoint: GET /movies/:movieId - Returns details of a specific movie
  * @param {Object} req - Express request object
+ * @param {Object} req.params - URL parameters
+ * @param {string} req.params.movieId - The movie's ID (URL parameter)
  * @param {Object} res - Express response object
- * @returns {Promise<void>} Promise representing the movie retrieval operation
- * @throws {Error} When database operation fails
+ * @returns {Promise<Object>} Movie object
+ * @throws {Error} Database operation error
  *
  * @swagger
  * /movies/{movieId}:
@@ -382,10 +397,14 @@ app.get(
  * Retrieves movie by title
  * @async
  * @function getMovieByTitle
+ * @path {GET} /movies/title/:title
+ * @description API Endpoint: GET /movies/title/:title - Returns details of a movie by its title
  * @param {Object} req - Express request object
+ * @param {Object} req.params - URL parameters
+ * @param {string} req.params.title - The movie's title (URL parameter)
  * @param {Object} res - Express response object
- * @returns {Promise<void>} Promise representing the movie retrieval operation
- * @throws {Error} When database operation fails
+ * @returns {Promise<Object>} Movie object
+ * @throws {Error} Database operation error
  *
  * @swagger
  * /movies/title/{title}:
@@ -437,10 +456,12 @@ app.get(
  * Retrieves all genres
  * @async
  * @function getAllGenres
+ * @path {GET} /genres
+ * @description API Endpoint: GET /genres - Returns a list of all movie genres
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
- * @returns {Promise<void>} Promise representing the genres list operation
- * @throws {Error} When database operation fails
+ * @returns {Promise<Object[]>} Array of genre objects
+ * @throws {Error} Database operation error
  *
  * @swagger
  * /genres:
@@ -463,6 +484,7 @@ app.get(
  *       500:
  *         description: Internal server error
  */
+
 app.get(
   "/genres",
   passport.authenticate("jwt", { session: false }),
@@ -482,10 +504,14 @@ app.get(
  * Retrieves genre by name
  * @async
  * @function getGenreByName
+ * @path {GET} /genres/:name
+ * @description API Endpoint: GET /genres/:name - Returns details of a specific genre
  * @param {Object} req - Express request object
+ * @param {Object} req.params - URL parameters
+ * @param {string} req.params.name - The genre's name (URL parameter)
  * @param {Object} res - Express response object
- * @returns {Promise<void>} Promise representing the genre retrieval operation
- * @throws {Error} When database operation fails
+ * @returns {Promise<Object>} Genre object
+ * @throws {Error} Database operation error
  *
  * @swagger
  * /genres/{name}:
@@ -537,10 +563,12 @@ app.get(
  * Retrieves all directors from the database
  * @async
  * @function getAllDirectors
+ * @path {GET} /directors
+ * @description API Endpoint: GET /directors - Returns a list of all movie directors
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
- * @returns {Promise<void>} Promise representing the directors list operation
- * @throws {Error} When database operation fails
+ * @returns {Promise<Object[]>} Array of director objects
+ * @throws {Error} Database operation error
  *
  * @swagger
  * /directors:
@@ -583,11 +611,14 @@ app.get(
  * Retrieves director by name
  * @async
  * @function getDirectorByName
+ * @path {GET} /directors/:name
+ * @description API Endpoint: GET /directors/:name - Returns details of a specific director
  * @param {Object} req - Express request object
+ * @param {Object} req.params - URL parameters
+ * @param {string} req.params.name - The director's name (URL parameter)
  * @param {Object} res - Express response object
- * @param {string} req.params.name - The name of the director to retrieve
- * @returns {Promise<void>} Promise representing the director retrieval operation
- * @throws {Error} When database operation fails
+ * @returns {Promise<Object>} Director object containing Name, Bio, Birth, and Death details
+ * @throws {Error} Database operation error
  *
  * @swagger
  * /directors/{name}:
@@ -644,15 +675,17 @@ app.get(
  * Registers a new user
  * @async
  * @function registerUser
+ * @path {POST} /users/register
+ * @description API Endpoint: POST /users/register - Creates a new user account
  * @param {Object} req - Express request object
- * @param {Object} res - Express response object
  * @param {Object} req.body - Request body
- * @param {string} req.body.Username - User's username
- * @param {string} req.body.Password - User's password
- * @param {string} req.body.Email - User's email
- * @param {string} [req.body.Birthday] - User's birthday (optional)
- * @returns {Promise<void>} Promise representing the user registration operation
- * @throws {Error} When registration fails
+ * @param {string} req.body.Username - The username (required)
+ * @param {string} req.body.Password - The password (required)
+ * @param {string} req.body.Email - The email address (required)
+ * @param {string} [req.body.Birthday] - The user's birthday (optional)
+ * @param {Object} res - Express response object
+ * @returns {Promise<Object>} New user object (without password)
+ * @throws {Error} Registration error or database operation error
  *
  * @swagger
  * /users/register:
@@ -715,16 +748,19 @@ app.post("/users/register", async (req, res) => {
  * Updates user information
  * @async
  * @function updateUser
+ * @path {PUT} /users/:userId
+ * @description API Endpoint: PUT /users/:userId - Updates an existing user's information
  * @param {Object} req - Express request object
+ * @param {Object} req.params - URL parameters
+ * @param {string} req.params.userId - The ID of the user to update (URL parameter)
+ * @param {Object} req.body - Request body
+ * @param {string} [req.body.Username] - New username (optional)
+ * @param {string} [req.body.Password] - New password (optional)
+ * @param {string} [req.body.Email] - New email address (optional)
+ * @param {string} [req.body.Birthday] - New birthday (optional)
  * @param {Object} res - Express response object
- * @param {string} req.params.userId - The ID of the user to update
- * @param {Object} req.body - Request body with fields to update
- * @param {string} [req.body.Username] - New username
- * @param {string} [req.body.Password] - New password
- * @param {string} [req.body.Email] - New email
- * @param {string} [req.body.Birthday] - New birthday
- * @returns {Promise<void>} Promise representing the user update operation
- * @throws {Error} When update fails
+ * @returns {Promise<Object>} Updated user object (without password)
+ * @throws {Error} Update error or database operation error
  *
  * @swagger
  * /users/{userId}:
@@ -817,12 +853,15 @@ app.put(
  * Adds a movie to user's favorites
  * @async
  * @function addMovieToFavorites
+ * @path {POST} /users/:userId/movies/:movieId
+ * @description API Endpoint: POST /users/:userId/movies/:movieId - Adds a movie to a user's favorites list
  * @param {Object} req - Express request object
+ * @param {Object} req.params - URL parameters
+ * @param {string} req.params.userId - The user's ID (URL parameter)
+ * @param {string} req.params.movieId - The movie's ID to add (URL parameter)
  * @param {Object} res - Express response object
- * @param {string} req.params.userId - The ID of the user
- * @param {string} req.params.movieId - The ID of the movie to add
- * @returns {Promise<void>} Promise representing the add to favorites operation
- * @throws {Error} When operation fails
+ * @returns {Promise<Object>} Updated user object with new favorite movie
+ * @throws {Error} Database operation error
  *
  * @swagger
  * /users/{userId}/movies/{movieId}:
@@ -908,12 +947,15 @@ app.post(
  * Removes a movie from user's favorites
  * @async
  * @function removeMovieFromFavorites
+ * @path {DELETE} /users/:userId/movies/:movieId
+ * @description API Endpoint: DELETE /users/:userId/movies/:movieId - Removes a movie from a user's favorites list
  * @param {Object} req - Express request object
+ * @param {Object} req.params - URL parameters
+ * @param {string} req.params.userId - The user's ID (URL parameter)
+ * @param {string} req.params.movieId - The movie's ID to remove (URL parameter)
  * @param {Object} res - Express response object
- * @param {string} req.params.userId - The ID of the user
- * @param {string} req.params.movieId - The ID of the movie to remove
- * @returns {Promise<void>} Promise representing the remove from favorites operation
- * @throws {Error} When operation fails
+ * @returns {Promise<Object>} Updated user object without the removed movie
+ * @throws {Error} Database operation error
  *
  * @swagger
  * /users/{userId}/movies/{movieId}:
@@ -975,11 +1017,14 @@ app.delete(
  * Deletes a user account
  * @async
  * @function deleteUser
+ * @path {DELETE} /users/:userId
+ * @description API Endpoint: DELETE /users/:userId - Permanently deletes a user account
  * @param {Object} req - Express request object
+ * @param {Object} req.params - URL parameters
+ * @param {string} req.params.userId - The ID of the user to delete (URL parameter)
  * @param {Object} res - Express response object
- * @param {string} req.params.userId - The ID of the user to delete
- * @returns {Promise<void>} Promise representing the user deletion operation
- * @throws {Error} When deletion fails
+ * @returns {Promise<Object>} Success message
+ * @throws {Error} Database operation error
  *
  * @swagger
  * /users/{userId}:
@@ -1026,6 +1071,8 @@ app.delete(
 /**
  * Error handler for 404 Not Found
  * @function handle404
+ * @path {ALL} *
+ * @description Handles all undefined routes with a 404 error page
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  *
@@ -1115,6 +1162,7 @@ app.use((req, res) => {
 /**
  * Error handler for 204 No Content
  * @function handle204
+ * @description Handles 204 No Content responses
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  * @param {Function} next - Express next middleware function
@@ -1130,6 +1178,7 @@ app.use((req, res, next) => {
 /**
  * Global error handler
  * @function handleError
+ * @description Global error handler for all uncaught errors
  * @param {Error} err - Error object
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
@@ -1144,7 +1193,9 @@ app.use((err, req, res, next) => {
 
 /**
  * Start the server
- * @param {number} port - Port number to listen on
+ * @function startServer
+ * @description Initializes and starts the Express server
+ * @param {number} port - Port number to listen on (defaults to 8080)
  */
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
