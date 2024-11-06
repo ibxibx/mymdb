@@ -63,10 +63,23 @@ MyMDB is a full-stack web application that allows movie enthusiasts to explore, 
 
 ## 📸 Screenshots
 
+## Screenshots
+
+### Main View
 ![Main View](img/Screenshot1.jpg)
+*The main view displays all available movies with options to filter and search.*
+
+### Profile View
 ![Profile View](img/Screenshot2.jpg)
+*The profile view shows user details and their list of favorite movies.*
+
+### Genre Filter
 ![Genre Filter](img/Screenshot3.jpg)
+*Users can filter movies by genre using this pop-up in the main view.*
+
+### Director Filter
 ![Director Filter](img/Screenshot4.jpg)
+*The director filter allows users to find movies by a specific director.*
 
 ## 🚀 Installation and Setup
 
